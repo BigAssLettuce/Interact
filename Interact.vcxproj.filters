@@ -18,7 +18,7 @@
     <ClCompile Include="Modules\Camera3D\Camera3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Common\Components\RenderComponent.cpp">
+    <ClCompile Include="Modules\ObjectRender\ObjectRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modules\Transform\Transform.cpp">
@@ -92,10 +92,7 @@
     <ClInclude Include="Modules\Camera3D\Camera3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Common\Components\IOwnerCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\Components\RenderComponent.h">
+    <ClInclude Include="Modules\ObjectRender\ObjectRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\Transform\Transform.h">
@@ -2300,5 +2297,10 @@
     <None Include="Dependencies\glm-master\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Conquest\Conquest\resources\textures\tvtex.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

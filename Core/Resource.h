@@ -6,7 +6,7 @@
 using namespace std;
 static class Resource {
 public:
-	static string ReadTextFile(string File) {
+	static bool ReadTextFile(string File,string* output) {
 		std::stringstream content;
 		std::ifstream filestream(File);
 		if (filestream.is_open()) {
@@ -19,9 +19,10 @@ public:
 		}
 		else {
 			Debug::Error("File not found " + File);
+			return false;
 		}
-		std::string stringcontent = content.str();
+		*output = content.str();
 
-		return stringcontent;
+		return true;
 	}
 };

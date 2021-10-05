@@ -1,16 +1,18 @@
 #include "Mesh.h"
 #include <map>
-void Mesh::LoadFromOBJ(string file)
+bool Mesh::LoadFromOBJ(string file)
 {
 
-	string FileContent = Resource::ReadTextFile(file);
+	string FileContent;
+	if (!Resource::ReadTextFile(file, &FileContent)) return false;
+	if (FileContent == "") return false;
 	vector<Vertex> tempVerticies = vector<Vertex>();
 	vector<ElementDataType> tempTriangles = vector<ElementDataType>();
 
 	ParseOBJ(FileContent, &tempVerticies, &tempTriangles);
 	SetVerticies(tempVerticies);
 	SetTriangles(tempTriangles);
-	
+	return true;
 }
 vec3 ParseVec3Line(string line) {
 	std::vector<std::string> LineContent = ParseString(line, ' ');

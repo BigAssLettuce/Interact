@@ -1,16 +1,19 @@
-#include "RenderComponent.h"
-#include "../EntityManager.h"
 
-RenderComponent::RenderComponent(Entity* _owner, Transform* transform) : IOwnerCallback(_owner)
+#include "ObjectRender.h"
+
+#include "../ECS/EntityManager.h"
+
+
+ObjectRender::ObjectRender(Entity* _owner, Transform* transform)
 {
 
 	ownerTransform = transform;
 
-	
+	owner = _owner;
 	EntityManager::RegisterRenderer(this);
 }
 
-void RenderComponent::SetupForRender()
+void ObjectRender::SetupForRender()
 {
 	ownerTransform->ComputeMatrix();
 	ownerTransform->UpdateBuffer();
@@ -20,7 +23,7 @@ void RenderComponent::SetupForRender()
 	SHADER->Use();
 	BindTextures();
 }
-void RenderComponent::Render()
+void ObjectRender::Render()
 {
 	if (!cullmode) glDisable(GL_CULL_FACE);
 	else {
@@ -34,7 +37,7 @@ void RenderComponent::Render()
 
 }
 
-void RenderComponent::BindTextures()
+void ObjectRender::BindTextures()
 {
 	int id = 0;
 	for (Texture* tex : TEXTURES) {

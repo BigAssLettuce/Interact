@@ -2,14 +2,14 @@
 #include <vector>
 #include "Entity.h"
 
-#include "Components/RenderComponent.h"
+#include "../../Modules/ObjectRender/ObjectRender.h"
 
 
 
 static class EntityManager
 {
 	static std::vector<Entity*> ENTITIES;
-	static std::vector<RenderComponent*> RENDERERS;
+	static std::vector<ObjectRender*> RENDERERS;
 
 
 public:
@@ -17,7 +17,7 @@ public:
 	static void RegisterEntity(Entity* _entity);
 
 	static void RenderEntities();
-	static void RegisterRenderer(RenderComponent* _renderer);
+	static void RegisterRenderer(ObjectRender* _renderer);
 };
 
 

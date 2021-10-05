@@ -1,6 +1,10 @@
 #pragma once
 
+
+
 #include "Core/include.h"
+
+
 
 #ifdef MODULE_MESH
 #include "Modules/Mesh/Mesh.h"
@@ -24,4 +28,12 @@
 
 #ifdef MODULE_ECS
 #include "Modules/ECS/ECS.h"
+#endif
+
+#ifdef MODULE_TRANSFORM
+#include "Modules/Transform/Transform.h"
+#endif
+
+#ifdef MODULE_OBJECTRENDER
+#include "Modules/ObjectRender/ObjectRender.h"
 #endif

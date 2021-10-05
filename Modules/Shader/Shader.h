@@ -30,8 +30,8 @@ public:
 	const GLint shaderProgramID = glCreateProgram();
 	Shader();
 	~Shader();
-	void LoadShader(ShaderTypes types[], string files[]);
-	void LoadBasicShader(string vertex, string fragment);
+	bool LoadShader(ShaderTypes types[], string files[]);
+	bool LoadBasicShader(string vertex, string fragment);
 	void Use();
 	
 };

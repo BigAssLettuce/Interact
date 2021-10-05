@@ -20,8 +20,9 @@ struct Vertex {
 	vec2 TEXCOORD;
 };
 
-
+#ifndef MESH_ELEMENTTYPE 
 #define MESH_ELEMENTTYPE GL_UNSIGNED_SHORT
+#endif
 
 #if MESH_ELEMENTTYPE == GL_UNSIGNED_SHORT
 	#define ElementDataType  unsigned short
@@ -31,11 +32,7 @@ struct Vertex {
 #define ElementDataType  unsigned char
 #endif
 
-#define myass yourass
 
-#if myass == yourass
-#define myballs yourballs
-#endif
 
 class Mesh
 {
@@ -46,7 +43,7 @@ class Mesh
 	GLuint MeshDataBufferID = -1;
 
 public:
-	void LoadFromOBJ(string file);
+	bool LoadFromOBJ(string file);
 	vector<ElementDataType>  TRIANGLES;
 	vector<Vertex>			VERTICIES;
 

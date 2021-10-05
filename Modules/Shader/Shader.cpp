@@ -35,14 +35,17 @@ Shader::~Shader()
 	glDeleteProgram(shaderProgramID);
 }
 
-void Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads from Resources/Shaders/
+bool Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads from Resources/Shaders/
 {
 	string vertexfilepath = vertexFile;
 	string fragmentfilepath = fragmentFile;
-	string vsSource = Resource::ReadTextFile(vertexfilepath);
+	string vsSource;
+	if (!Resource::ReadTextFile(vertexfilepath, &vsSource)) return false;
+
 	const char* vsSourceTemp = vsSource.c_str();
 
-	string fsSource = Resource::ReadTextFile(fragmentfilepath);
+	string fsSource;
+	if (!Resource::ReadTextFile(fragmentfilepath, &fsSource)) return false;
 	const char* fsSourceTemp = fsSource.c_str();
 
 	int vsShader = glCreateShader(GL_VERTEX_SHADER);
@@ -70,6 +73,7 @@ void Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads fro
 	glDeleteShader(fsShader);
 
 	CheckForUniformBuffers();
+	return true;
 }
 
 void Shader::Use(){ glUseProgram(shaderProgramID); }

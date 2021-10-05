@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Modules\Camera3D\Camera3D.cpp" />
-    <ClCompile Include="Common\Components\RenderComponent.cpp" />
+    <ClCompile Include="Modules\ObjectRender\ObjectRender.cpp" />
     <ClCompile Include="Modules\Transform\Transform.cpp" />
     <ClCompile Include="Modules\ECS\Entity.cpp" />
     <ClCompile Include="Modules\ECS\EntityManager.cpp" />
@@ -38,8 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Modules\Camera3D\Camera3D.h" />
-    <ClInclude Include="Common\Components\IOwnerCallback.h" />
-    <ClInclude Include="Common\Components\RenderComponent.h" />
+    <ClInclude Include="Modules\ObjectRender\ObjectRender.h" />
     <ClInclude Include="Modules\ECS\ECS.h" />
     <ClInclude Include="Modules\Transform\Transform.h" />
     <ClInclude Include="Modules\ECS\Entity.h" />
@@ -1328,6 +1327,9 @@
     <None Include="Dependencies\GL\GLFW\docs\html\vulkan_guide.html" />
     <None Include="Dependencies\GL\GLFW\docs\html\window_8dox.html" />
     <None Include="Dependencies\GL\GLFW\docs\html\window_guide.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Conquest\Conquest\resources\textures\tvtex.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
