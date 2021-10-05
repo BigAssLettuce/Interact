@@ -3,3 +3,8 @@ x64
 Tester
 Debug
 Conquest
+Interact.sln
+Interact.vcxproj
+Interact.vcxproj.filters
+Interact.vcxproj.user
+imgui.ini
