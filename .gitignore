@@ -8,3 +8,5 @@ Interact.vcxproj
 Interact.vcxproj.filters
 Interact.vcxproj.user
 imgui.ini
+.gitignore
+.gitattributes
