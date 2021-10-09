@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Core/include.h"
-#include "../../Modules/Transform/Transform.h"
+#include "../../Modules/Transform/3D//Transform3D.h"
 #include "../../Modules/Shader/Shader.h"
 #include "../../Modules/Mesh/Mesh.h"
 #include "../../Modules/Texture/Texture.h"
@@ -17,7 +17,7 @@ class ObjectRender
 	
 	GLuint VertexArrayID;
 	GLuint VertexBufferID;
-	Transform* ownerTransform;
+	Transform3D* ownerTransform;
 	
 	void BindTextures();
 public:
@@ -28,7 +28,7 @@ public:
 	Mesh* MESH;
 	Shader* SHADER;
 	vector<Texture*> TEXTURES = vector<Texture*>(); //maybe change to dictionary
-	ObjectRender(Entity* _owner, Transform* transform);
+	ObjectRender(Entity* _owner, Transform3D* transform);
 	void SetupForRender();
 	void Render();
 };

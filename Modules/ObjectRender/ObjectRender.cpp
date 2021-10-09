@@ -4,7 +4,7 @@
 #include "../ECS/EntityManager.h"
 
 
-ObjectRender::ObjectRender(Entity* _owner, Transform* transform)
+ObjectRender::ObjectRender(Entity* _owner, Transform3D* transform)
 {
 
 	ownerTransform = transform;

@@ -21,7 +21,7 @@
     <ClCompile Include="Modules\ObjectRender\ObjectRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\Transform\Transform.cpp">
+    <ClCompile Include="Modules\Transform\3D\Transform3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ECS\Entity.cpp">
@@ -95,16 +95,13 @@
     <ClInclude Include="Modules\ObjectRender\ObjectRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\Transform\Transform.h">
+    <ClInclude Include="Modules\Transform\3D\Transform3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ECS\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ECS\EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Common\InputHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\Mesh\Mesh.h">
@@ -1050,6 +1047,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ECS\ECS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\LibFiles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

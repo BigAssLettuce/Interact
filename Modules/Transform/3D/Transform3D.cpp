@@ -1,7 +1,7 @@
-#include "Transform.h"
-#include <glm/gtc/type_ptr.hpp>
-GLuint Transform::TransformDataBufferID = -1;
-Transform::Transform()
+#include "Transform3D.h"
+
+GLuint Transform3D::TransformDataBufferID = -1;
+Transform3D::Transform3D()
 {
 	int BufferSize = 
 		sizeof(vec3) //pos
@@ -22,7 +22,7 @@ Transform::Transform()
 }
 
 
-void Transform::ComputeMatrix()
+void Transform3D::ComputeMatrix()
 {
 	mat4 PosMat = translate(mat4(1.0f), Position);
 	mat4 RotMat = toMat4(Rotation);
@@ -31,7 +31,7 @@ void Transform::ComputeMatrix()
 }
 
 
-void Transform::UpdateBuffer()
+void Transform3D::UpdateBuffer()
 {
 	float testfloat = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 	int index = 0;

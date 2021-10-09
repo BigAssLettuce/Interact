@@ -1,9 +1,9 @@
 #pragma once
-#include "../../Core/include.h"
-class Transform
+#include "../../../Core/include.h"
+class Transform3D
 {
 public:
-	Transform();
+	Transform3D();
 	//DONT TOUCH
 	static GLuint TransformDataBufferID;
 	static constexpr const char* TransformDataUniform = "TransformData";

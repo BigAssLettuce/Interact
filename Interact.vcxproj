@@ -13,7 +13,7 @@
   <ItemGroup>
     <ClCompile Include="Modules\Camera3D\Camera3D.cpp" />
     <ClCompile Include="Modules\ObjectRender\ObjectRender.cpp" />
-    <ClCompile Include="Modules\Transform\Transform.cpp" />
+    <ClCompile Include="Modules\Transform\3D\Transform3D.cpp" />
     <ClCompile Include="Modules\ECS\Entity.cpp" />
     <ClCompile Include="Modules\ECS\EntityManager.cpp" />
     <ClCompile Include="Modules\Mesh\Mesh.cpp" />
@@ -37,13 +37,13 @@
     <ClCompile Include="Tester\Tester.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\LibFiles.h" />
     <ClInclude Include="Modules\Camera3D\Camera3D.h" />
     <ClInclude Include="Modules\ObjectRender\ObjectRender.h" />
     <ClInclude Include="Modules\ECS\ECS.h" />
-    <ClInclude Include="Modules\Transform\Transform.h" />
+    <ClInclude Include="Modules\Transform\3D\Transform3D.h" />
     <ClInclude Include="Modules\ECS\Entity.h" />
     <ClInclude Include="Modules\ECS\EntityManager.h" />
-    <ClInclude Include="Common\InputHandler.h" />
     <ClInclude Include="Modules\Mesh\Mesh.h" />
     <ClInclude Include="Modules\Shader\Shader.h" />
     <ClInclude Include="Modules\Texture\Texture.h" />
@@ -1374,15 +1374,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC;SOLUTION_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC;SOLUTION_DIR=R"($(SolutionDir))";INTERACT_DIR=C:\\Users\\camil\\Dropbox\\Interact</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm-master;$(SolutionDir)Dependencies\Imgui;$(SolutionDir)Dependencies\GL\GLFW\include;$(SolutionDir)Dependencies\GL\GLEW\include;$(SolutionDir)Dependencies\std_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GL\GLFW\lib-vc2019;$(SolutionDir)Dependencies\GL\GLEW\lib\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;</AdditionalDependencies>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -1391,9 +1392,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);GLEW_STATIC;SOLUTION_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);GLEW_STATIC;SOLUTION_DIR=R"($(SolutionDir))";INTERACT_DIR=C:\\Users\\camil\\Dropbox\\Interact</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\glm-master;$(SolutionDir)Dependencies\Imgui;$(SolutionDir)Dependencies\GL\GLFW\include;$(SolutionDir)Dependencies\GL\GLEW\include;$(SolutionDir)Dependencies\std_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

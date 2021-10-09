@@ -1,6 +1,7 @@
 #pragma once
 
-
+#ifndef INTERACT
+#define INTERACT
 
 #include "Core/include.h"
 
@@ -31,9 +32,10 @@
 #endif
 
 #ifdef MODULE_TRANSFORM
-#include "Modules/Transform/Transform.h"
+#include "Modules/Transform/3D/Transform3D.h"
 #endif
 
 #ifdef MODULE_OBJECTRENDER
 #include "Modules/ObjectRender/ObjectRender.h"
+#endif
 #endif
