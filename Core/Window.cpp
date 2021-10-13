@@ -1,14 +1,9 @@
 #include "Window.h"
 
-map<GLFWwindow*, Window*> Window::WindowInstances = map<GLFWwindow*, Window*>();
-
-//DELETE THIS EVENTUALLY
-void Window::GLWindowSizeCallback(GLFWwindow* window, int width, int height) {
-	GetWindowFromGLPointer(window)->DispatchWindowResizeEvent(uvec2(width, height));
 
 
-	//Debug::Log("Callback 1 set to " + to_string(windowsettings.Size));
-}
+
+
 
 
 void Window::init(WindowSettings ws)
@@ -63,8 +58,6 @@ void Window::init(WindowSettings ws)
 
 #endif // DEBUG
 
-	WindowInstances.insert(pair<GLFWwindow*,Window*>(GlWindowPointer,this));
-	glfwSetWindowSizeCallback(GlWindowPointer, Window::GLWindowSizeCallback);
 
 }
 

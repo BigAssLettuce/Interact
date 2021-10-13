@@ -1,6 +1,12 @@
 #include "Texture.h"
 
+vector<Texture*> Texture::TEXTURES = vector<Texture*>();
 
+
+Texture::Texture()
+{
+	TEXTURES.push_back(this);
+}
 
 void Texture::LoadTexture2D(string file)
 {

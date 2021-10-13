@@ -1,29 +1,29 @@
 
-#include "ObjectRender.h"
+#include "Render3D.h"
 
-#include "../ECS/EntityManager.h"
+#include "../../ECS/EntityManager.h"
 
 
-ObjectRender::ObjectRender(Entity* _owner, Transform3D* transform)
+Render3D::Render3D(Entity* _owner, Transform3D* transform)
 {
 
-	ownerTransform = transform;
+	_transform = transform;
 
 	owner = _owner;
 	EntityManager::RegisterRenderer(this);
 }
 
-void ObjectRender::SetupForRender()
+void Render3D::SetupForRender()
 {
-	ownerTransform->ComputeMatrix();
-	ownerTransform->UpdateBuffer();
+	_transform->ComputeMatrix();
+	_transform->UpdateBuffer();
 
 
 	MESH->Use();
 	SHADER->Use();
 	BindTextures();
 }
-void ObjectRender::Render()
+void Render3D::Render()
 {
 	if (!cullmode) glDisable(GL_CULL_FACE);
 	else {
@@ -37,7 +37,7 @@ void ObjectRender::Render()
 
 }
 
-void ObjectRender::BindTextures()
+void Render3D::BindTextures()
 {
 	int id = 0;
 	for (Texture* tex : TEXTURES) {

@@ -13,6 +13,7 @@ public:
 	static void RenderImGui();
 	static void FlushFrameBuffer();
 	static void Terminate();
+	static void DrawDebug();
 	static Window MainWindow;
 private:
 
@@ -22,7 +23,6 @@ private:
 	static void InitOpenGL(int VersionMinor, int VersionMajor);
 	#ifdef DEBUG
 	static void InitImGui();
-	static void GetGlobalVariables();
 	#endif
 	
 	

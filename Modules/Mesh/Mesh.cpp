@@ -1,12 +1,12 @@
 #include "Mesh.h"
 #include <map>
-bool Mesh::LoadFromOBJ(string file)
+bool Mesh3D::LoadFromOBJ(string file)
 {
 
 	string FileContent;
 	if (!Resource::ReadTextFile(file, &FileContent)) return false;
 	if (FileContent == "") return false;
-	vector<Vertex> tempVerticies = vector<Vertex>();
+	vector<Vertex3D> tempVerticies = vector<Vertex3D>();
 	vector<ElementDataType> tempTriangles = vector<ElementDataType>();
 
 	ParseOBJ(FileContent, &tempVerticies, &tempTriangles);
@@ -22,7 +22,7 @@ vec3 ParseVec3Line(string line) {
 	return vec3(x, y, z);
 }
 
-void Mesh::ParseOBJ(string content, vector<Vertex>* vertexVector, vector<ElementDataType>* triangleVector)
+void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector)
 {
 	istringstream ss =istringstream( content);
 	string line;
@@ -77,35 +77,34 @@ void Mesh::ParseOBJ(string content, vector<Vertex>* vertexVector, vector<Element
 		}
 
 	}
-	Debug::Log("Finished Parsing");
-	Debug::Log("Size " + to_string(Positions.size()) + " " + to_string(Normals.size()) + " " + to_string(UVs.size()) + " ");
+
 	for (ivec3 vertDesc : VertexRegistry) {
-		std::cout << to_string(vertDesc) << '\r';
-		vertexVector->push_back(Vertex(Positions[vertDesc.x], Normals[vertDesc.y], UVs[vertDesc.z]));
+		//std::cout << to_string(vertDesc) << '\r';
+		vertexVector->push_back(Vertex3D(Positions[vertDesc.x], Normals[vertDesc.y], UVs[vertDesc.z]));
 		
 	}
 }
 
-void Mesh::UpdateVertexBufferData()
+void Mesh3D::UpdateVertexBufferData()
 {
 	glBindVertexArray(VertexArrayObjectID);
 
 	//meshdata
 	glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * VERTICIES.size(), &VERTICIES[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D) * VERTICIES.size(), &VERTICIES[0], GL_STATIC_DRAW);
 
 
 
 }
 
-void Mesh::UpdateTriangleBufferData()
+void Mesh3D::UpdateTriangleBufferData()
 {
 	//element data
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ElementDataType) * TRIANGLES.size(), &TRIANGLES[0], GL_STATIC_DRAW);
 }
 
-Mesh::Mesh()
+Mesh3D::Mesh3D()
 {
 	glGenVertexArrays(1, &VertexArrayObjectID);
 	glCreateBuffers(1, &MeshDataBufferID);
@@ -116,15 +115,15 @@ Mesh::Mesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);//POS
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)0);//POS
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex) , (void*)sizeof(vec3));//NORMALS
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex3D) , (void*)sizeof(vec3));//NORMALS
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(vec3)*2));//UVS
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)(sizeof(vec3)*2));//UVS
 	glBindVertexArray(0);
 }
 
-void Mesh::Use()
+void Mesh3D::Use()
 {
 	glBindVertexArray(VertexArrayObjectID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
@@ -134,7 +133,7 @@ void Mesh::Use()
 	glEnableVertexAttribArray(2);
 }
 
-void Mesh::CleanUp()
+void Mesh3D::CleanUp()
 {
 	glBindVertexArray(0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

@@ -1,24 +1,25 @@
 #include "Transform3D.h"
-
+#include "../../../Core/Registry.h"
 GLuint Transform3D::TransformDataBufferID = -1;
+int Transform3D::TransformDataBufferBindingPoint = -1;
 Transform3D::Transform3D()
 {
-	int BufferSize = 
+	int BufferSize =
 		sizeof(vec3) //pos
 		+ sizeof(quat) //quat
 		+ sizeof(vec3) //euler
 		+ sizeof(vec3)//scale
 		+ sizeof(mat4); //model matrix
 
-	if (TransformDataBufferID == -1) {
-		glCreateBuffers(1, &TransformDataBufferID);
-		glBindBuffer(GL_UNIFORM_BUFFER, TransformDataBufferID);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(mat4) * 3 + sizeof(float), NULL, GL_DYNAMIC_DRAW);
-		glBindBufferBase(GL_UNIFORM_BUFFER, TransformDataBufferBindingPoint, TransformDataBufferID);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	if (TransformDataBufferBindingPoint == -1) TransformDataBufferBindingPoint=Registry::RegisterUniform(TransformDataUniform);
+	glCreateBuffers(1, &TransformDataBufferID);
+	glBindBuffer(GL_UNIFORM_BUFFER, TransformDataBufferID);
+	glBufferData(GL_UNIFORM_BUFFER, sizeof(mat4) * 3 + sizeof(float), NULL, GL_DYNAMIC_DRAW);
+	glBindBufferBase(GL_UNIFORM_BUFFER, TransformDataBufferBindingPoint, TransformDataBufferID);
+	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-		Debug::Log("Transform Uniform Buffer ID " + std::to_string(TransformDataBufferID));
-	}
+	Debug::Log("Transform Uniform Buffer ID " + std::to_string(TransformDataBufferID));
+
 }
 
 
@@ -27,7 +28,7 @@ void Transform3D::ComputeMatrix()
 	mat4 PosMat = translate(mat4(1.0f), Position);
 	mat4 RotMat = toMat4(Rotation);
 	mat4 ScaleMat = scale(mat4(1.0f), Scale);
-	ModelMatrix = PosMat * RotMat * ScaleMat; 
+	ModelMatrix = PosMat * RotMat * ScaleMat;
 }
 
 
@@ -39,7 +40,7 @@ void Transform3D::UpdateBuffer()
 
 	glBufferSubData(GL_UNIFORM_BUFFER, index, sizeof(mat4), &ModelMatrix[0][0]);
 	index += sizeof(mat4);
-	
+
 	glBufferSubData(GL_UNIFORM_BUFFER, index, sizeof(float), &testfloat);
 	index += sizeof(float);
 

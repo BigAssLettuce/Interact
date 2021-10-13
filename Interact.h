@@ -3,7 +3,7 @@
 #ifndef INTERACT
 #define INTERACT
 
-#include "Core/include.h"
+#include "Core/Core.h"
 
 
 
@@ -35,7 +35,7 @@
 #include "Modules/Transform/3D/Transform3D.h"
 #endif
 
-#ifdef MODULE_OBJECTRENDER
-#include "Modules/ObjectRender/ObjectRender.h"
+#ifdef MODULE_3DRENDER
+#include "Modules/Render3D/Render3D.h"
 #endif
 #endif

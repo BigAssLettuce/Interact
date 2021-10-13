@@ -41,11 +41,12 @@ bool Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads fro
 	string fragmentfilepath = fragmentFile;
 	string vsSource;
 	if (!Resource::ReadTextFile(vertexfilepath, &vsSource)) return false;
-
+	ParseUniformBuffers(vsSource);
 	const char* vsSourceTemp = vsSource.c_str();
 
 	string fsSource;
 	if (!Resource::ReadTextFile(fragmentfilepath, &fsSource)) return false;
+	ParseUniformBuffers(fsSource);
 	const char* fsSourceTemp = fsSource.c_str();
 
 	int vsShader = glCreateShader(GL_VERTEX_SHADER);

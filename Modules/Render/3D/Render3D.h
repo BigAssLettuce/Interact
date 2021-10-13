@@ -1,10 +1,10 @@
 #pragma once
-#include "../../Core/include.h"
-#include "../../Modules/Transform/3D//Transform3D.h"
-#include "../../Modules/Shader/Shader.h"
-#include "../../Modules/Mesh/Mesh.h"
-#include "../../Modules/Texture/Texture.h"
-#include "../../Modules/ECS/Entity.h"
+#include "../../../Core/include.h"
+#include "../../../Modules/Transform/3D//Transform3D.h"
+#include "../../../Modules/Shader/Shader.h"
+#include "../../../Modules/Mesh/Mesh.h"
+#include "../../../Modules/Texture/Texture.h"
+#include "../../../Modules/ECS/Entity.h"
 #include <vector>
 enum CULLMODE {
 	OFF = 0,
@@ -12,12 +12,12 @@ enum CULLMODE {
 	BACK = GL_BACK,
 	FRONTANDBACK = GL_FRONT_AND_BACK
 };
-class ObjectRender 
+class Render3D 
 {
 	
 	GLuint VertexArrayID;
 	GLuint VertexBufferID;
-	Transform3D* ownerTransform;
+	Transform3D* _transform;
 	
 	void BindTextures();
 public:
@@ -25,10 +25,10 @@ public:
 
 	CULLMODE cullmode = BACK;
 	GLenum drawMode = GL_TRIANGLES;
-	Mesh* MESH;
+	Mesh3D* MESH;
 	Shader* SHADER;
 	vector<Texture*> TEXTURES = vector<Texture*>(); //maybe change to dictionary
-	ObjectRender(Entity* _owner, Transform3D* transform);
+	Render3D(Entity* _owner, Transform3D* transform);
 	void SetupForRender();
 	void Render();
 };

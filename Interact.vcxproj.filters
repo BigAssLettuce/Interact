@@ -18,7 +18,7 @@
     <ClCompile Include="Modules\Camera3D\Camera3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\ObjectRender\ObjectRender.cpp">
+    <ClCompile Include="Modules\Render\3D\Render3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modules\Transform\3D\Transform3D.cpp">
@@ -87,12 +87,24 @@
     <ClCompile Include="Tester\Test Entities\TestEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\Transform\2D\Transform2D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Registry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GPUProfiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Input\Input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Modules\Camera3D\Camera3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Modules\ObjectRender\ObjectRender.h">
+    <ClInclude Include="Modules\Render\3D\Render3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\Transform\3D\Transform3D.h">
@@ -1049,7 +1061,22 @@
     <ClInclude Include="Modules\ECS\ECS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\LibFiles.h">
+    <ClInclude Include="Modules\Transform\2D\Transform2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Registry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GPUProfiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SystemInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Core.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,27 +1,6 @@
 #pragma once
 
 
-#define CONCAT2(a, b) a ## b
-#define CONCAT(a, b) CONCAT2(a, b)
-#define Q(x) #x
-#define QUOTE(x) Q(x)
-
-
-#pragma comment(lib,"opengl32.lib")
-#pragma comment(lib,"Gdi32.lib")
-#pragma comment(lib,"Shell32.lib")
-#ifndef INTERACT_DIR
-#error "not defined INTERACT_DIR in Preprocessor Definitions. INTERACT_DIR = R"( InteractDirectoryHere )""
-#endif
-#define glew32sFile \\Dependencies\\GL\\GLEW\\lib\\Release\\x64\\glew32s.lib
-#define glfw3File \\Dependencies\\GL\\GLFW\\lib-vc2019\\glfw3.lib
-
-//#pragma comment(lib,QUOTE(CONCAT(INTERACT_DIR, glew32sFile)))//doesnt work
-#pragma comment(lib,"C:\\Users\\camil\\Dropbox\\Interact\\Interact\\Dependencies\\GL\\GLEW\\lib\\Release\\x64\\glew32s.lib")
-
-//#pragma comment(lib,QUOTE(CONCAT(INTERACT_DIR, glfw3File)))
-//#pragma comment(lib,"C:\\Users\\camil\\Dropbox\\Interact\\Interact\\Dependencies\\GL\\GLFW\\lib-vc2019\\glfw3.lib")
-#pragma comment(lib,R"(C:\Users\camil\Dropbox\Interact\Interact\Dependencies\GL\GLFW\lib-vc2019\glfw3.lib)")
 
 #define GLEW_STATIC
 #include "../Dependencies/GL/GLEW/include/GL/glew.h"

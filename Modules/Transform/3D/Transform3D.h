@@ -8,11 +8,14 @@ public:
 	Transform3D();
 	//DONT TOUCH
 	static GLuint TransformDataBufferID;
-	static constexpr const char* TransformDataUniform = "TransformData";
-	static const int TransformDataBufferBindingPoint = 2;
+	static constexpr const char* TransformDataUniform = "Transform3DData";
+	static int TransformDataBufferBindingPoint;
 	static void DrawDebug() {
 		ImGui::Begin("Transform3D");
+		for (int i = 0; i < Transforms.size(); i++) {
 
+		}
+		ImGui::End();
 	}
 	
 	//DONT TOUCH
