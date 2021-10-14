@@ -87,7 +87,7 @@ void Application::PreRender()
 void Application::RenderImGui()
 {
 #ifdef DEBUG
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 #endif

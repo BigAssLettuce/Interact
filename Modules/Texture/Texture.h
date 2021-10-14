@@ -36,6 +36,7 @@ private:
 	static vector<Texture*> TEXTURES;
 public:
 	Texture();
+
 	static void DrawDebugMenu(bool* open) {
 		ImGui::Begin("Textures", open);
 		int i = 0;
