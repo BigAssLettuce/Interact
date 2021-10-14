@@ -19,19 +19,19 @@ struct WindowSettings {
 
 
 
-class Window
+static class Window
 {
 private:
-	WindowSettings windowsettings;
+	static WindowSettings windowsettings;
 
 public:
 	
-	GLFWwindow* GlWindowPointer;
+	static GLFWwindow* GlWindowPointer;
 	
-	void init(WindowSettings ws); //DESTROYS EXISTING WINDOW
-	bool ShouldClose();
-	void FlushFramebuffer();
-	WindowSettings getWindowSettings();
+	static void init(WindowSettings ws); //DESTROYS EXISTING WINDOW
+	static bool ShouldClose();
+	static void FlushFramebuffer();
+	static WindowSettings getWindowSettings();
 
 
 

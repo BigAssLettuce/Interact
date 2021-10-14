@@ -29,7 +29,7 @@ Camera3D::Camera3D()
 void Camera3D::GenPersProjMat(float FOV, float Nearclip, float Farclip)
 {
 	ivec2 windowsize;
-	glfwGetFramebufferSize(Application::MainWindow.GlWindowPointer, &windowsize.x, &windowsize.y);
+	glfwGetFramebufferSize(Window::GlWindowPointer, &windowsize.x, &windowsize.y);
 	ProjMat = glm::perspective(glm::radians(FOV), (GLfloat)windowsize.x / (GLfloat)windowsize.y, Nearclip, Farclip);
 
 }

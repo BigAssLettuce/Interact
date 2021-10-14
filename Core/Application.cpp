@@ -1,8 +1,7 @@
 #include "Application.h"
 #include "../Modules/Texture/Texture.h"
-bool Application::OpenGlActive = false;
-Window Application::MainWindow;
 
+bool Application::OpenGlActive = false;
 #ifdef DEBUG
 void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
 	const GLchar* message, const void* userParam)
@@ -29,7 +28,7 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 }
 #endif // DEBUG
 
-
+#include "Input/Input.h"
 void Application::init(WindowSettings ws)
 {
 	InitOpenGL(4, 5);
@@ -39,8 +38,8 @@ void Application::init(WindowSettings ws)
 #endif
 
 
-	MainWindow = Window();
-	MainWindow.init(ws);
+	Window();
+	Window::init(ws);
 
 	Debug::Log("OpenGL " + std::string((const char*)glGetString(GL_VERSION)));
 
@@ -58,6 +57,7 @@ void Application::init(WindowSettings ws)
 	ImGui::StyleColorsDark();
 #endif 
 
+	//Input = Input();
 }
 
 #ifdef DEBUG
@@ -71,7 +71,7 @@ void Application::InitImGui() {
 #endif // _DEBUG
 bool Application::ShouldClose()
 {
-	return MainWindow.ShouldClose();
+	return Window::ShouldClose();
 }
 void Application::PreRender()
 {
@@ -95,7 +95,7 @@ void Application::RenderImGui()
 
 void Application::FlushFrameBuffer()
 {
-	MainWindow.FlushFramebuffer();
+	Window::FlushFramebuffer();
 
 
 }

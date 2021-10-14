@@ -1,5 +1,6 @@
 #include "Window.h"
-
+WindowSettings Window::windowsettings = WindowSettings();
+GLFWwindow* Window::GlWindowPointer;
 
 
 

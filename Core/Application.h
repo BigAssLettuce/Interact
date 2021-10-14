@@ -14,7 +14,6 @@ public:
 	static void FlushFrameBuffer();
 	static void Terminate();
 	static void DrawDebug();
-	static Window MainWindow;
 private:
 
 

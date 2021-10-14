@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Input\Input.cpp" />
     <ClCompile Include="Core\Registry.cpp" />
     <ClCompile Include="Core\GPUProfiler.cpp" />
-    <ClCompile Include="Core\Input\Input.cpp" />
     <ClCompile Include="Modules\Camera3D\Camera3D.cpp" />
     <ClCompile Include="Modules\Render\3D\Render3D.cpp" />
     <ClCompile Include="Modules\Transform\3D\Transform3D.cpp" />
