@@ -9,9 +9,9 @@ void EntityManager::RegisterEntity(Entity* _entity) { ENTITIES.push_back(_entity
 void EntityManager::RenderEntities() { 
 	for (Render3D* renderer : RENDERERS)
 	{
-		renderer->SetupForRender();
+		bool Render = renderer->SetupForRender();
 		renderer->owner->PreRender();
-		renderer->Render();
+		if (Render)	renderer->Render();
 		renderer->owner->PostRender();
 	} 
 }

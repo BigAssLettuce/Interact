@@ -13,15 +13,17 @@ Render3D::Render3D(Entity* _owner, Transform3D* transform)
 	EntityManager::RegisterRenderer(this);
 }
 
-void Render3D::SetupForRender()
+bool Render3D::SetupForRender()
 {
 	_transform->ComputeMatrix();
 	_transform->UpdateBuffer();
 
-
+	if (!MESH)return false;
+	if (!SHADER) return false;
 	MESH->Use();
 	SHADER->Use();
-	BindTextures();
+	if (TEXTURES.size()!=0)BindTextures();
+	
 }
 void Render3D::Render()
 {

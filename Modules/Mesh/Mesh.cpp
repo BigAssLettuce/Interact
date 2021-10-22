@@ -1,5 +1,26 @@
 #include "Mesh.h"
 #include <map>
+vector<Mesh3D*> Mesh3D::MeshRegistry = vector<Mesh3D*>();
+void Mesh3D::DrawDebugMenu(bool* open)
+{
+
+	if (ImGui::Begin("Mesh3D", open)) {
+		for (Mesh3D* mesh : MeshRegistry) {
+			string name = 'V' + to_string(mesh->MeshDataBufferID) + " T" + to_string(mesh->MeshTrianglesBufferID);
+			if (ImGui::TreeNode(name.c_str())) {
+				string vertString = "";
+				string triString = "";
+				for (Vertex3D vert : mesh->VERTICIES) vertString += to_string(vert.POSITION);
+				for (ElementDataType tri : mesh->TRIANGLES) triString += std::to_string(tri);
+				ImGui::Text(vertString.c_str());
+				ImGui::Separator();
+				ImGui::Text(triString.c_str());
+				ImGui::TreePop();
+			}
+		}
+		ImGui::End();
+	}
+}
 bool Mesh3D::LoadFromOBJ(string file)
 {
 
@@ -24,7 +45,7 @@ vec3 ParseVec3Line(string line) {
 
 void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector)
 {
-	istringstream ss =istringstream( content);
+	istringstream ss = istringstream(content);
 	string line;
 	vector<vec3> Positions = vector<vec3>();
 	vector<vec3> Normals = vector<vec3>();
@@ -32,10 +53,10 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 	//0:pos 1:nor 2:UV 3:index
 
 	vector<ivec3> VertexRegistry = vector<ivec3>();
-	
 
 	while (getline(ss, line)) {
-		string first2 = line.substr(0, 2);
+		const string first2 = line.substr(0, 2);
+
 
 		if (first2 == "v ") {
 			vec3 pos = ParseVec3Line(line);
@@ -55,13 +76,13 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 			for (string desc : linecontent) {
 				ivec3 vertexDescriptor;
 				vector<string> values = ParseString(desc, '/');
-				vertexDescriptor.x = stoi(values[0])-1; //pos
-				vertexDescriptor.y = stoi(values[2])-1; //normal
-				vertexDescriptor.z = stoi(values[1])-1; //UV
+				vertexDescriptor.x = stoi(values[0]) - 1; //pos
+				vertexDescriptor.y = stoi(values[2]) - 1; //normal
+				vertexDescriptor.z = stoi(values[1]) - 1; //UV
 
 				//uvS THEN NORMALS IN TRIANGLE DESCRIPTIOR
 
-				if (count(VertexRegistry.begin(),VertexRegistry.end(),vertexDescriptor) == 0) {
+				if (count(VertexRegistry.begin(), VertexRegistry.end(), vertexDescriptor) == 0) {
 					//Debug::Log("found");
 					triangleVector->push_back(VertexRegistry.size());
 					VertexRegistry.push_back(vertexDescriptor);
@@ -73,16 +94,95 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 				}
 
 			}
-			
+
 		}
 
 	}
-
 	for (ivec3 vertDesc : VertexRegistry) {
 		//std::cout << to_string(vertDesc) << '\r';
 		vertexVector->push_back(Vertex3D(Positions[vertDesc.x], Normals[vertDesc.y], UVs[vertDesc.z]));
-		
+
 	}
+}
+
+
+void Mesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes)
+{
+
+	istringstream ss = istringstream(ObjContent);
+	string line;
+	istringstream tempss = istringstream(ObjContent);
+	int linecount = 0;
+	while (getline(tempss, line)) {
+		linecount++;
+	}
+
+
+	vector<ParsedMesh> giveback = vector<ParsedMesh>();
+	string CurrentObjContent = "";
+	string CurrentObjectName = "";
+
+	ParsedMesh currentMesh = ParsedMesh();
+
+	int currentline = 0;
+	bool gotObjectName = false;
+	bool gotV = false;
+	bool gotF = false;
+	bool gotVN = false;
+	bool gotVT = false;
+	enum parse {
+		NONE,
+		V,
+		VT,
+		VN,
+		F,
+		O
+	};
+	parse currentparse = parse::NONE;
+	parse lastparse = parse::NONE;
+	while (getline(ss, line)) {//REQUERES COMPLETE REWRITE, OBJ FILES VERTICIES ARE SHARED BETWEEN MESHES
+		currentline++;
+		string begin = line.substr(0, 2);//gets line beginning
+		if (begin == "o ") { currentparse = parse::O; CurrentObjectName = line.substr(2); }
+		if (begin == "v ") currentparse = parse::V; //assisgns current stage
+		if (begin == "f ") currentparse = parse::F;
+		if (begin == "vn") currentparse = parse::VN;
+		if (begin == "vt") currentparse = parse::VT;
+
+		if (currentparse != lastparse) { //checks if equals last stage, if not, sets that it already got last stage
+			if (gotV && gotF && gotObjectName && gotVN && gotVT) {
+				Debug::Log("=============="+CurrentObjContent + "\n==========");
+				ParseOBJ(CurrentObjContent, &currentMesh.verticies, &currentMesh.Triangles);
+				currentMesh.Name = CurrentObjectName;
+				giveback.push_back(currentMesh);
+
+				currentMesh = ParsedMesh();
+				CurrentObjContent = "";
+				gotObjectName = false; gotV = false; gotF = false; gotVN = false; gotVT = false;
+				lastparse = parse::NONE;
+				continue;
+			}
+			else { 
+				CurrentObjContent += line + "\n"; 
+				lastparse = currentparse;
+			}
+
+			if (lastparse == parse::F) gotF = true;
+			if (lastparse == parse::V) gotV = true;
+			if (lastparse == parse::O) gotObjectName = true;
+			if (lastparse == parse::VN) gotVN = true;
+			if (lastparse == parse::VT) gotVT = true;
+		}
+		else CurrentObjContent += line + "\n";
+
+		
+		
+
+
+	}
+
+	if (giveback.size() == 0) Debug::Error("No meshes");
+	else *meshes = giveback;
 }
 
 void Mesh3D::UpdateVertexBufferData()
@@ -106,10 +206,11 @@ void Mesh3D::UpdateTriangleBufferData()
 
 Mesh3D::Mesh3D()
 {
+	MeshRegistry.push_back(this);
 	glGenVertexArrays(1, &VertexArrayObjectID);
 	glCreateBuffers(1, &MeshDataBufferID);
 	glCreateBuffers(1, &MeshTrianglesBufferID);
-	Debug::Log("Mesh Buffers Created " + to_string(MeshDataBufferID) + "V:" + to_string(MeshTrianglesBufferID)+"T");
+	Debug::Log("Mesh Buffers Created " + to_string(MeshDataBufferID) + "V:" + to_string(MeshTrianglesBufferID) + "T");
 	glBindVertexArray(VertexArrayObjectID);
 	glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
@@ -117,14 +218,15 @@ Mesh3D::Mesh3D()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)0);//POS
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex3D) , (void*)sizeof(vec3));//NORMALS
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex3D), (void*)sizeof(vec3));//NORMALS
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)(sizeof(vec3)*2));//UVS
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)(sizeof(vec3) * 2));//UVS
 	glBindVertexArray(0);
 }
 
 void Mesh3D::Use()
 {
+
 	glBindVertexArray(VertexArrayObjectID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);

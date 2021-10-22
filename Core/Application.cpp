@@ -95,6 +95,7 @@ void Application::RenderImGui()
 
 void Application::FlushFrameBuffer()
 {
+	Application::RenderImGui();
 	Window::FlushFramebuffer();
 
 
@@ -108,7 +109,7 @@ void Application::Terminate() {
 #endif // DEBUG
 
 }
-
+#include "../Modules/Mesh/Mesh.h"
 void Application::DrawDebug()
 {
 	static bool open = true;
@@ -134,7 +135,10 @@ void Application::DrawDebug()
 	{
 		ImGui::Text("Debug Menu");
 		ImGui::Separator();
-		ImGui::Text("fps");
+		ImGui::Text("FPS: ");
+		ImGui::SameLine();
+		ImGui::Text(to_string(io.Framerate).c_str());
+
 		ImGui::Text("Drawcalls");
 		ImGui::Separator();
 		if (ImGui::IsMousePosValid())
@@ -148,15 +152,17 @@ void Application::DrawDebug()
 
 		ImGui::SameLine();
 		static bool Debug_textures = false;
+		static bool Debug_mesh3D = false;
 		if (ImGui::Button("Debug")) ImGui::OpenPopup("DebugMenu");
 
 		if (ImGui::BeginPopup("DebugMenu")) {
 			ImGui::MenuItem("Textures", NULL, &Debug_textures);
-
+			ImGui::MenuItem("Mesh3D", NULL, &Debug_mesh3D);
 			ImGui::EndPopup();
 		}
 
 		if (Debug_textures) Texture::DrawDebugMenu(&Debug_textures);
+		if (Debug_mesh3D) Mesh3D::DrawDebugMenu(&Debug_mesh3D);
 
 
 		if (ImGui::BeginPopupContextWindow())

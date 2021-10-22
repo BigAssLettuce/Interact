@@ -29,6 +29,6 @@ public:
 	Shader* SHADER;
 	vector<Texture*> TEXTURES = vector<Texture*>(); //maybe change to dictionary
 	Render3D(Entity* _owner, Transform3D* transform);
-	void SetupForRender();
+	bool SetupForRender();
 	void Render();
 };

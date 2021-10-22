@@ -38,11 +38,27 @@ class Mesh3D
 {
 	
 	static void ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector);
+
+	
 	GLuint VertexArrayObjectID = -1;
 	GLuint MeshTrianglesBufferID = -1;
 	GLuint MeshDataBufferID = -1;
 
 public:
+	static void DrawDebugMenu(bool* open);
+	static vector<Mesh3D*> MeshRegistry;
+	struct ParsedMesh
+	{
+		ParsedMesh() {
+			Triangles = vector<ElementDataType>();
+			verticies = vector<Vertex3D>();
+		}
+		string Name;
+		vector<Vertex3D> verticies;
+		vector<ElementDataType> Triangles;
+		string Material;
+	};
+	static void ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes);
 	bool LoadFromOBJ(string file);
 	vector<ElementDataType>  TRIANGLES;
 	vector<Vertex3D>			VERTICIES;

@@ -33,6 +33,8 @@
     <ClCompile Include="Dependencies\Imgui\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Dependencies\std_image\stb_image.cpp" />
+    <ClCompile Include="Tester\Test Entities\Sponza.cpp" />
+    <ClCompile Include="Tester\GlobalVar.cpp" />
     <ClCompile Include="Tester\Test Entities\Floor_Entity.cpp" />
     <ClCompile Include="Tester\Test Entities\Player.cpp" />
     <ClCompile Include="Tester\Test Entities\SkyBox.cpp" />
@@ -42,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Core.h" />
-    <ClInclude Include="Core\SystemInfo.h" />
     <ClInclude Include="Core\Registry.h" />
     <ClInclude Include="Core\GPUProfiler.h" />
     <ClInclude Include="Core\Input\Input.h" />
@@ -361,10 +362,12 @@
     <ClInclude Include="Dependencies\Imgui\imstb_truetype.h" />
     <ClInclude Include="Dependencies\std_image\stb_image.h" />
     <ClInclude Include="Interact.h" />
+    <ClInclude Include="Tester\Test Entities\Sponza.h" />
     <ClInclude Include="Tester\Test Entities\Floor_Entity.h" />
     <ClInclude Include="Tester\Test Entities\Player.h" />
     <ClInclude Include="Tester\Test Entities\SkyBox.h" />
     <ClInclude Include="Tester\Test Entities\TestEntity.h" />
+    <ClInclude Include="Tester\GlobalVar.h" />
     <ClInclude Include="Tester\Test Include.h" />
     <ClInclude Include="Modules\Transform\2D\Transform2D.h" />
   </ItemGroup>
@@ -1383,7 +1386,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC;SOLUTION_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_CONSOLE;%(PreprocessorDefinitions);SOLUTION_DIR=R"($(SolutionDir))"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
