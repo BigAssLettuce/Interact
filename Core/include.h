@@ -19,15 +19,16 @@
 
 #include "../Dependencies/std_image/stb_image.h"
 
-#include "Debug.h"
-#include "Resource.h"
-#include <vector>
-#ifdef DEBUG
-
 #include "../Dependencies/Imgui/imgui.h"
 #include "../Dependencies/Imgui/imgui_impl_glfw.h"
 #include "../Dependencies/Imgui/imgui_impl_opengl3.h"
-#endif
+
+#include "Console.h"
+#include "Resource.h"
+#include <vector>
+
+
+
 
 
 

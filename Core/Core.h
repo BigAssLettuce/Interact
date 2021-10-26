@@ -1,6 +1,6 @@
 #pragma once
 #include "Application.h"
-#include "Debug.h"
+#include "Console.h"
 
 #include "GPUProfiler.h"
 #include "Registry.h"

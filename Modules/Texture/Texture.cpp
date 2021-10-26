@@ -16,7 +16,7 @@ void Texture::LoadTexture2D(string file)
 	unsigned char* TexData = stbi_load(fullpath.c_str(), &Size.x, &Size.y, &ChannelsInFile, 4);
 
 	if (TexData == NULL) {
-		Debug::Log("Error loading Texture File: " + file + " at " + fullpath);
+		Console::Error("Error loading Texture File: " + file);
 		return;
 	}
 	
@@ -25,7 +25,7 @@ void Texture::LoadTexture2D(string file)
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	int filesize = Size.x * ChannelsInFile + Size.y * ChannelsInFile;
-	Debug::Log("Loaded Texture " + file + " ID " + to_string(TextureID) +" : " + ParseBytes(filesize));
+	Console::Log("Loaded Texture " + file + " ID " + to_string(TextureID) +" : " + ParseBytes(filesize));
 	stbi_image_free(TexData);
 }
 

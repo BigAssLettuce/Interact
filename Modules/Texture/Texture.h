@@ -27,7 +27,7 @@ private:
 	GLuint GenTexture() {
 		GLuint id;
 		glGenTextures(1, &id);
-		Debug::Log("gen texture: " + to_string(id));
+		//Console::Log("gen texture: " + to_string(id));
 		
 		return id;
 	}

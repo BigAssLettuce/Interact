@@ -8,7 +8,7 @@ public:
 	static int RegisterUniform(string ParseName) {
 		int BindingPoint = UniformBuffers.size();
 		UniformBuffers.push_back(ParseName);
-		Debug::Log("Registered Uniform Buffer (" + ParseName + ") at Binding Point " + to_string(BindingPoint));
+		Console::Log("Registered Uniform Buffer (" + ParseName + ") at Binding Point " + to_string(BindingPoint));
 		return BindingPoint;
 
 	}

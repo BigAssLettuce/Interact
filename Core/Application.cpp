@@ -2,7 +2,7 @@
 #include "../Modules/Texture/Texture.h"
 
 bool Application::OpenGlActive = false;
-#ifdef DEBUG
+
 void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
 	const GLchar* message, const void* userParam)
 {
@@ -10,13 +10,13 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 	switch (severity)
 	{
 	case GL_DEBUG_SEVERITY_HIGH:
-		Debug::Critical(log);
+		Console::Critical(log);
 		break;
 	case GL_DEBUG_SEVERITY_MEDIUM:
-		Debug::Error(log);
+		Console::Error(log);
 		break;
 	case GL_DEBUG_SEVERITY_LOW:
-		Debug::Warning(log);
+		Console::Warning(log);
 		break;
 		/*
 	case GL_DEBUG_SEVERITY_NOTIFICATION:
@@ -26,41 +26,40 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 
 
 }
-#endif // DEBUG
+
 
 #include "Input/Input.h"
 void Application::init(WindowSettings ws)
 {
 	InitOpenGL(4, 5);
 
-#ifdef DEBUG
+
 	InitImGui();
-#endif
+
 
 
 	Window();
 	Window::init(ws);
 
-	Debug::Log("OpenGL " + std::string((const char*)glGetString(GL_VERSION)));
+	Console::Log("OpenGL " + std::string((const char*)glGetString(GL_VERSION)));
 
-	if (glewInit() != GLEW_OK) Debug::Critical("Unable to initialize GLEW");
-	else Debug::Log("GLEW init");
+	if (glewInit() != GLEW_OK) Console::Critical("Unable to initialize GLEW");
+	else Console::Log("GLEW init");
 
 
-#ifdef DEBUG
+
 
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(debugMessage, NULL);
 
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
-	ImGui::StyleColorsDark();
-#endif 
 
+	ImGui::StyleColorsDark();
 	//Input = Input();
 }
 
-#ifdef DEBUG
+
 
 void Application::InitImGui() {
 	IMGUI_CHECKVERSION();
@@ -68,7 +67,7 @@ void Application::InitImGui() {
 	ImGuiIO& io = ImGui::GetIO();
 
 }
-#endif // _DEBUG
+
 bool Application::ShouldClose()
 {
 	return Window::ShouldClose();
@@ -76,21 +75,22 @@ bool Application::ShouldClose()
 void Application::PreRender()
 {
 
-#ifdef DEBUG
+
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-#endif // _DEBUG
+
 
 
 }
 void Application::RenderImGui()
 {
-#ifdef DEBUG
-	//ImGui::ShowDemoWindow();
+
+	ImGui::ShowDemoWindow();
+	Console::DrawImguiConsole();
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-#endif
+
 }
 
 void Application::FlushFrameBuffer()
@@ -102,11 +102,11 @@ void Application::FlushFrameBuffer()
 }
 
 void Application::Terminate() {
-#ifdef DEBUG
+
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-#endif // DEBUG
+
 
 }
 #include "../Modules/Mesh/Mesh.h"
@@ -189,6 +189,7 @@ void Application::InitOpenGL(int VersionMinor, int VersionMajor)
 		//Debug::Error(std::to_string(Error) + ": " + Description);
 		return;
 	}
+
 #ifdef DEBUG
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 

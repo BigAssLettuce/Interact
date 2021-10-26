@@ -42,23 +42,23 @@ void Window::init(WindowSettings ws)
 #ifdef DEBUG
 #pragma region Error Check
 	if (!GlWindowPointer) {
-		Debug::Error("failed to create OpenGL window.");
+		Console::Error("failed to create OpenGL window.");
 		const char* Description;
 		int Error = glfwGetError(&Description);
-		Debug::Error(std::to_string(Error) + ": " + Description);
+		Console::Error(std::to_string(Error) + ": " + Description);
 
 		//Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible. Try the 2.1 version of the tutorials
 
 		return;
 	}
 #pragma endregion
+
+
+#endif // DEBUG
 #pragma region IMGUI
 	ImGui_ImplGlfw_InitForOpenGL(GlWindowPointer, true);
 	ImGui_ImplOpenGL3_Init();
 #pragma endregion
-
-#endif // DEBUG
-
 
 }
 

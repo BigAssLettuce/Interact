@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "Debug.h"
+#include "Console.h"
 using namespace std;
 static class Resource {
 public:
@@ -18,7 +18,7 @@ public:
 			filestream.close();
 		}
 		else {
-			Debug::Error("File not found " + File);
+			Console::Error("File not found " + File);
 			return false;
 		}
 		*output = content.str();

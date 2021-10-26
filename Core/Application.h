@@ -20,9 +20,9 @@ private:
 	static bool OpenGlActive;
 	
 	static void InitOpenGL(int VersionMinor, int VersionMajor);
-	#ifdef DEBUG
+
 	static void InitImGui();
-	#endif
+
 	
 	
 };

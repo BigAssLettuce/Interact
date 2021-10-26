@@ -27,7 +27,7 @@ bool LinkSuccess(int Program, string* Info) {
 
 Shader::Shader()
 {
-	Debug::Log("Shader program ID: " + std::to_string(shaderProgramID));
+	Console::Log("Shader program ID: " + std::to_string(shaderProgramID));
 }
 
 Shader::~Shader()
@@ -55,16 +55,16 @@ bool Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads fro
 	string CompileLog;
 	glShaderSource(vsShader, 1,&vsSourceTemp, NULL);
 	glCompileShader(vsShader);
-	if (!CompileSuccess(vsShader, &CompileLog)) Debug::Error("Shader " + vertexFile + " Compile Failed\n" + CompileLog);
+	if (!CompileSuccess(vsShader, &CompileLog)) Console::Error("Shader " + vertexFile + " Compile Failed\n" + CompileLog);
 
 	glShaderSource(fsShader, 1, &fsSourceTemp, NULL);
 	glCompileShader(fsShader);
-	if (!CompileSuccess(fsShader, &CompileLog)) Debug::Error("Shader " + fragmentFile + " Compile Failed\n" + CompileLog);
+	if (!CompileSuccess(fsShader, &CompileLog)) Console::Error("Shader " + fragmentFile + " Compile Failed\n" + CompileLog);
 
 	glAttachShader(shaderProgramID, vsShader);
 	glAttachShader(shaderProgramID, fsShader);
 	glLinkProgram(shaderProgramID);
-	if (!LinkSuccess(shaderProgramID, &CompileLog)) Debug::Error("ShaderProgram " + to_string(shaderProgramID) + " Link Failed\n" + CompileLog);
+	if (!LinkSuccess(shaderProgramID, &CompileLog)) Console::Error("ShaderProgram " + to_string(shaderProgramID) + " Link Failed\n" + CompileLog);
 	glValidateProgram(shaderProgramID);
 
 	glDetachShader(shaderProgramID, vsShader);

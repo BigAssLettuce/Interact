@@ -8,8 +8,8 @@ class Camera3D
 public: 
 	//DONT TOUCH
 	static GLuint CameraDataBufferID;
-	static constexpr const char* CameraDataUniform = "CameraData";
-	static const int CameraDataBufferBindingPoint = 1;
+	static constexpr const char* CameraDataUniform = "Camera3DData";
+	static int CameraDataBufferBindingPoint;
 	//DONT TOUCH
 	/*
 	CameraData{
@@ -33,7 +33,7 @@ public:
 
 	Camera3D();
 	~Camera3D();
-	void ComputeViewMatrix();
+	void ComputeTRSViewMatrix();
 	void SetProjMatrix(mat4 _ProjMat) { ProjMat = _ProjMat; }
 	void GenPersProjMat(float FOV,float Nearclip, float Farclip);
 	void UpdateBuffer();

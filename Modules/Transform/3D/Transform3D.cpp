@@ -11,14 +11,16 @@ Transform3D::Transform3D()
 		+ sizeof(vec3)//scale
 		+ sizeof(mat4); //model matrix
 
+	//add a check if opengl context exists
 	if (TransformDataBufferBindingPoint == -1) TransformDataBufferBindingPoint=Registry::RegisterUniform(TransformDataUniform);
 	glCreateBuffers(1, &TransformDataBufferID);
+	Console::Log("Transform Uniform Buffer ID " + std::to_string(TransformDataBufferID));
 	glBindBuffer(GL_UNIFORM_BUFFER, TransformDataBufferID);
 	glBufferData(GL_UNIFORM_BUFFER, sizeof(mat4) * 3 + sizeof(float), NULL, GL_DYNAMIC_DRAW);
 	glBindBufferBase(GL_UNIFORM_BUFFER, TransformDataBufferBindingPoint, TransformDataBufferID);
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-	Debug::Log("Transform Uniform Buffer ID " + std::to_string(TransformDataBufferID));
+
 
 }
 
@@ -28,7 +30,7 @@ void Transform3D::ComputeMatrix()
 	mat4 PosMat = translate(mat4(1.0f), Position);
 	mat4 RotMat = toMat4(Rotation);
 	mat4 ScaleMat = scale(mat4(1.0f), Scale);
-	ModelMatrix = PosMat * RotMat * ScaleMat;
+	ModelMatrix = PosMat * ScaleMat* RotMat;
 }
 
 
@@ -44,7 +46,7 @@ void Transform3D::UpdateBuffer()
 	glBufferSubData(GL_UNIFORM_BUFFER, index, sizeof(float), &testfloat);
 	index += sizeof(float);
 
-	glBufferSubData(GL_UNIFORM_BUFFER, index, sizeof(vec3), &Position.x);//pos
+	glBufferSubData(GL_UNIFORM_BUFFER, index, sizeof(vec3), &Position[0]);//pos
 	index += sizeof(vec3);
 
 	glBufferSubData(GL_UNIFORM_BUFFER, index, sizeof(vec4), &Rotation.x);//quat

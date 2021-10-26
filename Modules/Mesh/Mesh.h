@@ -9,7 +9,7 @@ struct Mesh3DBounds {
 	vec3 Size;
 };
 struct Vertex3D {
-	Vertex3D(){}
+
 	Vertex3D(vec3 _pos, vec3 _normal, vec2 _uv) {
 		POSITION = _pos;
 		NORMAL = _normal;
@@ -26,9 +26,9 @@ struct Vertex3D {
 
 #if MESH_ELEMENTTYPE == GL_UNSIGNED_SHORT
 	#define ElementDataType  unsigned short
-#elif GLElementDataType == GL_UNSIGNED_INT
+#elif MESH_ELEMENTTYPE == GL_UNSIGNED_INT
 	#define ElementDataType  unsigned int
-#elif GLElementDataType == GL_UNSIGNED_BYTE
+#elif MESH_ELEMENTTYPE == GL_UNSIGNED_BYTE
 #define ElementDataType  unsigned char
 #endif
 
@@ -56,9 +56,9 @@ public:
 		string Name;
 		vector<Vertex3D> verticies;
 		vector<ElementDataType> Triangles;
-		string Material;
+		string Group;
 	};
-	static void ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes);
+	static void ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float Scale);
 	bool LoadFromOBJ(string file);
 	vector<ElementDataType>  TRIANGLES;
 	vector<Vertex3D>			VERTICIES;
@@ -73,8 +73,8 @@ public:
 	void UpdateVertexBufferData();
 
 	vector<ElementDataType> GetTriangles() { return TRIANGLES; }
-	void SetTriangles(vector<ElementDataType> _triangles) { TRIANGLES = _triangles; UpdateTriangleBufferData();}
-	void UpdateTriangleBufferData();
+	void SetTriangles(vector<ElementDataType> _triangles) { TRIANGLES = _triangles; UpdateElementBufferData();}
+	void UpdateElementBufferData();
 
 	Mesh3D();
 	void Use();

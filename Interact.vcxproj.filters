@@ -21,9 +21,6 @@
     <ClCompile Include="Modules\Render\3D\Render3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Modules\Transform\3D\Transform3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Modules\ECS\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,9 +31,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Modules\Shader\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Modules\Texture\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core\Application.cpp">
@@ -105,15 +99,21 @@
     <ClCompile Include="Tester\Test Entities\Sponza.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\Texture\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\Transform\3D\Transform3D.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Modules\Camera3D\Camera3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\Render\3D\Render3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Modules\Transform\3D\Transform3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ECS\Entity.h">
@@ -134,7 +134,7 @@
     <ClInclude Include="Core\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Debug.h">
+    <ClInclude Include="Core\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\include.h">
@@ -1086,6 +1086,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Tester\Test Entities\Sponza.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Transform\3D\Transform3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

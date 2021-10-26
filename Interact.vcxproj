@@ -11,17 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Console.cpp" />
     <ClCompile Include="Core\Input\Input.cpp" />
     <ClCompile Include="Core\Registry.cpp" />
     <ClCompile Include="Core\GPUProfiler.cpp" />
     <ClCompile Include="Modules\Camera3D\Camera3D.cpp" />
     <ClCompile Include="Modules\Render\3D\Render3D.cpp" />
-    <ClCompile Include="Modules\Transform\3D\Transform3D.cpp" />
+    <ClCompile Include="Modules\Texture\Texture.cpp" />
     <ClCompile Include="Modules\ECS\Entity.cpp" />
     <ClCompile Include="Modules\ECS\EntityManager.cpp" />
     <ClCompile Include="Modules\Mesh\Mesh.cpp" />
     <ClCompile Include="Modules\Shader\Shader.cpp" />
-    <ClCompile Include="Modules\Texture\Texture.cpp" />
     <ClCompile Include="Core\Application.cpp" />
     <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Dependencies\glm-master\glm\detail\glm.cpp" />
@@ -33,6 +33,7 @@
     <ClCompile Include="Dependencies\Imgui\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="Dependencies\std_image\stb_image.cpp" />
+    <ClCompile Include="Modules\Transform\3D\Transform3D.cpp" />
     <ClCompile Include="Tester\Test Entities\Sponza.cpp" />
     <ClCompile Include="Tester\GlobalVar.cpp" />
     <ClCompile Include="Tester\Test Entities\Floor_Entity.cpp" />
@@ -50,14 +51,13 @@
     <ClInclude Include="Modules\Camera3D\Camera3D.h" />
     <ClInclude Include="Modules\Render\3D\Render3D.h" />
     <ClInclude Include="Modules\ECS\ECS.h" />
-    <ClInclude Include="Modules\Transform\3D\Transform3D.h" />
     <ClInclude Include="Modules\ECS\Entity.h" />
     <ClInclude Include="Modules\ECS\EntityManager.h" />
     <ClInclude Include="Modules\Mesh\Mesh.h" />
     <ClInclude Include="Modules\Shader\Shader.h" />
     <ClInclude Include="Modules\Texture\Texture.h" />
     <ClInclude Include="Core\Application.h" />
-    <ClInclude Include="Core\Debug.h" />
+    <ClInclude Include="Core\Console.h" />
     <ClInclude Include="Core\include.h" />
     <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\Window.h" />
@@ -362,6 +362,7 @@
     <ClInclude Include="Dependencies\Imgui\imstb_truetype.h" />
     <ClInclude Include="Dependencies\std_image\stb_image.h" />
     <ClInclude Include="Interact.h" />
+    <ClInclude Include="Modules\Transform\3D\Transform3D.h" />
     <ClInclude Include="Tester\Test Entities\Sponza.h" />
     <ClInclude Include="Tester\Test Entities\Floor_Entity.h" />
     <ClInclude Include="Tester\Test Entities\Player.h" />
