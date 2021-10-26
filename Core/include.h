@@ -28,17 +28,7 @@
 #include "Console.h"
 #include "Resource.h"
 #include <vector>
-
-
-
-
-
-
 #include <string>
-
-
-
-
 
 
 using namespace glm;

@@ -7,7 +7,7 @@
 
 
 
-#ifdef MODULE_MESH
+#ifdef MODULE_MESH3D
 #include "Modules/Mesh/Mesh.h"
 #endif // MODULE_MESH
 
@@ -19,7 +19,7 @@
 #include "Modules/Shader/Shader.h"
 #endif
 
-#ifdef MODULE_TRANSFORM
+#ifdef MODULE_TEXTURE
 #include "Modules/Texture/Texture.h"
 #endif
 
@@ -31,11 +31,11 @@
 #include "Modules/ECS/ECS.h"
 #endif
 
-#ifdef MODULE_TRANSFORM
+#ifdef MODULE_TRANSFORM3D
 #include "Modules/Transform/3D/Transform3D.h"
 #endif
 
-#ifdef MODULE_3DRENDER
-#include "Modules/Render3D/Render3D.h"
+#ifdef MODULE_RENDER3D
+#include "Modules/Render/3D/Render3D.h"
 #endif
 #endif

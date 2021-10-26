@@ -17,6 +17,7 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 		break;
 	case GL_DEBUG_SEVERITY_LOW:
 		Console::Warning(log);
+		
 		break;
 		/*
 	case GL_DEBUG_SEVERITY_NOTIFICATION:
@@ -33,9 +34,9 @@ void Application::init(WindowSettings ws)
 {
 	InitOpenGL(4, 5);
 
-
+#ifdef IMGUI
 	InitImGui();
-
+#endif
 
 
 	Window();
@@ -48,26 +49,25 @@ void Application::init(WindowSettings ws)
 
 
 
-
+#ifdef GLDEBUGMODE
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(debugMessage, NULL);
 
 	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
-
-	ImGui::StyleColorsDark();
+#endif
 	//Input = Input();
 }
 
 
-
+#ifdef IMGUI
 void Application::InitImGui() {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
 
 }
-
+#endif
 bool Application::ShouldClose()
 {
 	return Window::ShouldClose();
@@ -75,14 +75,15 @@ bool Application::ShouldClose()
 void Application::PreRender()
 {
 
-
+#ifdef IMGUI
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
-
+#endif
 
 
 }
+#ifdef IMGUI
 void Application::RenderImGui()
 {
 
@@ -92,21 +93,23 @@ void Application::RenderImGui()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 }
-
+#endif
 void Application::FlushFrameBuffer()
 {
+#ifdef IMGUI
 	Application::RenderImGui();
+#endif
 	Window::FlushFramebuffer();
 
 
 }
 
 void Application::Terminate() {
-
+#ifdef IMGUI
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-
+#endif
 
 }
 #include "../Modules/Mesh/Mesh.h"
@@ -190,12 +193,12 @@ void Application::InitOpenGL(int VersionMinor, int VersionMajor)
 		return;
 	}
 
-#ifdef DEBUG
+#ifdef GLDEBUGMODE
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
 #endif // _DEBUG
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VersionMinor); // We want OpenGL 3.3
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VersionMinor); 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, VersionMajor);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);

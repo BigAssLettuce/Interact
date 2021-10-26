@@ -10,7 +10,9 @@ public:
 
 	
 	static void PreRender();
+#ifdef IMGUI
 	static void RenderImGui();
+#endif
 	static void FlushFrameBuffer();
 	static void Terminate();
 	static void DrawDebug();
@@ -20,9 +22,9 @@ private:
 	static bool OpenGlActive;
 	
 	static void InitOpenGL(int VersionMinor, int VersionMajor);
-
+	#ifdef IMGUI
 	static void InitImGui();
-
+	#endif
 	
 	
 };
