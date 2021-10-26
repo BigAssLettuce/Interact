@@ -28,21 +28,7 @@
 #include "Console.h"
 #include "Resource.h"
 #include <vector>
-
-
-
-
-
-
 #include <string>
-
-
-#ifndef DEFAULTDEPTHFUNC
-#define DEFAULTDEPTHFUNC GL_LESS
-#endif // !DEFAULTDEPTHFUNC
-
-
-
 
 
 using namespace glm;
