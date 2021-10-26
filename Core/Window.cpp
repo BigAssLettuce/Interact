@@ -39,7 +39,7 @@ void Window::init(WindowSettings ws)
 	}
 	glfwMakeContextCurrent(GlWindowPointer);
 #pragma endregion
-#ifdef DEBUG
+
 #pragma region Error Check
 	if (!GlWindowPointer) {
 		Console::Error("failed to create OpenGL window.");
@@ -54,7 +54,6 @@ void Window::init(WindowSettings ws)
 #pragma endregion
 
 
-#endif // DEBUG
 #pragma region IMGUI
 	ImGui_ImplGlfw_InitForOpenGL(GlWindowPointer, true);
 	ImGui_ImplOpenGL3_Init();
