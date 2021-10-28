@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "../Modules/Texture/Texture.h"
 
+ImGuiContext* Application::AppImguiContext;
 bool Application::OpenGlActive = false;
 
 void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
@@ -30,8 +31,10 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 
 
 #include "Input/Input.h"
+#include "Debug/DebugContext.h"
 void Application::init(WindowSettings ws)
 {
+
 	InitOpenGL(4, 5);
 
 #ifdef IMGUI
@@ -47,7 +50,10 @@ void Application::init(WindowSettings ws)
 	if (glewInit() != GLEW_OK) Console::Critical("Unable to initialize GLEW");
 	else Console::Log("GLEW init");
 
-
+#ifdef DEBUGWINDOW
+	DebugContext::getInstance();
+	glfwMakeContextCurrent(Window::GlWindowPointer);
+#endif
 
 #ifdef GLDEBUGMODE
 	glEnable(GL_DEBUG_OUTPUT);
@@ -63,9 +69,10 @@ void Application::init(WindowSettings ws)
 #ifdef IMGUI
 void Application::InitImGui() {
 	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO();
+	AppImguiContext = ImGui::CreateContext();
 
+	ImGuiIO& io = ImGui::GetIO();
+	
 }
 #endif
 bool Application::ShouldClose()
@@ -74,8 +81,9 @@ bool Application::ShouldClose()
 }
 void Application::PreRender()
 {
-
+	
 #ifdef IMGUI
+	ImGui::SetCurrentContext(AppImguiContext);
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -181,7 +189,7 @@ void Application::DrawDebug()
 	ImGui::End();
 }
 
-void Application::InitOpenGL(int VersionMinor, int VersionMajor)
+void Application::InitOpenGL(int VersionMajor, int VersionMinor)
 {
 	if (!glfwInit())
 	{
@@ -198,8 +206,8 @@ void Application::InitOpenGL(int VersionMinor, int VersionMajor)
 
 #endif // _DEBUG
 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VersionMinor); 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, VersionMajor);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VersionMajor);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, VersionMinor);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	OpenGlActive = true;

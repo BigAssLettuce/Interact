@@ -37,7 +37,7 @@ struct Vertex3D {
 class Mesh3D
 {
 	
-	static void ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector);
+	static void ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector, float scale = 1);
 
 	
 	GLuint VertexArrayObjectID = -1;
@@ -59,7 +59,7 @@ public:
 		string Group;
 	};
 	static void ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float Scale);
-	bool LoadFromOBJ(string file);
+	bool LoadFromOBJ(string file, float scale = 1);
 	vector<ElementDataType>  TRIANGLES;
 	vector<Vertex3D>			VERTICIES;
 

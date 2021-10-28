@@ -17,7 +17,7 @@ public:
 	static void Terminate();
 	static void DrawDebug();
 private:
-
+	static ImGuiContext* AppImguiContext;
 
 	static bool OpenGlActive;
 	

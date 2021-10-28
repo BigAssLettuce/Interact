@@ -2,13 +2,15 @@
 #include "../../Core/Registry.h"
 GLuint Camera3D::CameraDataBufferID = -1;
 
-int Camera3D::CameraDataBufferBindingPoint = -1;;
+int Camera3D::CameraDataBufferBindingPoint = -1;
+
+
 void Camera3D::ComputeTRSViewMatrix()
 {  
 	mat4 rotmat = mat4(Rotation);
 	mat4 posMat = translate(mat4(1.0f), -WS_Pos);
 
-	ViewMat = posMat* rotmat;
+	ViewMat = rotmat * posMat;
 }
 
 

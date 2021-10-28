@@ -35,6 +35,7 @@ void Render3D::Render()
 
 	glDrawElements(drawMode,MESH->GetTriangleCount(), MESH_ELEMENTTYPE,nullptr);
 	//Mesh::CleanUp();
+	
 
 
 }

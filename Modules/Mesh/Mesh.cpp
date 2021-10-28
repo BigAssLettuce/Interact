@@ -21,7 +21,7 @@ void Mesh3D::DrawDebugMenu(bool* open)
 		ImGui::End();
 	}
 }
-bool Mesh3D::LoadFromOBJ(string file)
+bool Mesh3D::LoadFromOBJ(string file, float scale)
 {
 
 	string FileContent;
@@ -49,7 +49,7 @@ vec3 ParseVec3Line(string line) {
 	return vec3(x, y, z);
 }
 
-void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector)
+void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector, float scale)
 {
 	istringstream ss = istringstream(content);
 	string line;
@@ -65,7 +65,7 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 
 
 		if (first2 == "v ") {
-			vec3 pos = ParseVec3Line(line);
+			vec3 pos = ParseVec3Line(line) * scale;
 			Positions.push_back(pos);
 		}
 		else if (first2 == "vn") {

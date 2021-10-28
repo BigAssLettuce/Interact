@@ -1,8 +1,8 @@
 #pragma once
 #include "Application.h"
-#include "Console.h"
+#include "Debug/Console.h"
 
-#include "GPUProfiler.h"
+
 #include "Registry.h"
 #include "Resource.h"
 #include "Window.h"

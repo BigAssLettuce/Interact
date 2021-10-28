@@ -25,7 +25,7 @@
 #include "../Dependencies/Imgui/imgui_impl_opengl3.h"
 #endif
 
-#include "Console.h"
+#include "Debug/Console.h"
 #include "Resource.h"
 #include <vector>
 #include <string>

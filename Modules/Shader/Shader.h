@@ -35,6 +35,7 @@ class Shader
 			if (loc != -1) {
 				//Debug::Log(to_string(static_cast<int>(loc)));
 				returnstring.insert(static_cast<int>(loc), "layout (std140,binding = " + to_string(pos) + ")");
+				Console::Log("Added uniform buffer at " + to_string(pos));
 			}
 			pos++;
 		}
