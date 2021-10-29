@@ -2,6 +2,7 @@
 #include "../../Core/include.h"
 #include <vector>
 #include "../../Core/Resource.h"
+//#include "../../Core/Debug/Debugger.h"
 struct Mesh3DBounds {
 	vec3 Max;
 	vec3 Min;
@@ -33,20 +34,21 @@ struct Vertex3D {
 #endif
 
 
-
+class Debugger;
 class Mesh3D
 {
-	
+	friend Debugger;
 	static void ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector, float scale = 1);
 
 	
 	GLuint VertexArrayObjectID = -1;
 	GLuint MeshTrianglesBufferID = -1;
 	GLuint MeshDataBufferID = -1;
+	static vector<Mesh3D*> MeshRegistry;
 
 public:
 	static void DrawDebugMenu(bool* open);
-	static vector<Mesh3D*> MeshRegistry;
+	
 	struct ParsedMesh
 	{
 		ParsedMesh() {
@@ -60,6 +62,7 @@ public:
 	};
 	static void ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float Scale);
 	bool LoadFromOBJ(string file, float scale = 1);
+	string Name = "No Name";
 	vector<ElementDataType>  TRIANGLES;
 	vector<Vertex3D>			VERTICIES;
 

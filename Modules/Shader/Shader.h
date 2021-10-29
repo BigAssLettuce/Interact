@@ -10,9 +10,15 @@ enum ShaderTypes {
 	FRAGMENT,
 	GEOMETRY
 };
+
+struct ShaderPart {
+	ShaderTypes Type;
+	string Content;
+};
+class Debugger;
 class Shader
 {
-
+	friend Debugger;
 	void CheckForUniformBuffers() {
 		#ifdef MODULE_CAMERA
 		int CameraDataIndex = glGetUniformBlockIndex(shaderProgramID, CameraComponent::CameraDataUniform);
@@ -42,8 +48,10 @@ class Shader
 		//Debug::Log(returnstring);
 		return returnstring;
 	}
-
+	vector<ShaderPart> ShaderParts = vector<ShaderPart>();
+	static vector<Shader*> SHADERS;
 public:
+	string Name = "No Name";
 	const GLint shaderProgramID = glCreateProgram();
 	Shader();
 	~Shader();

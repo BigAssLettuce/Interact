@@ -30,6 +30,7 @@ public:
 	
 	static void init(WindowSettings ws); //DESTROYS EXISTING WINDOW
 	static bool ShouldClose();
+	static void SetShouldClose(bool close);
 	static void FlushFramebuffer();
 	static WindowSettings getWindowSettings();
 

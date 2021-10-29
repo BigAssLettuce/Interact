@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Core/include.h"
-#include "../../Core/Debug/Debugger.h"
+//#include "../../Core/Debug/Debugger.h"
 enum class TextureType{
 	TEXTURE2D,
 	CUBEMAP
@@ -22,6 +22,8 @@ enum WrapMethods {
 	WRAP_MIRROR_REPEAT = GL_MIRRORED_REPEAT,
 	WRAP_CLAMP = GL_CLAMP_TO_EDGE
 };
+
+class Debugger;
 class Texture2D
 {
 	friend Debugger;

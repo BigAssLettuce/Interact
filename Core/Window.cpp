@@ -67,6 +67,11 @@ bool Window::ShouldClose()
 	return glfwWindowShouldClose(GlWindowPointer);
 }
 
+void Window::SetShouldClose(bool close)
+{
+	glfwSetWindowShouldClose(GlWindowPointer, close);
+}
+
 void Window::FlushFramebuffer()
 {
 	glfwSwapBuffers(GlWindowPointer);
