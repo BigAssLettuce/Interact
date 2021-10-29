@@ -53,11 +53,12 @@ void Window::init(WindowSettings ws)
 	}
 #pragma endregion
 
-
+#ifdef IMGUI
 #pragma region IMGUI
 	ImGui_ImplGlfw_InitForOpenGL(GlWindowPointer, true);
 	ImGui_ImplOpenGL3_Init();
 #pragma endregion
+#endif
 
 }
 

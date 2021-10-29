@@ -10,6 +10,7 @@ public:
 	static GLuint TransformDataBufferID;
 	static constexpr const char* TransformDataUniform = "Transform3DData";
 	static int TransformDataBufferBindingPoint;
+#ifdef IMGUI
 	static void DrawDebug() {
 		ImGui::Begin("Transform3D");
 		for (int i = 0; i < Transforms.size(); i++) {
@@ -17,7 +18,7 @@ public:
 		}
 		ImGui::End();
 	}
-	
+#endif
 	//DONT TOUCH
 
 	vec3 Position = vec3(0, 0, 0);

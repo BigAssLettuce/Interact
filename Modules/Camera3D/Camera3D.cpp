@@ -44,22 +44,7 @@ void Camera3D::UpdateBuffer()
 {
 	mat4 ProjViewMat = ProjMat* ViewMat ;
 	float testfloat = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-	ImGui::Begin("Camera3D test");
-	
-	if (ImGui::BeginTable("table1", 4))
-	{
-		for (int row = 0; row < 4; row++)
-		{
-			ImGui::TableNextRow();
-			for (int column = 0; column < 4; column++)
-			{
-				ImGui::TableSetColumnIndex(column);
-				ImGui::Text(to_string(ViewMat[column][row]).c_str());
-			}
-		}
-		ImGui::EndTable();
-	}
-	ImGui::End();
+
 	//Console::Log(to_string(ViewMat));
 	glBindBuffer(GL_UNIFORM_BUFFER, CameraDataBufferID);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(mat4), &ViewMat[0][0]);

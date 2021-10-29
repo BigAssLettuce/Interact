@@ -27,7 +27,7 @@ public:
 	GLenum drawMode = GL_TRIANGLES;
 	Mesh3D* MESH;
 	Shader* SHADER;
-	vector<Texture*> TEXTURES = vector<Texture*>(); //maybe change to dictionary
+	vector<Texture2D*> TEXTURES = vector<Texture2D*>(); //maybe change to dictionary
 	Render3D(Entity* _owner, Transform3D* transform);
 	bool SetupForRender();
 	void Render();

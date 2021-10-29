@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Core/include.h"
+#include "../../Core/Debug/Debugger.h"
 enum class TextureType{
 	TEXTURE2D,
 	CUBEMAP
@@ -21,8 +22,9 @@ enum WrapMethods {
 	WRAP_MIRROR_REPEAT = GL_MIRRORED_REPEAT,
 	WRAP_CLAMP = GL_CLAMP_TO_EDGE
 };
-class Texture
+class Texture2D
 {
+	friend Debugger;
 private:
 	GLuint GenTexture() {
 		GLuint id;
@@ -33,47 +35,19 @@ private:
 	}
 	GLuint TextureID = GenTexture();
 	
-	static vector<Texture*> TEXTURES;
+	static vector<Texture2D*> TEXTURES;
 public:
-	Texture();
-
-	static void DrawDebugMenu(bool* open) {
-		ImGui::Begin("Textures", open);
-		int i = 0;
-		int texturecount = TEXTURES.size();
-		//float size[texturecount];
-		for (Texture* tex : TEXTURES) {
-			if (ImGui::TreeNode(to_string(tex->TextureID).c_str())) {
-
-				ImVec2 Winsize = ImGui::GetWindowSize();
-				int border = 20;
-				static float size = 25;
-				string name = "Size" + string("##") + to_string(i);
-				i++;
-				ImGui::SliderFloat(name.c_str(), &size, 1, std::min(Winsize.x, Winsize.y));
+	Texture2D();
 
 
-
-				float aspectratio = tex->Size.x/ tex->Size.y;
-
-				ImTextureID imtex = ImTextureID(tex->TextureID);
-				//ImVec2(size - border, (size - border) * aspectratio)
-				
-				ImGui::Image(imtex, ImVec2(std::max(1.0f, size * aspectratio - border),std::max(1.0f, size   - border)), ImVec2(0, 0), ImVec2(1, 1), ImVec4(1, 1, 1, 1), ImVec4(0, 0, 0, 1));
-
-				ImGui::TreePop();
-			}
-			
-		}
-		ImGui::End();
-	}
+	string File;
 	ivec2 Size = ivec2(1, 1);
 	int FileSizeInBytes = 0;
 	int ChannelsInFile = 1;
 	
 	void LoadTexture2D(string File);
 	void Bind(int slot);
-
+	void GetData();
 	void SetMinMethod(MinMethods method) { 
 		glBindTexture(GL_TEXTURE_2D,TextureID); 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, method); 

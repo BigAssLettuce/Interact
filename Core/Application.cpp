@@ -1,13 +1,15 @@
 #include "Application.h"
 #include "../Modules/Texture/Texture.h"
 
+#ifdef IMGUI
 ImGuiContext* Application::AppImguiContext;
+#endif
 bool Application::OpenGlActive = false;
 
 void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
 	const GLchar* message, const void* userParam)
 {
-	string log = "OpenGL Error: (source: " + std::to_string(source) + string(") ") + message;
+	string log = "[OpenGL]: (source: " + std::to_string(source) + string(") ") + message;
 	switch (severity)
 	{
 	case GL_DEBUG_SEVERITY_HIGH:
@@ -20,10 +22,13 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 		Console::Warning(log);
 		
 		break;
-		/*
+#ifdef OPENGL_DEBUGMODE_SEVERITY_ALL
+		
 	case GL_DEBUG_SEVERITY_NOTIFICATION:
-		Debug::Log(log);
-		break;*/ //NOTIFICATIONS ARE ACTUAL NOTIFICATIONS. USUALLY NOT IMPORTANT
+		Console::Log(log);
+		break; //NOTIFICATIONS ARE ACTUAL NOTIFICATIONS. USUALLY NOT IMPORTANT
+#endif
+		
 	}
 
 
@@ -31,12 +36,12 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 
 
 #include "Input/Input.h"
-#include "Debug/DebugContext.h"
+#include "Debug/Debugger.h"
 void Application::init(WindowSettings ws)
 {
 
-	InitOpenGL(4, 5);
-
+	InitOpenGL(4, 6);
+	
 #ifdef IMGUI
 	InitImGui();
 #endif
@@ -44,18 +49,26 @@ void Application::init(WindowSettings ws)
 
 	Window();
 	Window::init(ws);
-
 	Console::Log("OpenGL " + std::string((const char*)glGetString(GL_VERSION)));
+	int extensionCount;
+	glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
+	Console::Log(to_string(extensionCount) + " Extensions");
+#ifdef OPENGL_DEBUGMODE
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+
+#endif
+	
+
 
 	if (glewInit() != GLEW_OK) Console::Critical("Unable to initialize GLEW");
 	else Console::Log("GLEW init");
 
-#ifdef DEBUGWINDOW
-	DebugContext::getInstance();
+#ifdef DEBUGGER
+	Debugger::getInstance();
 	glfwMakeContextCurrent(Window::GlWindowPointer);
 #endif
 
-#ifdef GLDEBUGMODE
+#ifdef OPENGL_DEBUGMODE
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glDebugMessageCallback(debugMessage, NULL);
@@ -118,8 +131,11 @@ void Application::Terminate() {
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 #endif
+	Debugger::getInstance()->ShutDown();
 
 }
+
+#ifdef IMGUI
 #include "../Modules/Mesh/Mesh.h"
 void Application::DrawDebug()
 {
@@ -188,7 +204,7 @@ void Application::DrawDebug()
 	}
 	ImGui::End();
 }
-
+#endif
 void Application::InitOpenGL(int VersionMajor, int VersionMinor)
 {
 	if (!glfwInit())
@@ -201,10 +217,7 @@ void Application::InitOpenGL(int VersionMajor, int VersionMinor)
 		return;
 	}
 
-#ifdef GLDEBUGMODE
-	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-
-#endif // _DEBUG
+ // _DEBUG
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, VersionMajor);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, VersionMinor);

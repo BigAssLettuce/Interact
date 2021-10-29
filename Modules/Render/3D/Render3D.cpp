@@ -23,6 +23,7 @@ bool Render3D::SetupForRender()
 	MESH->Use();
 	SHADER->Use();
 	if (TEXTURES.size()!=0)BindTextures();
+	return true;
 	
 }
 void Render3D::Render()
@@ -34,7 +35,7 @@ void Render3D::Render()
 	}
 
 	glDrawElements(drawMode,MESH->GetTriangleCount(), MESH_ELEMENTTYPE,nullptr);
-	//Mesh::CleanUp();
+
 	
 
 
@@ -43,7 +44,7 @@ void Render3D::Render()
 void Render3D::BindTextures()
 {
 	int id = 0;
-	for (Texture* tex : TEXTURES) {
+	for (Texture2D* tex : TEXTURES) {
 		tex->Bind(id);
 		id++;
 	}

@@ -1,20 +1,21 @@
 #include "Texture.h"
 
-vector<Texture*> Texture::TEXTURES = vector<Texture*>();
+vector<Texture2D*> Texture2D::TEXTURES = vector<Texture2D*>();
 
 
-Texture::Texture()
+Texture2D::Texture2D()
 {
 	TEXTURES.push_back(this);
 }
+#include <iomanip>
 
-void Texture::LoadTexture2D(string file)
+
+void Texture2D::LoadTexture2D(string file)
 {
 	string fullpath = file;
-	
+	File = file;
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* TexData = stbi_load(fullpath.c_str(), &Size.x, &Size.y, &ChannelsInFile, 4);
-
 	if (TexData == NULL) {
 		Console::Error("Error loading Texture File: " + file);
 		return;
@@ -29,7 +30,7 @@ void Texture::LoadTexture2D(string file)
 	stbi_image_free(TexData);
 }
 
-void Texture::Bind(int slot)
+void Texture2D::Bind(int slot)
 {
 	GLenum BindSlot = GL_TEXTURE0;
 
@@ -37,6 +38,11 @@ void Texture::Bind(int slot)
 	glActiveTexture(BindSlot);
 	glBindTexture(GL_TEXTURE_2D, TextureID);
 	//Debug::Log("texture Bindind " + to_string(TextureID) + " to " + to_string(BindSlot));
+}
+
+void Texture2D::GetData()
+{
+	
 }
 
 

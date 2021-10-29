@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include <map>
 vector<Mesh3D*> Mesh3D::MeshRegistry = vector<Mesh3D*>();
+#ifdef IMGUI
 void Mesh3D::DrawDebugMenu(bool* open)
 {
 
@@ -21,6 +22,7 @@ void Mesh3D::DrawDebugMenu(bool* open)
 		ImGui::End();
 	}
 }
+#endif
 bool Mesh3D::LoadFromOBJ(string file, float scale)
 {
 
@@ -280,7 +282,7 @@ void Mesh3D::UpdateVertexBufferData()
 	//meshdata
 	glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D) * VERTICIES.size(), &VERTICIES[0], GL_STATIC_DRAW);
-	Console::Log("Mesh vertex Buffer (" + to_string(MeshDataBufferID) + ") : " + ParseBytes(sizeof(Vertex3D) * VERTICIES.size()) );
+	//Console::Log("Mesh vertex Buffer (" + to_string(MeshDataBufferID) + ") : " + ParseBytes(sizeof(Vertex3D) * VERTICIES.size()) );
 
 
 
@@ -291,7 +293,7 @@ void Mesh3D::UpdateElementBufferData()
 	//element data
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ElementDataType) * TRIANGLES.size(), &TRIANGLES[0], GL_STATIC_DRAW);
-	Console::Log("Mesh element Buffer (" + to_string(MeshTrianglesBufferID) + ") : " + ParseBytes(sizeof(ElementDataType) * TRIANGLES.size()) );
+	//Console::Log("Mesh element Buffer (" + to_string(MeshTrianglesBufferID) + ") : " + ParseBytes(sizeof(ElementDataType) * TRIANGLES.size()) );
 }
 
 Mesh3D::Mesh3D()
