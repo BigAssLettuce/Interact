@@ -1,5 +1,6 @@
 #include "Mesh.h"
 #include <map>
+#include "../../Core/include.h"
 vector<Mesh3D*> Mesh3D::MeshRegistry = vector<Mesh3D*>();
 #ifdef IMGUI
 void Mesh3D::DrawDebugMenu(bool* open)

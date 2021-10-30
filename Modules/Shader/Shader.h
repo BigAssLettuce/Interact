@@ -1,10 +1,11 @@
 #pragma once
-#include "../../Core/include.h"
-#include "../../Core/Registry.h"
-#ifdef MODULE_CAMERA
-#include "Components/CameraComponent.h"
-#include "Components/TransformComponent.h"
-#endif
+//#include "../../Core/include.h"
+//#include "../../Core/Registry.h"
+#include "../../Core/RenderAPI/UniformBindingManager/UBO_Binding_Manager.h"
+#include <string>
+#include "../../Core/RenderAPI/RenderAPI.h"
+#include "../../Core/Debug/Console.h"
+
 enum ShaderTypes {
 	VERTEX,
 	FRAGMENT,
@@ -13,50 +14,38 @@ enum ShaderTypes {
 
 struct ShaderPart {
 	ShaderTypes Type;
-	string Content;
+	std::string Content;
 };
 class Debugger;
 class Shader
 {
 	friend Debugger;
-	void CheckForUniformBuffers() {
-		#ifdef MODULE_CAMERA
-		int CameraDataIndex = glGetUniformBlockIndex(shaderProgramID, CameraComponent::CameraDataUniform);
-		if (CameraDataIndex != -1) {
-			Debug::Log("ShaderProgram " + to_string(shaderProgramID) + " contains uniform "+ CameraComponent::CameraDataUniform + " at "+to_string(CameraDataIndex));
-		}
 
-		int TransformDataIndex = glGetUniformBlockIndex(shaderProgramID, TransformComponent::TransformDataUniform);
-		if (TransformDataIndex != -1) {
-			Debug::Log("ShaderProgram " + to_string(shaderProgramID) + " contains uniform " + TransformComponent::TransformDataUniform + " at " + to_string(TransformDataIndex));
-		}
-		#endif
-	}
-
-	string ParseUniformBuffers(string source) {
-		string returnstring = source;
-		int pos = 0;
-		for (string UBOname : Registry::GetUniformBuffers()) {
-			size_t loc = returnstring.find("uniform " + UBOname);
+	std::string ParseUniformBuffers(std::string source) {
+		std::string returnstring = source;
+		//int pos = 0;
+		std::map<std::string, unsigned int> bindingpoints = UBO_Binding_Manager::GetInstance()->GetBindingPoints();
+		for (std::pair<std::string, unsigned int> bindingpoint : bindingpoints) {
+			size_t loc = returnstring.find("uniform " + bindingpoint.first);
 			if (loc != -1) {
 				//Debug::Log(to_string(static_cast<int>(loc)));
-				returnstring.insert(static_cast<int>(loc), "layout (std140,binding = " + to_string(pos) + ")");
-				Console::Log("Added uniform buffer at " + to_string(pos));
+				returnstring.insert(static_cast<int>(loc), "layout (std140,binding = " + to_string(bindingpoint.second) + ")");
+				Console::Log("Added uniform buffer " + bindingpoint.first + " at " + to_string(bindingpoint.second));
 			}
-			pos++;
+			//pos++;
 		}
 		//Debug::Log(returnstring);
 		return returnstring;
 	}
-	vector<ShaderPart> ShaderParts = vector<ShaderPart>();
-	static vector<Shader*> SHADERS;
+	std::vector<ShaderPart> ShaderParts = std::vector<ShaderPart>();
+	static std::vector<Shader*> SHADERS;
 public:
-	string Name = "No Name";
-	const GLint shaderProgramID = glCreateProgram();
+	std::string Name = "No Name";
+	GLint shaderProgramID = glCreateProgram();
 	Shader();
 	~Shader();
-	bool LoadShader(ShaderTypes types[], string files[]);
-	bool LoadBasicShader(string vertex, string fragment);
+	bool LoadShader(ShaderTypes types[], std::string files[]);
+	bool LoadBasicShader(std::string vertex, std::string fragment);
 	void Use();
-	
+
 };

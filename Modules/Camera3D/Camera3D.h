@@ -2,25 +2,20 @@
 #include "../../Core/include.h"
 #include "../../Core/Application.h"
 #include <vector>
+#include "../../Core/RenderAPI/Buffers/Uniform/UniformBuffer.h"
+#include "../../Core/RenderAPI/UniformBindingManager/UBO_Binding_Manager.h"
 using namespace glm;
 class Camera3D
 {
+#define CAMERA3D_UNIFORM_NAME "Camera3DData"
 public: 
-	//DONT TOUCH
-	static GLuint CameraDataBufferID;
-	static constexpr const char* CameraDataUniform = "Camera3DData";
-	static int CameraDataBufferBindingPoint;
-	//DONT TOUCH
-	/*
-	CameraData{
-	mat4 View;
-	mat4 Proj;
-	mat4 ViewProj;
-	}
-	*/
-private:
+	
 	
 
+private:
+	
+	static UniformBuffer* UBO;
+	const unsigned int UBOsize = sizeof(mat4) * 3;
 public:
 
 
@@ -36,7 +31,7 @@ public:
 	void ComputeTRSViewMatrix();
 	void SetProjMatrix(mat4 _ProjMat) { ProjMat = _ProjMat; }
 	void GenPersProjMat(float FOV,float Nearclip, float Farclip);
-	void UpdateBuffer();
+	void Use();
 
 
 	

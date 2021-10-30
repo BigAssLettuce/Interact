@@ -1,5 +1,5 @@
 #include "Shader.h"
- 
+#include "../../Core/Resource.h"
 vector<Shader*> Shader::SHADERS = vector<Shader*>();
 bool CompileSuccess(int Shader, string* Info) {
 	int success;
@@ -86,7 +86,7 @@ bool Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads fro
 	glDeleteShader(vsShader);
 	glDeleteShader(fsShader);
 
-	CheckForUniformBuffers();
+	
 	return true;
 }
 

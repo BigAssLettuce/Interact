@@ -1,6 +1,7 @@
 #include "Texture.h"
-
-vector<Texture2D*> Texture2D::TEXTURES = vector<Texture2D*>();
+#include "../../Core/Debug/Console.h"
+#include "../../Dependencies/std_image/stb_image.h"
+std::vector<Texture2D*> Texture2D::TEXTURES = std::vector<Texture2D*>();
 
 
 Texture2D::Texture2D()
@@ -10,9 +11,9 @@ Texture2D::Texture2D()
 #include <iomanip>
 
 
-void Texture2D::LoadTexture2D(string file)
+void Texture2D::LoadTexture2D(std::string file)
 {
-	string fullpath = file;
+	std::string fullpath = file;
 	File = file;
 	stbi_set_flip_vertically_on_load(1);
 	unsigned char* TexData = stbi_load(fullpath.c_str(), &Size.x, &Size.y, &ChannelsInFile, 4);
@@ -26,7 +27,7 @@ void Texture2D::LoadTexture2D(string file)
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	int filesize = Size.x * ChannelsInFile + Size.y * ChannelsInFile;
-	Console::Log("Loaded Texture " + file + " ID " + to_string(TextureID) +" : " + ParseBytes(filesize));
+	Console::Log("Loaded Texture " + file + " ID " + std::to_string(TextureID));
 	stbi_image_free(TexData);
 }
 

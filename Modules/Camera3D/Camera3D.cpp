@@ -1,9 +1,9 @@
 #include "Camera3D.h"
-#include "../../Core/Registry.h"
-GLuint Camera3D::CameraDataBufferID = -1;
+//#include "../../Core/Registry.h"
 
-int Camera3D::CameraDataBufferBindingPoint = -1;
 
+
+UniformBuffer* Camera3D::UBO;
 
 void Camera3D::ComputeTRSViewMatrix()
 {  
@@ -13,23 +13,26 @@ void Camera3D::ComputeTRSViewMatrix()
 	ViewMat = rotmat * posMat;
 }
 
+#define UBOTEST
 
 Camera3D::~Camera3D()
 {
 
 }
+#include "../../Core/RenderAPI/UniformBindingManager/UBO_Binding_Manager.h"
+
 Camera3D::Camera3D()
 {
-	if (CameraDataBufferBindingPoint == -1) CameraDataBufferBindingPoint = Registry::RegisterUniform(CameraDataUniform);
-	if (CameraDataBufferID == -1) { //IF STATIC UNIFORM BUFFER DOES NOT EXIST
-		glCreateBuffers(1, &CameraDataBufferID);
-		glBindBuffer(GL_UNIFORM_BUFFER, CameraDataBufferID);
-		glBufferData(GL_UNIFORM_BUFFER, sizeof(mat4) * 3 +sizeof(vec3), NULL, GL_DYNAMIC_DRAW);
-		glBindBufferBase(GL_UNIFORM_BUFFER, CameraDataBufferBindingPoint, CameraDataBufferID);
-		glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-		Console::Log("Camera Data Uniform Buffer ID " + std::to_string(CameraDataBufferID));
+	if (!UBO) {
+		UBO = new UniformBuffer(UBOsize, DYNAMIC_DRAW);
+		UBO->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(CAMERA3D_UNIFORM_NAME));
 	}
+
+
+
+
+	
 }
 
 void Camera3D::GenPersProjMat(float FOV, float Nearclip, float Farclip)
@@ -40,16 +43,20 @@ void Camera3D::GenPersProjMat(float FOV, float Nearclip, float Farclip)
 
 }
 
-void Camera3D::UpdateBuffer()
+void Camera3D::Use()
 {
 	mat4 ProjViewMat = ProjMat* ViewMat ;
-	float testfloat = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+	
+
+	UBO->InsertData(0, sizeof(mat4), &ViewMat[0][0]);
+	UBO->InsertData(sizeof(mat4), sizeof(mat4), &ProjMat[0][0]);
+	UBO->InsertData(sizeof(mat4)*2, sizeof(mat4), &ProjViewMat[0][0]);
+
+
+
+
+
 
 	//Console::Log(to_string(ViewMat));
-	glBindBuffer(GL_UNIFORM_BUFFER, CameraDataBufferID);
-	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(mat4), &ViewMat[0][0]);
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(mat4), sizeof(mat4), &ProjMat[0][0]);
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(mat4) * 2, sizeof(mat4), &ProjViewMat[0][0]);
-	glBufferSubData(GL_UNIFORM_BUFFER, sizeof(mat4) * 3, sizeof(vec3), &WS_Pos.x);
-	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
 }
