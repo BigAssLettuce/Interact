@@ -1,5 +1,7 @@
 #include "Application.h"
-#include "../Modules/Texture/Texture.h"
+//#include "../Modules/Texture/Texture.h"
+#include"../RenderAPI/RenderAPI.h"
+#include "../Debug/Console.h"
 
 #ifdef IMGUI
 ImGuiContext* Application::AppImguiContext;
@@ -9,7 +11,7 @@ bool Application::OpenGlActive = false;
 void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
 	const GLchar* message, const void* userParam)
 {
-	string log = "[OpenGL]: (source: " + std::to_string(source) + string(") ") + message;
+	std::string log = "[OpenGL]: (source: " + std::to_string(source) + std::string(") ") + message;
 	switch (severity)
 	{
 	case GL_DEBUG_SEVERITY_HIGH:
@@ -20,7 +22,6 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 		break;
 	case GL_DEBUG_SEVERITY_LOW:
 		Console::Warning(log);
-		
 		break;
 #ifdef OPENGL_DEBUGMODE_SEVERITY_ALL
 		
@@ -35,8 +36,8 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 }
 
 
-#include "Input/Input.h"
-#include "Debug/Debugger.h"
+#include "../Input/Input.h"
+#include "../Debug/Debugger.h"
 void Application::init(WindowSettings ws)
 {
 
@@ -47,8 +48,8 @@ void Application::init(WindowSettings ws)
 #endif
 
 
-	Window();
-	Window::init(ws);
+	MainWindow();
+	MainWindow::init(ws);
 	Console::Log("OpenGL " + std::string((const char*)glGetString(GL_VERSION)));
 	int extensionCount;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &extensionCount);
@@ -65,7 +66,7 @@ void Application::init(WindowSettings ws)
 
 #ifdef DEBUGGER
 	Debugger::getInstance();
-	glfwMakeContextCurrent(Window::GlWindowPointer);
+	glfwMakeContextCurrent(MainWindow::GlWindowPointer);
 #endif
 
 #ifdef OPENGL_DEBUGMODE
@@ -90,7 +91,7 @@ void Application::InitImGui() {
 #endif
 bool Application::ShouldClose()
 {
-	return Window::ShouldClose();
+	return MainWindow::ShouldClose();
 }
 void Application::PreRender()
 {
@@ -120,7 +121,7 @@ void Application::FlushFrameBuffer()
 #ifdef IMGUI
 	Application::RenderImGui();
 #endif
-	Window::FlushFramebuffer();
+	MainWindow::FlushFramebuffer();
 
 
 }

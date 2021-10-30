@@ -1,5 +1,5 @@
 #include "Shader.h"
-#include "../../Core/Resource.h"
+#include "../../Core/Resource/Resource.h"
 vector<Shader*> Shader::SHADERS = vector<Shader*>();
 bool CompileSuccess(int Shader, string* Info) {
 	int success;

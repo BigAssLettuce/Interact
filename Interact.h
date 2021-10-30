@@ -6,22 +6,10 @@
 #include "Core/Core.h"
 
 
-
 #ifdef MODULE_MESH3D
 #include "Modules/Mesh/Mesh.h"
 #endif // MODULE_MESH
 
-#ifdef MODULE_TEXTURE
-#include "Modules/Texture/Texture.h"
-#endif
-
-#ifdef MODULE_SHADER
-#include "Modules/Shader/Shader.h"
-#endif
-
-#ifdef MODULE_TEXTURE
-#include "Modules/Texture/Texture.h"
-#endif
 
 #ifdef MODULE_CAMERA3D
 #include "Modules/Camera3D/Camera3D.h"
@@ -38,4 +26,7 @@
 #ifdef MODULE_RENDER3D
 #include "Modules/Render/3D/Render3D.h"
 #endif
+
+
+using namespace glm;
 #endif

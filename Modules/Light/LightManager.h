@@ -13,9 +13,7 @@ struct PointLight : Light {
 class LightManager
 {
 	LightManager();
-	void test() {
-		PointLight* point = new PointLight();
-	}
+
 	static LightManager* INSTANCE;
 public:
 	static LightManager* GetInstance();

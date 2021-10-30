@@ -1,5 +1,7 @@
 #pragma once
-#include "include.h"
+
+#include "../glm.h"
+#include "../RenderAPI/RenderAPI.h"
 #include <vector>
 #include <map>
 enum WindowModes {
@@ -10,7 +12,7 @@ enum WindowModes {
 struct WindowSettings {
 	//WindowSettings();
 
-	vec2 Size = vec2(600, 400);
+	glm::vec2 Size = glm::vec2(600, 400);
 	const char* Title = "Default Title";
 	WindowModes WindowMode = WINDOWED;
 
@@ -19,7 +21,7 @@ struct WindowSettings {
 
 
 
-static class Window
+static class MainWindow
 {
 private:
 	static WindowSettings windowsettings;

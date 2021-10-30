@@ -1,7 +1,7 @@
 #pragma once
-#include "../include.h"
-#include "../Window.h"
+#include "../Application/MainWindow.h"
 #include "../RenderAPI/RenderAPI.h"
+#include "../glm.h"
 enum class KeyboardInputs {
 	UP = GLFW_KEY_UP,
 	DOWN = GLFW_KEY_DOWN,
@@ -42,22 +42,22 @@ class Input
 	
 protected:
 	static Input* INSTANCE;
-	ivec2 MousePos;
+	glm::ivec2 MousePos;
 	void MousePosCallback(GLFWwindow* window, double xpos, double ypos);
 
 public:
 	static Input* GetInstance();
 	Input();
 
-	ivec2 GetMousePos();
-	void SetMousePos(vec2 pos) { glfwSetCursorPos(Window::GlWindowPointer, pos.x, pos.y); }
+	glm::ivec2 GetMousePos();
+	void SetMousePos(glm::vec2 pos) { glfwSetCursorPos(MainWindow::GlWindowPointer, pos.x, pos.y); }
 
 	void SetStickyKeys(bool state) {
 
-		glfwSetInputMode(Window::GlWindowPointer,GLFW_STICKY_KEYS, state);
+		glfwSetInputMode(MainWindow::GlWindowPointer,GLFW_STICKY_KEYS, state);
 
 	}
-	KeyState GetKeyState(KeyboardInputs Key) { return (KeyState)glfwGetKey(Window::GlWindowPointer, (int)Key); }
+	KeyState GetKeyState(KeyboardInputs Key) { return (KeyState)glfwGetKey(MainWindow::GlWindowPointer, (int)Key); }
 
 };
 

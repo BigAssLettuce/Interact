@@ -1,5 +1,5 @@
 #pragma once
-#include "Window.h"
+#include "MainWindow.h"
 
 #if defined(_WIN32)
 #include <windows.h>
@@ -9,16 +9,17 @@
 #elif defined(__APPLE__)
 #include <mach-o/dyld.h>
 #endif
+
 static class Application
 {
 public:
 	
-	static string GetExecutablePath() {
+	static const char* GetExecutablePath() {
 
 		char buffer[MAX_PATH];
 		GetModuleFileName(NULL, buffer, MAX_PATH);
-		std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-		return std::string(buffer).substr(0, pos);
+		//std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+		return buffer;
 	}
 	
 	static void init(WindowSettings ws);

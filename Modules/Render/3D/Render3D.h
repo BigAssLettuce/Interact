@@ -1,10 +1,14 @@
 #pragma once
-#include "../../../Core/include.h"
-#include "../../../Modules/Transform/3D//Transform3D.h"
-#include "../../../Modules/Shader/Shader.h"
+
+#include "../../../Core/RenderAPI/RenderAPI.h"
+
+#include "../../../Core/Shader/Shader.h"
+#include "../../../Core/Texture/Texture.h"
+
+#include "../../../Modules/Transform/3D/Transform3D.h"
 #include "../../../Modules/Mesh/Mesh.h"
-#include "../../../Modules/Texture/Texture.h"
 #include "../../../Modules/ECS/Entity.h"
+
 #include <vector>
 enum CULLMODE {
 	OFF = 0,

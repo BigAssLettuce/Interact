@@ -1,6 +1,8 @@
 #include "Mesh.h"
 #include <map>
-#include "../../Core/include.h"
+#include "../../Core/Resource/Resource.h"
+using namespace std;
+using namespace glm;
 vector<Mesh3D*> Mesh3D::MeshRegistry = vector<Mesh3D*>();
 #ifdef IMGUI
 void Mesh3D::DrawDebugMenu(bool* open)
@@ -24,6 +26,26 @@ void Mesh3D::DrawDebugMenu(bool* open)
 	}
 }
 #endif
+
+
+static std::vector<std::string> Mesh3DParseString(std::string input, char separator) {
+	std::string Current = "";
+	std::vector<std::string> Total = {};
+	for (int i = 0; i < input.length(); i++) {
+		char CurrentLetter = input[i];
+		if (CurrentLetter != separator) {
+			Current += CurrentLetter;
+		}
+		else if (Current.length() > 0) {
+			Total.push_back(Current);
+			Current = "";
+
+		}
+	}
+
+	if (Current.length() > 0) Total.push_back(Current);
+	return Total;
+}
 bool Mesh3D::LoadFromOBJ(string file, float scale)
 {
 
@@ -39,19 +61,36 @@ bool Mesh3D::LoadFromOBJ(string file, float scale)
 	return true;
 }
 vec2 ParseVec2Line(string line) {
-	std::vector<std::string> LineContent = ParseString(line, ' ');
+	std::vector<std::string> LineContent = Mesh3DParseString(line, ' ');
 	float x = stof(LineContent[1]);
 	float y = stof(LineContent[2]);
 	return vec2(x, y);
 }
 vec3 ParseVec3Line(string line) {
-	std::vector<std::string> LineContent = ParseString(line, ' ');
+	std::vector<std::string> LineContent = Mesh3DParseString(line, ' ');
 	float x = stof(LineContent[1]);
 	float y = stof(LineContent[2]);
 	float z = stof(LineContent[3]);
 	return vec3(x, y, z);
 }
-
+template < typename T>
+static std::pair<bool, int > MeshfindInVector(const std::vector<T>& vecOfElements, const T& element)
+{
+	std::pair<bool, int > result;
+	// Find given element in vector
+	auto it = std::find(vecOfElements.begin(), vecOfElements.end(), element);
+	if (it != vecOfElements.end())
+	{
+		result.second = std::distance(vecOfElements.begin(), it);
+		result.first = true;
+	}
+	else
+	{
+		result.first = false;
+		result.second = -1;
+	}
+	return result;
+}
 void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector, float scale)
 {
 	istringstream ss = istringstream(content);
@@ -80,11 +119,11 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 			UVs.push_back(UV);
 		}
 		else if (first2 == "f ") {
-			vector<string> linecontent = ParseString(line, ' ');
+			vector<string> linecontent = Mesh3DParseString(line, ' ');
 			linecontent.erase(linecontent.begin());
 			for (string desc : linecontent) {
 				ivec3 vertexDescriptor;
-				vector<string> values = ParseString(desc, '/');
+				vector<string> values = Mesh3DParseString(desc, '/');
 				vertexDescriptor.x = stoi(values[0]) - 1; //pos
 				vertexDescriptor.y = stoi(values[2]) - 1; //normal
 				vertexDescriptor.z = stoi(values[1]) - 1; //UV
@@ -98,7 +137,7 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 				}
 				else {
 					//Debug::Log("registering");
-					int indexof = findInVector<ivec3>(VertexRegistry, vertexDescriptor).second;
+					int indexof = MeshfindInVector<ivec3>(VertexRegistry, vertexDescriptor).second;
 					triangleVector->push_back(indexof);
 				}
 
@@ -238,16 +277,16 @@ void Mesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float S
 		vector<ElementDataType>triangles = vector<ElementDataType>();
 		vector<Vertex3D>verticies = vector<Vertex3D>();
 		while (getline(ss, line)) {
-			vector<string> linecontent = ParseString(line, ' ');
+			vector<string> linecontent = Mesh3DParseString(line, ' ');
 			linecontent.erase(linecontent.begin());
 			for (string desc : linecontent) {
 				ivec3 vertexDescriptor;
-				vector<string> values = ParseString(desc, '/');
+				vector<string> values = Mesh3DParseString(desc, '/');
 				vertexDescriptor.x = stoi(values[0]) - 1; //pos
 				vertexDescriptor.y = stoi(values[2]) - 1; //normal
 				vertexDescriptor.z = stoi(values[1]) - 1; //UV
 
-				pair<bool, int> result = findInVector(VertexDescRegisry, vertexDescriptor);
+				pair<bool, int> result = MeshfindInVector(VertexDescRegisry, vertexDescriptor);
 				if (result.first) {
 					triangles.push_back(result.second);
 				}

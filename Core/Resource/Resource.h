@@ -2,11 +2,10 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "Debug/Console.h"
-using namespace std;
+#include "../Debug/Console.h"
 static class Resource {
 public:
-	static bool ReadTextFile(string File,string* output) {
+	static bool ReadTextFile(std::string File,std::string* output) {
 		std::stringstream content;
 		std::ifstream filestream(File);
 		if (filestream.is_open()) {

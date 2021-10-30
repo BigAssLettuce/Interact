@@ -1,14 +1,15 @@
-#include "Window.h"
-#include "RenderAPI/RenderAPI.h"
-WindowSettings Window::windowsettings = WindowSettings();
-GLFWwindow* Window::GlWindowPointer;
+#include "MainWindow.h"
+#include "../RenderAPI/RenderAPI.h"
+#include "../Debug/Console.h"
+WindowSettings MainWindow::windowsettings = WindowSettings();
+GLFWwindow* MainWindow::GlWindowPointer;
 
 
 
 
 
 
-void Window::init(WindowSettings ws)
+void MainWindow::init(WindowSettings ws)
 {
 	if (GlWindowPointer) {
 		//Debug::Log("Destroying existing window");
@@ -63,19 +64,19 @@ void Window::init(WindowSettings ws)
 
 }
 
-bool Window::ShouldClose()
+bool MainWindow::ShouldClose()
 {
 	return glfwWindowShouldClose(GlWindowPointer);
 }
 
-void Window::SetShouldClose(bool close)
+void MainWindow::SetShouldClose(bool close)
 {
 	glfwSetWindowShouldClose(GlWindowPointer, close);
 }
 
-void Window::FlushFramebuffer()
+void MainWindow::FlushFramebuffer()
 {
 	glfwSwapBuffers(GlWindowPointer);
 }
 
-WindowSettings Window::getWindowSettings() { return windowsettings; }
+WindowSettings MainWindow::getWindowSettings() { return windowsettings; }

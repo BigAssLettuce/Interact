@@ -1,5 +1,7 @@
-#pragma once
-//#include "../../Core/include.h"
+
+#ifndef MESH3D_C
+#define MESH3D_C
+
 #include <vector>
 //#include "../../Core/Resource.h"
 #include "../../Core/RenderAPI/RenderAPI.h"
@@ -87,3 +89,4 @@ public:
 	static void CleanUp();
 };
 
+#endif
