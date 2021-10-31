@@ -8,7 +8,7 @@ UniformBuffer* Camera3D::UBO;
 void Camera3D::ComputeTRSViewMatrix()
 {  
 	glm::mat4 rotmat = glm::mat4(Rotation);
-	glm::mat4 posMat = glm::translate(glm::mat4(1.0f), -WS_Pos);
+	glm::mat4 posMat = glm::translate(glm::mat4(1.0f), -Position);
 
 	ViewMat = rotmat * posMat;
 }
@@ -29,7 +29,8 @@ Camera3D::Camera3D()
 		UBO->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(CAMERA3D_UNIFORM_NAME));
 	}
 
-
+	GenPersProjMat(80, 0.1, 15);
+	Use();
 
 
 	
@@ -40,6 +41,8 @@ void Camera3D::GenPersProjMat(float FOV, float Nearclip, float Farclip)
 	glm::ivec2 windowsize;
 	glfwGetFramebufferSize(MainWindow::GlWindowPointer, &windowsize.x, &windowsize.y);
 	ProjMat = glm::perspective(glm::radians(FOV), (GLfloat)windowsize.x / (GLfloat)windowsize.y, Nearclip, Farclip);
+	zNear = Nearclip;
+	zFar = Farclip;
 
 }
 

@@ -15,15 +15,17 @@ public:
 private:
 	
 	static UniformBuffer* UBO;
-	const unsigned int UBOsize = sizeof(glm::mat4) * 3;
+	const unsigned int UBOsize = sizeof(glm::mat4) * 3 +sizeof(float)*2;
 public:
 
 
 
-	glm::vec3 WS_Pos = glm::vec3(0, 0, 0);
+	glm::vec3 Position = glm::vec3(0, 0, 0);
 	glm::quat Rotation = glm::quat();
 	glm::mat4 ProjMat = glm::mat4(1.0f);
 	glm::mat4 ViewMat = glm::mat4(1.0f);
+	float zNear = 0.1;
+	float zFar = 15;
 
 
 	Camera3D();
