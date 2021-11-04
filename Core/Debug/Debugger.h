@@ -30,7 +30,7 @@ static void DebugThreadWindowResizeCallback(GLFWwindow* window, int width, int h
 
 
 //#define DEBUGGER_DEBUG
-
+#include "Gizmos/Gizmos.h"
 static class Debugger
 {
 	static void DebuggerdebugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
@@ -73,9 +73,12 @@ static class Debugger
 	static void TexturesDebug();
 	static void ShadersDebug();
 	static void BuffersDebug();
+	static void ExtensionsDebug();
 
 	static void MeshesDebug();
 	static void LightsDebug();
+	static void RendersDebug();
+	static void ECSDebug();
 public:
 	static Debugger* getInstance();
 	static void ShutDown();
@@ -103,11 +106,28 @@ public:
 					#ifdef DEBUGGER_DEBUG
 				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 					#endif
+				int WinSizeX = 600;
+				int WinSizeY =  800;
+				DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Interact Debugger", NULL, NULL);
 
-				DebugWindowPointer = glfwCreateWindow(600, 800, "Interact Debugger", NULL,NULL);
+				if (!DebugWindowPointer) assert("Debug Window Failed to open");
+				int MonitorCount;
+				GLFWmonitor** monitors = glfwGetMonitors(&MonitorCount);
 
-				if (GL_NV_copy_image)Console::Log("GL_NV_copy_image Supported by GPU. Not that it Helps in anyway given that it cant do what i need it to do. i want GLX_NV_copy_image",ConsoleColors::GREEN);
-				else Console::Log("GL_NV_copy_image Not Supported by GPU", ConsoleColors::RED);
+				
+				if (MonitorCount>1) {
+					GLFWmonitor* secondmonitor = monitors[1];
+					int secXpos, secYpos;
+					glfwGetMonitorPos(secondmonitor, &secXpos, &secYpos);
+					int secXsize, secYsize;
+					const GLFWvidmode* secVideoMode = glfwGetVideoMode(secondmonitor);
+
+					glfwSetWindowPos(DebugWindowPointer, secXpos + secVideoMode->width / 2 - WinSizeX / 2, secYpos + secVideoMode->height / 2 - WinSizeY / 2);
+				}
+				
+
+				if (GL_NV_copy_image)Console::Log("GL_NV_copy_image Supported by GPU. Not that it Helps in anyway given that it cant do what i need it to do. i want GLX_NV_copy_image",COLORS::GREEN);
+				//else Console::Log("GL_NV_copy_image Not Supported by GPU", COLORS::RED);
 
 
 				glfwMakeContextCurrent(DebugWindowPointer);
@@ -147,7 +167,11 @@ public:
 			static bool MeshesOpen = false;
 			static bool ShadersOpen = false;
 			static bool BuffersOpen = false;
-			static bool LightsOpen = true;
+			static bool LightsOpen = false;
+			static bool ExtensionsOpen = false;
+			static bool RendersOpen = true;
+			static bool ECSOpen = true;
+
 			if (ImGui::BeginMainMenuBar()) {
 				if (ImGui::BeginMenu("Actions")) {
 					ImGui::Separator();
@@ -163,9 +187,14 @@ public:
 					
 					ImGui::MenuItem("Shaders", NULL, &ShadersOpen);
 					ImGui::MenuItem("Buffers", NULL, &BuffersOpen);
+					ImGui::MenuItem("Extentions", NULL, &ExtensionsOpen);
 					ImGui::Separator();
+					#ifdef MODULE_LIGHT
 					ImGui::MenuItem("Lights", NULL, &LightsOpen);
+					#endif
 					ImGui::MenuItem("Meshes", NULL, &MeshesOpen);
+					ImGui::MenuItem("Renders", NULL, &RendersOpen);
+					ImGui::MenuItem("ECS", NULL, &ECSOpen);
 					ImGui::EndMenu();
 				}
 
@@ -195,6 +224,7 @@ public:
 				ImGui::EndMainMenuBar();
 			}
 
+			
 			static bool ShowGPUProfiler = false;
 			//if (TexturesOpen || MeshesOpen || ShadersOpen || BuffersOpen) ShowGPUProfiler = true;
 			#pragma region WorkAreaBegin
@@ -215,7 +245,11 @@ public:
 
 			
 
-			
+			ImGui::BeginChild("General Options", ImVec2(0,60),true);
+			ImGui::Checkbox("Gizmos", &Gizmos::GizmosEnabled);
+
+			ImGui::EndChild();
+
 			ImGuiTabBarFlags tabflags = ImGuiTabBarFlags_Reorderable;
 			ImGui::BeginTabBar("Work Units", tabflags);
 			
@@ -244,8 +278,22 @@ public:
 				ShowGPUProfiler = true;
 				ImGui::EndTabItem();
 			}
+			#ifdef MODULE_LIGHT
 			if (ImGui::BeginTabItem("Lights", &LightsOpen)) {
 				LightsDebug();
+				ImGui::EndTabItem();
+			}
+			#endif
+			if (ImGui::BeginTabItem("Extensions", &ExtensionsOpen)) {
+				ExtensionsDebug();
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Renders", &RendersOpen)) {
+				RendersDebug();
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("ECS", &ECSOpen)) {
+				ECSDebug();
 				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();

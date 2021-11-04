@@ -16,9 +16,11 @@ enum CULLMODE {
 	BACK = GL_BACK,
 	FRONTANDBACK = GL_FRONT_AND_BACK
 };
+class ECS;
 class Render3D 
 {
-	
+	friend ECS;
+	static vector<Render3D*> RENDERERS;
 	GLuint VertexArrayID;
 	GLuint VertexBufferID;
 	Transform3D* _transform;

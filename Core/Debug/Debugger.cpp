@@ -329,7 +329,7 @@ void Debugger::MeshesDebug()
 }
 #include "../../Modules/Light/LightManager.h"
 
-
+#ifdef MODULE_LIGHT
 bool LightTableParser( const char* Type, const char* Color, const char* Intensity,int index,int Selection ) {
 	static ImGuiSelectableFlags selectflags = ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowItemOverlap;
 	bool returnb = false;
@@ -448,6 +448,13 @@ void Debugger::LightsDebug()
 	
 
 }
+#endif 
+void Debugger::RendersDebug()
+{
+
+}
+
+
 
 #include"../Shader/Shader.h"
 
@@ -684,4 +691,125 @@ void Debugger::BuffersDebug()
 	}
 
 	ImGui::EndTable();
+}
+
+static GLint ExtensionCount;
+static int nthOccurrenceDebugger(const std::string& str, const std::string& findMe, int nth)
+{
+	size_t  pos = 0;
+	int     cnt = 0;
+
+	while (cnt != nth)
+	{
+		pos += 1;
+		pos = str.find(findMe, pos);
+		if (pos == std::string::npos)
+			return -1;
+		cnt++;
+	}
+	return pos;
+}
+static bool GotAllExtensions = false;
+struct Extension {
+	string Name;
+	string Type = "Undefined";
+};
+static vector<Extension> Extensions = vector<Extension>();
+static void GetExtensionsDebug() {
+	GotAllExtensions = true;
+
+	glGetIntegerv(GL_NUM_EXTENSIONS, &ExtensionCount);
+	PFNGLGETSTRINGIPROC glGetStringi = 0;
+	
+
+	glGetStringi = (PFNGLGETSTRINGIPROC)wglGetProcAddress("glGetStringi");
+	for (GLint i = 0; i < ExtensionCount; i++)
+	{
+		Extension ext = Extension();
+		const char* extensionName =
+			(const char*)glGetStringi(GL_EXTENSIONS, i);
+		ext.Name = extensionName;
+		int from = nthOccurrenceDebugger(extensionName, "_", 1) + 1;
+		int count = nthOccurrenceDebugger(extensionName, "_", 2) - from;
+		ext.Type = string(extensionName).substr(from,count);
+		Extensions.push_back(ext);
+	}
+}
+
+
+
+void Debugger::ExtensionsDebug()
+{
+	if (!GotAllExtensions)GetExtensionsDebug();
+
+	static ImGuiTableFlags TableFlags =
+		ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable | ImGuiTableFlags_Sortable | ImGuiTableFlags_SortMulti
+		| ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_NoBordersInBody
+		| ImGuiTableFlags_ScrollY;
+	ImGui::BeginTable("Extensions", 2, TableFlags);
+
+
+	ImGui::TableSetupColumn("Extension", ImGuiTableColumnFlags_DefaultSort | ImGuiTableColumnFlags_WidthStretch, 0.8f, 0);
+	ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_WidthStretch, 0.2f, 1);
+	ImGui::TableSetupScrollFreeze(0, 1); // Make row always visible
+	ImGui::TableHeadersRow();
+	for (int i = 0; i < ExtensionCount; i++) {
+		Extension ext = Extensions[i];
+
+		ImGui::PushID(ext.Name.c_str());
+		ImGui::TableNextRow(ImGuiTableRowFlags_None, 20);
+		ImGui::TableSetColumnIndex(0);
+		ImGui::Text(ext.Name.c_str());
+		ImGui::TableNextColumn();
+		ImGui::Text(ext.Type.c_str());
+		ImGui::PopID();
+	}
+	
+	ImGui::EndTable();
+}
+#include "../../Modules/ECS/Entity.h"
+#include <typeinfo>
+
+void Debugger::ECSDebug()
+{
+	static ImGuiTableFlags flags =
+		ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable |ImGuiTableFlags_Hideable| ImGuiTableFlags_Sortable | ImGuiTableFlags_SortMulti
+		| ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_NoBordersInBody
+		| ImGuiTableFlags_ScrollY;
+
+	if (ImGui::BeginTable("Entities", 1, flags)) {
+		ImGui::TableSetupColumn("Entity", ImGuiTableColumnFlags_DefaultSort | ImGuiTableColumnFlags_WidthStretch, 0.8f, 0);
+		ImGui::TableSetupScrollFreeze(0, 1); // Make row always visible
+		ImGui::TableHeadersRow();
+
+		static ImGuiSelectableFlags selectflags = ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowItemOverlap;
+
+		static Entity* Selection = nullptr;
+
+		for (Entity* entity : Entity::ENTITIES) {
+			string EntityTypeName = string(typeid(*entity).name());
+			EntityTypeName = EntityTypeName.substr(6);
+			const char* Name = EntityTypeName.c_str();
+
+			ImGui::PushID(entity);
+			ImGui::TableNextRow(ImGuiTableRowFlags_None, 20);
+			ImGui::TableSetColumnIndex(0);
+			bool selected = false;
+			if (Selection == entity) selected = true;
+
+			if (ImGui::Selectable(Name, selected, selectflags)) {
+				Selection = entity;
+			}
+			//ImGui::Text(Name);
+			ImGui::PopID();
+
+		}
+		ImGui::EndTable();
+		ImGui::BeginChild("Entity Debug", ImVec2(0, 0), true);
+		if (Selection) Selection->DebugMenu();
+		ImGui::EndChild();
+	}
+	
+
+	
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "MainWindow.h"
-
+#include "../RenderAPI/Window/Window.h"
 #if defined(_WIN32)
 #include <windows.h>
 #elif defined(__linux__)
@@ -28,25 +28,16 @@ public:
 
 	
 	static void PreRender();
-#ifdef IMGUI
-	static void RenderImGui();
-#endif
+
 	static void FlushFrameBuffer();
 	static void Terminate();
-#ifdef IMGUI
-	static void DrawDebug();
-#endif
+	static bool GetOpenGLInit() { return OpenGlActive; }
 private:
-#ifdef IMGUI
-	static ImGuiContext* AppImguiContext;
-#endif
+
 	static bool OpenGlActive;
 	
 	static void InitOpenGL(int VersionMinor, int VersionMajor);
-	#ifdef IMGUI
-	static void InitImGui();
-	#endif
-	
+
 	
 };
 

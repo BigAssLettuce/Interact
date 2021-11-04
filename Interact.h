@@ -10,9 +10,11 @@
 #include "Modules/Mesh/Mesh.h"
 #endif // MODULE_MESH
 
-
+#ifdef MODULE_LIGHT
+#include "Modules/Light/LightManager.h"
+#endif
 #ifdef MODULE_CAMERA3D
-#include "Modules/Camera3D/Camera3D.h"
+#include "Modules/Camera/Camera.h"
 #endif
 
 #ifdef MODULE_ECS

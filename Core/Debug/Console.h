@@ -6,17 +6,9 @@
 #include "../../Dependencies/Imgui/imgui.h"
 #include "../../Dependencies/Imgui/imgui_impl_glfw.h"
 #include "../../Dependencies/Imgui/imgui_impl_opengl3.h"
+#include "Colors.h"
 
-enum ConsoleColors {
-	RED,
-	ROSE,
-	BLUE,
-	CYAN,
-	GREEN,
-	WHITE,
-	YELLOW,
-	ORANGE
-};
+
 using namespace std;
 static class Console {
 
@@ -32,11 +24,11 @@ public:
 	static string ConsoleLog;
 	struct Line {
 		string lineContent;
-		ConsoleColors color;
+		COLORS color;
 	};
 	static vector<Line> NewConsoleLog;
-	static void AddToConsoleLog(string log, ConsoleColors color);
-	static void Log(string log,ConsoleColors color = ConsoleColors::WHITE);
+	static void AddToConsoleLog(string log, COLORS color);
+	static void Log(string log, COLORS color = COLORS::WHITE);
 	static void Warning(string warning);
 	static void Error(string error);
 	static void Critical(string critical);

@@ -17,7 +17,7 @@ BindingPointElement UBO_Binding_Manager::RegisterBindingPoint(std::string Name)
 {
 	LastIndex++;
 	BindingPoints.insert(std::pair<std::string, BindingPointElement>(Name, LastIndex));
-	Console::Log("Binding Point " + Name + " registered at " + to_string(LastIndex),ConsoleColors::GREEN);
+	Console::Log("Binding Point " + Name + " registered at " + to_string(LastIndex), COLORS::GREEN);
 
 	return LastIndex;
 
@@ -25,7 +25,7 @@ BindingPointElement UBO_Binding_Manager::RegisterBindingPoint(std::string Name)
 
 BindingPointElement UBO_Binding_Manager::GetBindingPoint(std::string Name)
 {
-	Console::Log("Binding Point " + Name + " is at " + to_string(BindingPoints.at(Name)), ConsoleColors::GREEN);
+	Console::Log("Binding Point " + Name + " is at " + to_string(BindingPoints.at(Name)), COLORS::GREEN);
 	return BindingPoints.at(Name);
 }
 

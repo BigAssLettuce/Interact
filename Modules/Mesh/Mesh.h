@@ -6,9 +6,10 @@
 //#include "../../Core/Resource.h"
 #include "../../Core/RenderAPI/RenderAPI.h"
 #include "../../Core/glm.h"
+#include "../../Core/Debug/Colors.h"
 //#include "../../Core/Debug/Debugger.h"
 #include <string>
-struct Mesh3DBounds {
+struct Mesh3DAABB {
 	glm::vec3 Max;
 	glm::vec3 Min;
 	glm::vec3 Center;
@@ -50,10 +51,10 @@ class Mesh3D
 	GLuint MeshTrianglesBufferID = -1;
 	GLuint MeshDataBufferID = -1;
 	static std::vector<Mesh3D*> MeshRegistry;
-
+	void CalculateAABB();
 public:
-	static void DrawDebugMenu(bool* open);
 	
+	Mesh3D();
 	struct ParsedMesh
 	{
 		ParsedMesh() {
@@ -67,24 +68,27 @@ public:
 	};
 	static void ParseMultiObj(std::string ObjContent, std::vector<ParsedMesh>* meshes,float Scale);
 	bool LoadFromOBJ(std::string file, float scale = 1);
+
+	void DrawAABB(COLORS color);
 	std::string Name = "No Name";
 	std::vector<ElementDataType>  TRIANGLES;
 	std::vector<Vertex3D>		VERTICIES;
 
 
-	Mesh3DBounds BOUNDS;
+
+	Mesh3DAABB BOUNDS;
 
 	unsigned int GetTriangleCount() { return TRIANGLES.size(); }
 	//VERTEXpos METHODS
 	std::vector<Vertex3D> getVerticies() { return VERTICIES; }
-	void SetVerticies(std::vector<Vertex3D> _verticies) { VERTICIES = _verticies; UpdateVertexBufferData();}
+	void SetVerticies(std::vector<Vertex3D> _verticies) { VERTICIES = _verticies; CalculateAABB(); UpdateVertexBufferData(); }
 	void UpdateVertexBufferData();
 
 	std::vector<ElementDataType> GetTriangles() { return TRIANGLES; }
 	void SetTriangles(std::vector<ElementDataType> _triangles) { TRIANGLES = _triangles; UpdateElementBufferData();}
 	void UpdateElementBufferData();
 
-	Mesh3D();
+	
 	void Use();
 	static void CleanUp();
 };

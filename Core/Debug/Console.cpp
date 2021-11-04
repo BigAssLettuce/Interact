@@ -6,7 +6,7 @@ bool Console::ConsoleOpen = true;
 bool Console::AutoScroll = true;
 
 
-void Console::AddToConsoleLog(string log,ConsoleColors color)
+void Console::AddToConsoleLog(string log, COLORS color)
 {
 	ConsoleLog += log + "\n";
 	Line line;
@@ -15,7 +15,7 @@ void Console::AddToConsoleLog(string log,ConsoleColors color)
 	NewConsoleLog.push_back(line);
 }
 
-void Console::Log(string log, ConsoleColors color) {
+void Console::Log(string log, COLORS color) {
 	std::cout << " \033[0m" << log << std::endl;
 	AddToConsoleLog(log,color);
 
@@ -23,46 +23,19 @@ void Console::Log(string log, ConsoleColors color) {
 
 void Console::Error(string error) {
 	std::cout << " \033[0;31m[ERROR]" << "\033[0m " << error << std::endl;
-	AddToConsoleLog(error,ConsoleColors::ROSE);
+	AddToConsoleLog(error, COLORS::ROSE);
 }
 
 void Console::Warning(string warning) {
 	std::cout << " \033[0;33m[WARNING]" << "\033[0m " << warning << std::endl;
-	AddToConsoleLog(warning,ConsoleColors::YELLOW);
+	AddToConsoleLog(warning, COLORS::YELLOW);
 }
 
 void Console::Critical(string critical) {
 	std::cout << " \033[41m[CRITICAL]" << "\033[0m " << critical << std::endl;
-	AddToConsoleLog(critical,ConsoleColors::RED);
+	AddToConsoleLog(critical, COLORS::RED);
 }
-ImVec4 ConsoleColorParse(ConsoleColors cColor) {
 
-	switch (cColor)
-	{
-	case RED:
-		return ImVec4(1, 0, 0, 1);
-		break;
-	case ROSE:
-		return ImVec4(1, 0.25f, 0, 1);
-		break;
-	case BLUE:
-		break;
-	case CYAN:
-		break;
-	case GREEN:
-		return ImVec4(0, 1, 0, 1);
-		break;
-	case WHITE:
-		return ImVec4(1, 1, 1, 1);
-		break;
-	case YELLOW:
-		break;
-	case ORANGE:
-		break;
-	default:
-		break;
-	}
-}
 void Console::DrawImguiConsole() {
 
 
@@ -118,7 +91,8 @@ void Console::DrawImguiConsole() {
 	while (clipper.Step())
 		for (int i = clipper.DisplayStart; i < clipper.DisplayEnd; i++) {
 			Line line = NewConsoleLog[i];
-			ImGui::PushStyleColor(ImGuiCol_Text, ConsoleColorParse(line.color));
+			glm::vec3 Color = GetColor(line.color);
+			ImGui::PushStyleColor(ImGuiCol_Text,ImVec4(Color.x,Color.y,Color.z,1));
 			ImGui::Text(line.lineContent.c_str(), i);
 			ImGui::PopStyleColor();
 		}

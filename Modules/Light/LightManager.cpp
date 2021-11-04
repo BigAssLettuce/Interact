@@ -1,3 +1,4 @@
+#ifdef MODULE_LIGHT
 #include "LightManager.h"
 
 #include "../../Core/RenderAPI/UniformBindingManager/UBO_Binding_Manager.h"
@@ -39,3 +40,4 @@ void LightManager::UploadLights()
 
 	
 }
+#endif

@@ -1,16 +1,19 @@
 
 #include "Render3D.h"
 
-#include "../../ECS/EntityManager.h"
 
 
+#include"../../../Core/Debug/Gizmos/Gizmos.h"
+
+vector<Render3D*> Render3D::RENDERERS = vector<Render3D*>();
 Render3D::Render3D(Entity* _owner, Transform3D* transform)
 {
 
 	_transform = transform;
 
 	owner = _owner;
-	EntityManager::RegisterRenderer(this);
+	RENDERERS.push_back(this);
+
 }
 
 bool Render3D::SetupForRender()
@@ -35,7 +38,9 @@ void Render3D::Render()
 	}
 
 	glDrawElements(drawMode,MESH->GetTriangleCount(), MESH_ELEMENTTYPE,nullptr);
-
+	MESH->CleanUp();
+	Mesh3DAABB bounds = MESH->BOUNDS;
+	Gizmos::GetInstance()->AddWireCube(_transform->Position + bounds.Center, bounds.Size);
 	
 
 

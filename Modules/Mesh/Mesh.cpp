@@ -4,28 +4,7 @@
 using namespace std;
 using namespace glm;
 vector<Mesh3D*> Mesh3D::MeshRegistry = vector<Mesh3D*>();
-#ifdef IMGUI
-void Mesh3D::DrawDebugMenu(bool* open)
-{
 
-	if (ImGui::Begin("Mesh3D", open)) {
-		for (Mesh3D* mesh : MeshRegistry) {
-			string name = 'V' + to_string(mesh->MeshDataBufferID) + " T" + to_string(mesh->MeshTrianglesBufferID);
-			if (ImGui::TreeNode(name.c_str())) {
-				string vertString = "";
-				string triString = "";
-				for (Vertex3D vert : mesh->VERTICIES) vertString += to_string(vert.POSITION);
-				for (ElementDataType tri : mesh->TRIANGLES) triString += std::to_string(tri);
-				ImGui::Text(vertString.c_str());
-				ImGui::Separator();
-				ImGui::Text(triString.c_str());
-				ImGui::TreePop();
-			}
-		}
-		ImGui::End();
-	}
-}
-#endif
 
 
 static std::vector<std::string> Mesh3DParseString(std::string input, char separator) {
@@ -60,6 +39,7 @@ bool Mesh3D::LoadFromOBJ(string file, float scale)
 	SetTriangles(tempTriangles);
 	return true;
 }
+
 vec2 ParseVec2Line(string line) {
 	std::vector<std::string> LineContent = Mesh3DParseString(line, ' ');
 	float x = stof(LineContent[1]);
@@ -155,6 +135,7 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 
 constexpr unsigned int str2int(const char* str, int h = 0)
 {
+
 	return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
 }
 void Mesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float Scale)
@@ -356,23 +337,42 @@ Mesh3D::Mesh3D()
 	glBindVertexArray(0);
 }
 
+
+void Mesh3D::CalculateAABB()
+{
+	BOUNDS = Mesh3DAABB();
+	
+	BOUNDS.Max = vec3(-INFINITY);
+	BOUNDS.Min = vec3(INFINITY);
+	for (Vertex3D vert : VERTICIES) {
+
+		BOUNDS.Max = glm::max(BOUNDS.Max, vert.POSITION);
+		BOUNDS.Min = glm::min(BOUNDS.Min, vert.POSITION);
+	}
+
+	BOUNDS.Center = (BOUNDS.Max + BOUNDS.Min) / 2.0f;
+	BOUNDS.Size= BOUNDS.Max - BOUNDS.Min;
+
+
+
+}
+#include "../../Core/Debug/Gizmos/Gizmos.h"
+void Mesh3D::DrawAABB(COLORS color)
+{
+	Gizmos* GizIns = Gizmos::GetInstance();
+
+
+	
+}
 void Mesh3D::Use()
 {
 
 	glBindVertexArray(VertexArrayObjectID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
-	glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+
 }
 
 void Mesh3D::CleanUp()
 {
 	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
+
 }

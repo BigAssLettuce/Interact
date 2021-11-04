@@ -12,3 +12,19 @@ Buffer::Buffer(int _MemorySize, BufferUsage _usage,BufferTypes type) : BufferSiz
 
 	BUFFERS.push_back(this);
 }
+
+void Buffer::Bind()
+{
+	glBindBuffer(BufferType, BufferID);
+}
+
+void Buffer::InsertData(int offset, int DataSize, const void* dataPointer)
+{
+	glBindBuffer(BufferType, BufferID);
+	//int sizetest;
+	//glGetBufferParameteriv(GL_UNIFORM_BUFFER, GL_BUFFER_SIZE, &sizetest);
+	//Console::Log("Buffer Size is " + to_string(sizetest));
+	glBufferSubData(BufferType, offset, DataSize, dataPointer);
+	if (offset + DataSize > BufferSize) Console::Warning("Buffer (" + to_string(BufferID) + ") Inserted memory exceeds buffer size. use Resize();");
+	glBindBuffer(BufferType, 0);
+}

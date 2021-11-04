@@ -1,7 +1,12 @@
 #pragma once
+#ifdef MODULE_LIGHT
+#ifndef C_LIGHT
+#define C_LIGHT
+
 #include<vector>
 #include "../../Core/RenderAPI/Buffers/Uniform/UniformBuffer.h"
 #include "../../Core/glm.h"
+
 
 
 #define MAXLIGHTS 64
@@ -81,4 +86,5 @@ public:
 	void UploadLights();
 
 };
-
+#endif
+#endif

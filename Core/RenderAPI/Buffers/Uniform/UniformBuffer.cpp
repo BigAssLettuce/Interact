@@ -6,7 +6,7 @@ UniformBuffer::UniformBuffer(int _BufferSize,BufferUsage _usage ) :Buffer(_Buffe
 {
 
 }
-
+/*
 void UniformBuffer::InsertData(int offset, int DataSize, const void* dataPointer) {
 	glBindBuffer(GL_UNIFORM_BUFFER, BufferID);
 	//int sizetest;
@@ -16,7 +16,7 @@ void UniformBuffer::InsertData(int offset, int DataSize, const void* dataPointer
 	if (offset + DataSize > BufferSize) Console::Warning("UBO (" + to_string(BufferID) + ") Inserted memory exceeds buffer size. use Resize();");
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
-
+*/
 void UniformBuffer::BindBufferBindingPoint(int BindingPoint)
 {
 	glBindBuffer(GL_UNIFORM_BUFFER, BufferID);

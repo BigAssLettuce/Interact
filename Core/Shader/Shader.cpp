@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "../../Core/Resource/Resource.h"
+#include "../Application/Application.h"
 vector<Shader*> Shader::SHADERS = vector<Shader*>();
 bool CompileSuccess(int Shader, string* Info) {
 	int success;
@@ -27,6 +28,8 @@ bool LinkSuccess(int Program, string* Info) {
 
 Shader::Shader()
 {
+	if (!Application::GetOpenGLInit()) return;
+	shaderProgramID = glCreateProgram();
 	Console::Log("Shader program ID: " + std::to_string(shaderProgramID));
 	SHADERS.push_back(this);
 }
@@ -36,13 +39,49 @@ Shader::~Shader()
 	glDeleteProgram(shaderProgramID);
 }
 
+
+
+void Shader::LoadShader(vector<ShaderPart> Parts)
+{
+	//ShaderPart next = Parts;
+
+	vector<int> shadersAttached = vector<int>();
+
+	Console::Log("Before");
+	for (ShaderPart part : Parts) {
+
+		int shader = glCreateShader((GLenum)part.Type);
+		string ParsedSource = ParseUniformBuffers(part.Content);
+		const char* fsSoutemprceTemp = ParsedSource.c_str();
+		glShaderSource(shader, 1, &fsSoutemprceTemp, NULL);
+		glCompileShader(shader);
+		
+		string CompileLog;
+		if (!CompileSuccess(shader, &CompileLog)) Console::Error("ShaderProgram " + to_string(shaderProgramID) + "Failed to compile shaderpart" + to_string(part.Type) + "\n" + CompileLog);
+		else Console::Log("Gizmo ShaderPart Compiled", COLORS::GREEN);
+		glAttachShader(shaderProgramID, shader);
+		shadersAttached.push_back(shader);
+	}
+	
+	glLinkProgram(shaderProgramID);
+	string CompileLog;
+	if (!LinkSuccess(shaderProgramID, &CompileLog)) Console::Error("ShaderProgram " + to_string(shaderProgramID) + " Link Failed\n" + CompileLog);
+	else Console::Log("Gizmo ShaderProgram Compiled", COLORS::GREEN);
+	glValidateProgram(shaderProgramID);
+	for (int attachedShader : shadersAttached) {
+		glDetachShader(shaderProgramID, attachedShader);
+		glDeleteShader(attachedShader);
+	}
+
+}
+
 bool Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads from Resources/Shaders/
 {
 	string vertexfilepath = vertexFile;
 	string fragmentfilepath = fragmentFile;
 	string vsSource;
 	if (!Resource::ReadTextFile(vertexfilepath, &vsSource)) return false;
-	ShaderPart vertexPart;
+	ShaderPart vertexPart(VERTEX,vsSource);
 	vertexPart.Type = ShaderTypes::VERTEX;
 	vertexPart.Content = vsSource;
 	ShaderParts.push_back(vertexPart);
@@ -53,7 +92,7 @@ bool Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads fro
 
 	string fsSource;
 	if (!Resource::ReadTextFile(fragmentfilepath, &fsSource)) return false;
-	ShaderPart fragmentPart;
+	ShaderPart fragmentPart(FRAGMENT,fsSource);
 	fragmentPart.Type = ShaderTypes::FRAGMENT;
 	fragmentPart.Content = fsSource;
 	ShaderParts.push_back(fragmentPart);
@@ -88,6 +127,11 @@ bool Shader::LoadBasicShader(string vertexFile, string fragmentFile) //loads fro
 
 	
 	return true;
+}
+
+int Shader::getUniformLocation(string Uniform)
+{
+	return glGetUniformLocation(shaderProgramID, Uniform.c_str());
 }
 
 void Shader::Use(){ glUseProgram(shaderProgramID); }

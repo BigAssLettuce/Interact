@@ -7,12 +7,13 @@
 #include "../../Core/Debug/Console.h"
 
 enum ShaderTypes {
-	VERTEX,
-	FRAGMENT,
-	GEOMETRY
+	VERTEX= GL_VERTEX_SHADER,
+	FRAGMENT = GL_FRAGMENT_SHADER,
+	GEOMETRY = GL_GEOMETRY_SHADER
 };
 
 struct ShaderPart {
+	ShaderPart(ShaderTypes _Type, std::string _Content) { Type = _Type; Content = _Content; };
 	ShaderTypes Type;
 	std::string Content;
 };
@@ -41,11 +42,13 @@ class Shader
 	static std::vector<Shader*> SHADERS;
 public:
 	std::string Name = "No Name";
-	GLint shaderProgramID = glCreateProgram();
+	GLint shaderProgramID;
 	Shader();
 	~Shader();
-	bool LoadShader(ShaderTypes types[], std::string files[]);
+
+	void LoadShader(std::vector<ShaderPart> Parts);
 	bool LoadBasicShader(std::string vertex, std::string fragment);
+	int getUniformLocation(string Uniform);
 	void Use();
 
 };

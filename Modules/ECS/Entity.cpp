@@ -1,8 +1,8 @@
 #include "Entity.h"
-#include "EntityManager.h"
+std::vector<Entity*> Entity::ENTITIES = std::vector<Entity*>();
 Entity::Entity()
 {
 	
-	EntityManager::RegisterEntity(this);
+	ENTITIES.push_back(this);
 	
 }

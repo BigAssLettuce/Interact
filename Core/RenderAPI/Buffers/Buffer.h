@@ -15,7 +15,7 @@ enum BufferUsage {
 
 enum BufferTypes {
 	UNIFORM = GL_UNIFORM_BUFFER,
-	ARRAY
+	ARRAY = GL_ARRAY_BUFFER
 };
 
 class Debugger;
@@ -34,6 +34,9 @@ public:
 	BufferTypes GetType() { return BufferType; }
 	unsigned int GetSize() { return BufferSize; }
 	GLuint GetID() { return BufferID; }
+
+	void Bind();
+	void InsertData(int offset, int DataSize, const void* dataPointer);
 
 
 	

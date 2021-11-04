@@ -18,7 +18,7 @@ public:
 	
 	UniformBuffer(int _BufferSize,BufferUsage _usage);
 
-	void InsertData(int offset, int DataSize, const void* dataPointer);
+	//void InsertData(int offset, int DataSize, const void* dataPointer);
 
 	//void InsertData(int offset, UBOData datas..)
 	void BindBufferBindingPoint(int BindingPoint);
