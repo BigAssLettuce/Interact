@@ -15,7 +15,7 @@ Gizmos::Gizmos()
 
 	LineGizmoShader = new Shader();
 	LineGizmoShader->LoadShader(vector<ShaderPart>{ShaderPart(VERTEX, LineGizmoShaderVS), ShaderPart(FRAGMENT, LineGizmoShaderFS)});
-LineArrayBuffer = new ArrayBuffer(3 * sizeof(glm::vec3), BufferUsage::DYNAMIC_DRAW);
+LineArrayBuffer = new VertexBuffer(3 * sizeof(glm::vec3), BufferUsage::DYNAMIC_DRAW);
 
 glGenVertexArrays(1, &LineArrayBufferLayout);
 glBindVertexArray(LineArrayBufferLayout);
@@ -35,7 +35,7 @@ CubeGizmoShader = new Shader();
 
 CubeGizmoShader->LoadShader(vector<ShaderPart>{ShaderPart(VERTEX, CubeGizmoShaderVS), ShaderPart(FRAGMENT, CubeGizmoShaderFS)});
 glGenVertexArrays(1, &CubeArrayBufferLayout);
-CubeArrayBuffer = new ArrayBuffer(8 * sizeof(glm::vec3), BufferUsage::STATIC_DRAW);
+CubeArrayBuffer = new VertexBuffer(8 * sizeof(glm::vec3), BufferUsage::STATIC_DRAW);
 glm::vec3 CubeVerts[] = { glm::vec3(1,1,1),glm::vec3(1,1,-1),glm::vec3(-1,1,-1),glm::vec3(-1,1,1),
 glm::vec3(1,-1,1),glm::vec3(1,-1,-1),glm::vec3(-1,-1,-1),glm::vec3(-1,-1,1) };
 CubeArrayBuffer->InsertData(0, sizeof(CubeVerts), CubeVerts);

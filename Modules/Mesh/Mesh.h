@@ -2,6 +2,9 @@
 #ifndef MESH3D_C
 #define MESH3D_C
 
+//#define NEWMESHTEST
+
+
 #include <vector>
 //#include "../../Core/Resource.h"
 #include "../../Core/RenderAPI/RenderAPI.h"
@@ -9,15 +12,17 @@
 #include "../../Core/Debug/Colors.h"
 //#include "../../Core/Debug/Debugger.h"
 #include <string>
+
+#include "../../Core/RenderAPI/VertexArray/VertexArray.h"
 struct Mesh3DAABB {
 	glm::vec3 Max;
 	glm::vec3 Min;
 	glm::vec3 Center;
 	glm::vec3 Size;
 };
-struct Vertex3D {
+struct OldVertex3D {
 
-	Vertex3D(glm::vec3 _pos, glm::vec3 _normal, glm::vec2 _uv) {
+	OldVertex3D(glm::vec3 _pos, glm::vec3 _normal, glm::vec2 _uv) {
 		POSITION = _pos;
 		NORMAL = _normal;
 		TEXCOORD = _uv;
@@ -33,6 +38,7 @@ struct Vertex3D {
 
 #if MESH_ELEMENTTYPE == GL_UNSIGNED_SHORT
 	#define ElementDataType  unsigned short
+	#define MaxElementData USHRT_MAX
 #elif MESH_ELEMENTTYPE == GL_UNSIGNED_INT
 	#define ElementDataType  unsigned int
 #elif MESH_ELEMENTTYPE == GL_UNSIGNED_BYTE
@@ -41,28 +47,38 @@ struct Vertex3D {
 
 
 class Debugger;
-class Mesh3D
+class OldMesh3D
 {
 	friend Debugger;
-	static void ParseOBJ(std::string content, std::vector<Vertex3D>* vertexVector, std::vector<ElementDataType>* triangleVector, float scale = 1);
+	static void ParseOBJ(std::string content, std::vector<OldVertex3D>* vertexVector, std::vector<ElementDataType>* triangleVector, float scale = 1);
 
 	
+
+#ifndef NEWMESHTEST
 	GLuint VertexArrayObjectID = -1;
 	GLuint MeshTrianglesBufferID = -1;
 	GLuint MeshDataBufferID = -1;
-	static std::vector<Mesh3D*> MeshRegistry;
+#else
+	VertexArray VAO;
+	VertexBuffer VBO;
+	ElementBuffer EBO;
+
+#endif
+
+
+
+	static std::vector<OldMesh3D*> MeshRegistry;
 	void CalculateAABB();
 public:
-	
-	Mesh3D();
+	OldMesh3D();
 	struct ParsedMesh
 	{
 		ParsedMesh() {
 			Triangles = std::vector<ElementDataType>();
-			verticies = std::vector<Vertex3D>();
+			verticies = std::vector<OldVertex3D>();
 		}
 		std::string Name;
-		std::vector<Vertex3D> verticies;
+		std::vector<OldVertex3D> verticies;
 		std::vector<ElementDataType> Triangles;
 		std::string Group;
 	};
@@ -72,7 +88,7 @@ public:
 	void DrawAABB(COLORS color);
 	std::string Name = "No Name";
 	std::vector<ElementDataType>  TRIANGLES;
-	std::vector<Vertex3D>		VERTICIES;
+	std::vector<OldVertex3D>		VERTICIES;
 
 
 
@@ -80,8 +96,8 @@ public:
 
 	unsigned int GetTriangleCount() { return TRIANGLES.size(); }
 	//VERTEXpos METHODS
-	std::vector<Vertex3D> getVerticies() { return VERTICIES; }
-	void SetVerticies(std::vector<Vertex3D> _verticies) { VERTICIES = _verticies; CalculateAABB(); UpdateVertexBufferData(); }
+	std::vector<OldVertex3D> getVerticies() { return VERTICIES; }
+	void SetVerticies(std::vector<OldVertex3D> _verticies) { VERTICIES = _verticies; CalculateAABB(); UpdateVertexBufferData(); }
 	void UpdateVertexBufferData();
 
 	std::vector<ElementDataType> GetTriangles() { return TRIANGLES; }

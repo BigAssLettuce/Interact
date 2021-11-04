@@ -40,6 +40,10 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 #include "../Debug/Debugger.h"
 //#include "../Debug/NewDebugger.h"
 #include "../Debug/Gizmos/Gizmos.h"
+
+
+
+
 void Application::init(WindowSettings ws)
 {
 
@@ -89,10 +93,6 @@ bool Application::ShouldClose()
 }
 void Application::PreRender()
 {
-	
-
-
-
 
 }
 
@@ -113,9 +113,10 @@ void Application::Terminate() {
 }
 
 
-
 void Application::InitOpenGL(int VersionMajor, int VersionMinor)
 {
+	
+	
 	if (!glfwInit())
 	{
 

@@ -21,7 +21,7 @@
 #include <iomanip>
 #include "../Application/MainWindow.h"
 
-
+#define DEBUGGER_DEBUG
 static void DebugThreadWindowResizeCallback(GLFWwindow* window, int width, int height)
 {
 	//Console::Log("Size:" + to_string(width) + " " + to_string(height));
@@ -106,8 +106,8 @@ public:
 					#ifdef DEBUGGER_DEBUG
 				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 					#endif
-				int WinSizeX = 600;
-				int WinSizeY =  800;
+				int WinSizeX = 400;
+				int WinSizeY =  600;
 				DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Interact Debugger", NULL, NULL);
 
 				if (!DebugWindowPointer) assert("Debug Window Failed to open");

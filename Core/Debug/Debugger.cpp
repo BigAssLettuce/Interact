@@ -23,6 +23,7 @@ void Debugger::ShutDown()
 	ShouldShutdown = true; 
 	debugThread.join();
 }
+#include "../Application/Application.h"
 #include"../Texture/Texture.h"
 void Debugger::TexturesDebug() {
 	static float Divisor = 0.5f;
@@ -107,38 +108,9 @@ void Debugger::TexturesDebug() {
 
 		if (SelectedTexture != LastSelection) {
 			PreviewTexture.LoadTexture2D(tex->File);
+			//HGLRC debuggercontext = wglGetCurrentContext();
+			//wglCopyImageSubDataNV(Application::WGLContext, tex->TextureID, GL_TEXTURE_2D, 0, tex->Size.x, tex->Size.y, 1, debuggercontext, PreviewTexture.TextureID, GL_TEXTURE_2D, 0, tex->Size.x, tex->Size.y, 1, tex->Size.x, tex->Size.y, 1);
 
-			//Once GLX is added use GLX_NV_COPY_IMAGE
-
-			/*
-			//glFinish();
-			//glfwMakeContextCurrent(Window::GlWindowPointer);
-
-			//GLint ActiveTexture;
-			//glGetIntegerv(GL_ACTIVE_TEXTURE, &ActiveTexture);
-
-			//glBindTexture(GL_TEXTURE_2D,tex->TextureID);
-
-			//int size = tex->Size.x * tex->Size.y * tex->ChannelsInFile;
-			//unsigned char* image = nullptr;
-			//GLubyte* pixels;
-			//pixels = (GLubyte*)malloc(size * sizeof(GLubyte));
-
-			//glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)(pixels));
-			//Console::Log(to_string(IM_ARRAYSIZE(pixels)));
-			//Console::Log(to_string(sizeof(*image)));
-			//glBindTexture(GL_TEXTURE_2D,ActiveTexture);
-			//glFinish();
-
-			//glfwMakeContextCurrent(DebugWindowPointer);
-			//glBindTexture(GL_TEXTURE_2D, PreviewTexture.TextureID);
-			//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, tex->Size.x, tex->Size.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, (void*)(pixels));
-			//glGenerateMipmap(GL_TEXTURE_2D);
-			//delete[] pixels;
-			
-			//glCopyImageSubDataNV(Window::GlWindowPointer,tex->TextureID,GL_TEXTURE_2D,0,0,0,0,DebugWindowPointer,PrevTexture,GL_TEXTURE_2D,0,0,0,0,tex->Size.x,tex->Size.y,1);
-			//glCopyImageSubData
-			*/
 			LastSelection = SelectedTexture;
 		}
 
@@ -225,9 +197,9 @@ void Debugger::MeshesDebug()
 
 		ImGuiSelectableFlags selectflags = ImGuiSelectableFlags_SpanAllColumns | ImGuiSelectableFlags_AllowItemOverlap;
 
-		for (int i = 0; i < Mesh3D::MeshRegistry.size(); i++)
+		for (int i = 0; i < OldMesh3D::MeshRegistry.size(); i++)
 		{
-			Mesh3D* mesh = Mesh3D::MeshRegistry[i];
+			OldMesh3D* mesh = OldMesh3D::MeshRegistry[i];
 			ImGui::PushID("Name");
 			ImGui::TableNextRow(ImGuiTableRowFlags_None, 20);
 			ImGui::TableSetColumnIndex(0);
@@ -640,7 +612,12 @@ static string BufferTypesParser(BufferTypes bufferType) {
 	{
 	case UNIFORM:
 		return "Uniform";
-		break;
+	case ARRAY:
+		return "Array";
+	case ELEMENT:
+		return "Element";
+	default:
+		return "Parse not added";
 	}
 	//bufferPtr->GetType();
 }

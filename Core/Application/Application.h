@@ -9,9 +9,10 @@
 #elif defined(__APPLE__)
 #include <mach-o/dyld.h>
 #endif
-
+class Debugger;
 static class Application
 {
+	friend Debugger;
 public:
 	
 	static const char* GetExecutablePath() {

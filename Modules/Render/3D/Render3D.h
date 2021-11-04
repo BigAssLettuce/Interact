@@ -31,7 +31,7 @@ public:
 
 	CULLMODE cullmode = BACK;
 	GLenum drawMode = GL_TRIANGLES;
-	Mesh3D* MESH;
+	OldMesh3D* MESH;
 	Shader* SHADER;
 	vector<Texture2D*> TEXTURES = vector<Texture2D*>(); //maybe change to dictionary
 	Render3D(Entity* _owner, Transform3D* transform);

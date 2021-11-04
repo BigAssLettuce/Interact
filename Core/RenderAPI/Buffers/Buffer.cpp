@@ -1,9 +1,10 @@
 #include "Buffer.h"
 vector<Buffer*> Buffer::BUFFERS = vector<Buffer*>();
-Buffer::Buffer(int _MemorySize, BufferUsage _usage,BufferTypes type) : BufferSize(_MemorySize),BufferType(type)
+//BufferTypes Buffer::BufferType;
+Buffer::Buffer(int _MemorySize, BufferUsage _usage,BufferTypes type) : BufferSize(_MemorySize)
 {
 	
-
+	BufferType = type;
 	glCreateBuffers(1, &BufferID);
 	glBindBuffer(type, BufferID);
 	glBufferData(type, _MemorySize, NULL, _usage);
@@ -18,6 +19,11 @@ void Buffer::Bind()
 	glBindBuffer(BufferType, BufferID);
 }
 
+void Buffer::UnBind()
+{
+	glBindBuffer(BufferType, 0);
+}
+
 void Buffer::InsertData(int offset, int DataSize, const void* dataPointer)
 {
 	glBindBuffer(BufferType, BufferID);
@@ -27,4 +33,10 @@ void Buffer::InsertData(int offset, int DataSize, const void* dataPointer)
 	glBufferSubData(BufferType, offset, DataSize, dataPointer);
 	if (offset + DataSize > BufferSize) Console::Warning("Buffer (" + to_string(BufferID) + ") Inserted memory exceeds buffer size. use Resize();");
 	glBindBuffer(BufferType, 0);
+}
+void Buffer::ReInitialize(int _size, BufferUsage _usage)
+{
+	this->Bind();
+	glBufferData(BufferType, _size, NULL, _usage);
+	this->UnBind();
 }

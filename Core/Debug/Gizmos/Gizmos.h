@@ -5,7 +5,7 @@
 #include "../../Shader/Shader.h"
 #include "../Colors.h"
 
-#include "../../RenderAPI/Buffers/Array/ArrayBuffer.h"
+#include "../../RenderAPI/Buffers/VertexBuffer/VertexBuffer.h"
 class Debugger;
 class ECS;
 static class Gizmos
@@ -17,7 +17,7 @@ static class Gizmos
 	Gizmos();
 
 #pragma region LineStuff
-	ArrayBuffer* LineArrayBuffer;
+	VertexBuffer* LineArrayBuffer;
 	GLuint LineArrayBufferLayout;
 
 	Shader* LineGizmoShader;
@@ -40,7 +40,7 @@ static class Gizmos
 	};
 	vector<DrawCubeCmd> DrawCubeCmds = vector<DrawCubeCmd>();
 #pragma region CubeStuff
-	ArrayBuffer* CubeArrayBuffer;
+	VertexBuffer* CubeArrayBuffer;
 	GLuint CubeArrayBufferLayout;
 	GLuint CubeElementBuffer;
 

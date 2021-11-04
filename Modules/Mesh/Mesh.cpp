@@ -3,7 +3,7 @@
 #include "../../Core/Resource/Resource.h"
 using namespace std;
 using namespace glm;
-vector<Mesh3D*> Mesh3D::MeshRegistry = vector<Mesh3D*>();
+vector<OldMesh3D*> OldMesh3D::MeshRegistry = vector<OldMesh3D*>();
 
 
 
@@ -25,13 +25,13 @@ static std::vector<std::string> Mesh3DParseString(std::string input, char separa
 	if (Current.length() > 0) Total.push_back(Current);
 	return Total;
 }
-bool Mesh3D::LoadFromOBJ(string file, float scale)
+bool OldMesh3D::LoadFromOBJ(string file, float scale)
 {
 
 	string FileContent;
 	if (!Resource::ReadTextFile(file, &FileContent)) return false;
 	if (FileContent == "") return false;
-	vector<Vertex3D> tempVerticies = vector<Vertex3D>();
+	vector<OldVertex3D> tempVerticies = vector<OldVertex3D>();
 	vector<ElementDataType> tempTriangles = vector<ElementDataType>();
 
 	ParseOBJ(FileContent, &tempVerticies, &tempTriangles);
@@ -71,7 +71,7 @@ static std::pair<bool, int > MeshfindInVector(const std::vector<T>& vecOfElement
 	}
 	return result;
 }
-void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<ElementDataType>* triangleVector, float scale)
+void OldMesh3D::ParseOBJ(string content, vector<OldVertex3D>* vertexVector, vector<ElementDataType>* triangleVector, float scale)
 {
 	istringstream ss = istringstream(content);
 	string line;
@@ -128,7 +128,7 @@ void Mesh3D::ParseOBJ(string content, vector<Vertex3D>* vertexVector, vector<Ele
 	}
 	for (ivec3 vertDesc : VertexRegistry) {
 		//std::cout << to_string(vertDesc) << '\r';
-		vertexVector->push_back(Vertex3D(Positions[vertDesc.x], Normals[vertDesc.y], UVs[vertDesc.z]));
+		vertexVector->push_back(OldVertex3D(Positions[vertDesc.x], Normals[vertDesc.y], UVs[vertDesc.z]));
 
 	}
 }
@@ -138,7 +138,7 @@ constexpr unsigned int str2int(const char* str, int h = 0)
 
 	return !str[h] ? 5381 : (str2int(str, h + 1) * 33) ^ str[h];
 }
-void Mesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float Scale)
+void OldMesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float Scale)
 {
 
 	istringstream ss = istringstream(ObjContent);
@@ -256,7 +256,7 @@ void Mesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float S
 		istringstream ss = istringstream(parse.F);
 		vector<ivec3>VertexDescRegisry = vector<ivec3>();
 		vector<ElementDataType>triangles = vector<ElementDataType>();
-		vector<Vertex3D>verticies = vector<Vertex3D>();
+		vector<OldVertex3D>verticies = vector<OldVertex3D>();
 		while (getline(ss, line)) {
 			vector<string> linecontent = Mesh3DParseString(line, ' ');
 			linecontent.erase(linecontent.begin());
@@ -275,7 +275,7 @@ void Mesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float S
 				else {
 					VertexDescRegisry.push_back(vertexDescriptor);
 					triangles.push_back(verticies.size());
-					verticies.push_back(Vertex3D(Positions[vertexDescriptor.x], Normals[vertexDescriptor.y], UVs[vertexDescriptor.z]));
+					verticies.push_back(OldVertex3D(Positions[vertexDescriptor.x], Normals[vertexDescriptor.y], UVs[vertexDescriptor.z]));
 					
 
 				}
@@ -296,30 +296,37 @@ void Mesh3D::ParseMultiObj(string ObjContent, vector<ParsedMesh>* meshes,float S
 	else *meshes = giveback;
 }
 
-void Mesh3D::UpdateVertexBufferData()
+void OldMesh3D::UpdateVertexBufferData()
 {
+
+#ifndef NEWMESHTEST
 	glBindVertexArray(VertexArrayObjectID);
 
 	//meshdata
 	glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex3D) * VERTICIES.size(), &VERTICIES[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(OldVertex3D) * VERTICIES.size(), &VERTICIES[0], GL_STATIC_DRAW);
 	//Console::Log("Mesh vertex Buffer (" + to_string(MeshDataBufferID) + ") : " + ParseBytes(sizeof(Vertex3D) * VERTICIES.size()) );
-
+#endif
 
 
 }
 
-void Mesh3D::UpdateElementBufferData()
+void OldMesh3D::UpdateElementBufferData()
 {
 	//element data
+#ifndef NEWMESHTEST
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ElementDataType) * TRIANGLES.size(), &TRIANGLES[0], GL_STATIC_DRAW);
 	//Console::Log("Mesh element Buffer (" + to_string(MeshTrianglesBufferID) + ") : " + ParseBytes(sizeof(ElementDataType) * TRIANGLES.size()) );
+#endif
+
+
 }
 
-Mesh3D::Mesh3D()
+OldMesh3D::OldMesh3D()
 {
-	MeshRegistry.push_back(this);
+	
+#ifndef NEWMESHTEST
 	glGenVertexArrays(1, &VertexArrayObjectID);
 	glCreateBuffers(1, &MeshDataBufferID);
 	glCreateBuffers(1, &MeshTrianglesBufferID);
@@ -329,22 +336,31 @@ Mesh3D::Mesh3D()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)0);//POS
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), (void*)0);//POS
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(Vertex3D), (void*)sizeof(vec3));//NORMALS
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(OldVertex3D), (void*)sizeof(vec3));//NORMALS
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex3D), (void*)(sizeof(vec3) * 2));//UVS
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), (void*)(sizeof(vec3) * 2));//UVS
 	glBindVertexArray(0);
+#else 
+	VAO = VertexArray();
+	VBO = VertexBuffer(MaxElementData, STATIC_DRAW);
+	EBO = ElementBuffer(1, STATIC_DRAW);
+#endif
+
+
+
+	MeshRegistry.push_back(this);
 }
 
 
-void Mesh3D::CalculateAABB()
+void OldMesh3D::CalculateAABB()
 {
 	BOUNDS = Mesh3DAABB();
 	
 	BOUNDS.Max = vec3(-INFINITY);
 	BOUNDS.Min = vec3(INFINITY);
-	for (Vertex3D vert : VERTICIES) {
+	for (OldVertex3D vert : VERTICIES) {
 
 		BOUNDS.Max = glm::max(BOUNDS.Max, vert.POSITION);
 		BOUNDS.Min = glm::min(BOUNDS.Min, vert.POSITION);
@@ -357,21 +373,21 @@ void Mesh3D::CalculateAABB()
 
 }
 #include "../../Core/Debug/Gizmos/Gizmos.h"
-void Mesh3D::DrawAABB(COLORS color)
+void OldMesh3D::DrawAABB(COLORS color)
 {
 	Gizmos* GizIns = Gizmos::GetInstance();
 
 
 	
 }
-void Mesh3D::Use()
+void OldMesh3D::Use()
 {
 
 	glBindVertexArray(VertexArrayObjectID);
 
 }
 
-void Mesh3D::CleanUp()
+void OldMesh3D::CleanUp()
 {
 	glBindVertexArray(0);
 
