@@ -8,11 +8,16 @@ enum MeshSize {
 	USHORT = USHRT_MAX,
 	UINT = UINT_MAX
 };
-template <typename VertexType, MeshSize Size,bool KeepInRam>
+template <typename VertexType, MeshSize Size>
+class GMesh {
+
+};
+
 class Mesh{
-	VertexType VERTICIES[Size];
+
 	Mesh();
 };
+
 
 
 struct VertexLayout {
@@ -40,11 +45,11 @@ struct Vertex2D :public Vertex{
 	glm::vec2 TEXCOORD;
 };
 
-										//max verticies  - MemSize
-typedef Mesh<Vertex2D,  UBYTE,true>LowMesh2D; //256
-typedef Mesh<Vertex2D, USHORT,true>Mesh2D_2B; //25,565
-typedef Mesh<Vertex2D,   UINT,true>HighMesh2D; //4,294,967,295 - 128MB
+											 //max verticies  - MemSize
+typedef GMesh<Vertex2D,  UBYTE>GMesh2D_LOW;	 //256
+typedef GMesh<Vertex2D, USHORT>GMesh2D;		 //25,565 - 
+typedef GMesh<Vertex2D,   UINT>GMesh2D_HIGH; //4,294,967,295 - 128MB
 
-typedef Mesh<Vertex3D,  UBYTE,true> Mesh3D_1B;
-typedef Mesh<Vertex3D, USHORT,true> Mesh3D_2B;
-typedef Mesh<Vertex3D,   UINT,true> Mesh3D_4B;
+typedef GMesh<Vertex3D,  UBYTE> GMesh3D_1B;
+typedef GMesh<Vertex3D, USHORT> GMesh3D_2B;
+typedef GMesh<Vertex3D,   UINT> GMesh3D_4B; //4,294,967,295 - 128MB
