@@ -17,11 +17,12 @@
 // usage
 
 
-#pragma comment(lib,"glfw3.lib")
+
 #pragma comment(lib,"opengl32.lib")
 #pragma comment(lib,"Shell32.lib")
 #pragma comment(lib,"Gdi32.lib")
-
+#pragma comment(lib,"glfw3.lib")
+#pragma comment(lib,"glew32s.lib")
 
 //glew32s.lib;glfw3.lib
 
