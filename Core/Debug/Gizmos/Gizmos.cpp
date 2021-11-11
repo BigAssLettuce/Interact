@@ -65,16 +65,22 @@ CubeSizeLoc = CubeGizmoShader->getUniformLocation("Size");
 
 void Gizmos::Draw()
 {
+
+	GLboolean depthstate;
+	glGetBooleanv(GL_DEPTH_TEST, &depthstate);
+	glDisable(GL_DEPTH_TEST);
 	for (DrawCubeCmd cmd : DrawCubeCmds) {
 		DrawWireCube(cmd.PosData, cmd.SizeData);
 	}
 	DrawCubeCmds.clear();
+	if (depthstate)glEnable(GL_DEPTH_TEST);
 }
 
 void Gizmos::DrawWireCube(glm::vec3 Pos, glm::vec3 Size)
 {
 	CubeGizmoShader->Use();
 	glBindVertexArray(CubeArrayBufferLayout);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, CubeElementBuffer);
 
 	//CubeArrayBuffer->Bind();
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, CubeElementBuffer);
@@ -108,8 +114,7 @@ void Gizmos::AddLine(glm::vec3 begin, glm::vec3 end, COLORS color)
 	LineArrayBuffer->Bind();
 	glEnableVertexAttribArray(0);
 
-
-
+	glLineWidth(3);
 	glDrawArrays(GL_LINES, 0, 3);
 }
 

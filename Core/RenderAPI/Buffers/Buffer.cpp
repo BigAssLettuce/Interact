@@ -9,7 +9,7 @@ Buffer::Buffer(int _MemorySize, BufferUsage _usage,BufferTypes type) : BufferSiz
 	glBindBuffer(type, BufferID);
 	glBufferData(type, _MemorySize, NULL, _usage);
 	glBindBuffer(type, 0);
-	Console::Log("Buffer ID:" + to_string(BufferID) + " Type:" + to_string(BufferType));
+	//Console::Log("Buffer ID:" + to_string(BufferID) + " Type:" + to_string(BufferType));
 
 	BUFFERS.push_back(this);
 }

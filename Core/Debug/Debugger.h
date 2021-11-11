@@ -92,6 +92,7 @@ public:
 	}
 	void operator()() const
 	{
+
 		#pragma region Init
 				glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 				glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);

@@ -28,7 +28,7 @@ bool LinkSuccess(int Program, string* Info) {
 
 Shader::Shader()
 {
-	if (!Application::GetOpenGLInit()) return;
+	if (!Application::GetIsOpenGLInit()) return;
 	shaderProgramID = glCreateProgram();
 	Console::Log("Shader program ID: " + std::to_string(shaderProgramID));
 	SHADERS.push_back(this);
@@ -47,7 +47,6 @@ void Shader::LoadShader(vector<ShaderPart> Parts)
 
 	vector<int> shadersAttached = vector<int>();
 
-	Console::Log("Before");
 	for (ShaderPart part : Parts) {
 
 		int shader = glCreateShader((GLenum)part.Type);
@@ -58,7 +57,6 @@ void Shader::LoadShader(vector<ShaderPart> Parts)
 		
 		string CompileLog;
 		if (!CompileSuccess(shader, &CompileLog)) Console::Error("ShaderProgram " + to_string(shaderProgramID) + "Failed to compile shaderpart" + to_string(part.Type) + "\n" + CompileLog);
-		else Console::Log("Gizmo ShaderPart Compiled", COLORS::GREEN);
 		glAttachShader(shaderProgramID, shader);
 		shadersAttached.push_back(shader);
 	}
@@ -66,7 +64,6 @@ void Shader::LoadShader(vector<ShaderPart> Parts)
 	glLinkProgram(shaderProgramID);
 	string CompileLog;
 	if (!LinkSuccess(shaderProgramID, &CompileLog)) Console::Error("ShaderProgram " + to_string(shaderProgramID) + " Link Failed\n" + CompileLog);
-	else Console::Log("Gizmo ShaderProgram Compiled", COLORS::GREEN);
 	glValidateProgram(shaderProgramID);
 	for (int attachedShader : shadersAttached) {
 		glDetachShader(shaderProgramID, attachedShader);

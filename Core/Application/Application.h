@@ -32,7 +32,7 @@ public:
 
 	static void FlushFrameBuffer();
 	static void Terminate();
-	static bool GetOpenGLInit() { return OpenGlActive; }
+	static bool GetIsOpenGLInit() { return OpenGlActive; }
 private:
 
 	static bool OpenGlActive;
