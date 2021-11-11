@@ -16,7 +16,7 @@ private:
 	
 	static vector<Camera*> CAMERAS;
 	static UniformBuffer* UBO;
-	const unsigned int UBOsize = sizeof(glm::mat4) * 3 +sizeof(float)*2;
+	const unsigned int UBOsize = sizeof(glm::mat4) * 3+sizeof(glm::vec3) +sizeof(float)*2;
 
 
 	

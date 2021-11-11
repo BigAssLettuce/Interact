@@ -6,7 +6,8 @@ bool Gizmos::GizmosEnabled = false;
 
 Gizmos::Gizmos()
 {
-	
+	glEnable(GL_LINE_SMOOTH);
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	//GizmoShader.LoadShader(vector<ShaderPart>{Vertex, Fragment});
 	
 

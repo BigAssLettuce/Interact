@@ -55,7 +55,7 @@ void Camera::Use()
 	UBO->InsertData(0, sizeof(glm::mat4), &ViewMat[0][0]);
 	UBO->InsertData(sizeof(glm::mat4), sizeof(glm::mat4), &ProjMat[0][0]);
 	UBO->InsertData(sizeof(glm::mat4) * 2, sizeof(glm::mat4), &ProjViewMat[0][0]);
-
+	UBO->InsertData(sizeof(glm::mat4) * 3, sizeof(glm::vec3), &Position.x);
 
 
 

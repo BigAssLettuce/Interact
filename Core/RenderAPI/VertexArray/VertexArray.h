@@ -8,14 +8,15 @@ enum class VertexAttributeType {
 };
 class VertexArray
 {
-	GLuint CreateArray() { GLuint value; glCreateVertexArrays(1, &value); return value; }
-	const GLuint ArrayID = CreateArray();
+
+	GLuint ArrayID;
 
 	VertexBuffer* VBO;
 	ElementBuffer* EBO;
 public:
 	VertexArray();
 	void Bind();
+	void Use();
 	static void UnBind();
 	void BindVBO(VertexBuffer* _VBO);
 	void BindEBO(ElementBuffer* _EBO);

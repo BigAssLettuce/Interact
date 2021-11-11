@@ -332,16 +332,28 @@ OldMesh3D::OldMesh3D()
 	glCreateBuffers(1, &MeshTrianglesBufferID);
 	//Console::Log("Mesh Buffers Created " + to_string(MeshDataBufferID) + "V:" + to_string(MeshTrianglesBufferID) + "T");
 	glBindVertexArray(VertexArrayObjectID);
-	glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
-
+	//glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
+	glVertexArrayElementBuffer(VertexArrayObjectID, MeshTrianglesBufferID);
+	Console::Log("Bound Element to vA" + to_string(MeshTrianglesBufferID));
+	GLint boundElement;
+	glGetVertexArrayiv(VertexArrayObjectID, GL_ELEMENT_ARRAY_BUFFER_BINDING,&boundElement);
+	Console::Log("Value is " + to_string(boundElement));
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), (void*)0);//POS
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), (void*)0);//POS
+	glVertexArrayVertexAttribOffsetEXT(VertexArrayObjectID, MeshDataBufferID, 0, 3, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), 0);
+
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(OldVertex3D), (void*)sizeof(vec3));//NORMALS
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(OldVertex3D), (void*)sizeof(vec3));//NORMALS
+	glVertexArrayVertexAttribOffsetEXT(VertexArrayObjectID, MeshDataBufferID, 1, 3, GL_FLOAT, GL_TRUE, sizeof(OldVertex3D), sizeof(vec3));
+
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), (void*)(sizeof(vec3) * 2));//UVS
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), (void*)(sizeof(vec3) * 2));//UVS
+	glVertexArrayVertexAttribOffsetEXT(VertexArrayObjectID, MeshDataBufferID, 2, 2, GL_FLOAT, GL_FALSE, sizeof(OldVertex3D), sizeof(vec3) * 2);
+
 	glBindVertexArray(0);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 #else 
 	VAO = VertexArray();
 	VBO = VertexBuffer(MaxElementData, STATIC_DRAW);
@@ -372,18 +384,14 @@ void OldMesh3D::CalculateAABB()
 
 
 }
-#include "../../Core/Debug/Gizmos/Gizmos.h"
-void OldMesh3D::DrawAABB(COLORS color)
-{
-	Gizmos* GizIns = Gizmos::GetInstance();
 
 
-	
-}
 void OldMesh3D::Use()
 {
 
 	glBindVertexArray(VertexArrayObjectID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, MeshTrianglesBufferID);
+	//glBindBuffer(GL_ARRAY_BUFFER, MeshDataBufferID);
 
 }
 

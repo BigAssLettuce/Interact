@@ -21,6 +21,7 @@ class Window
 public:
 	GLFWwindow* GLWindowPointer;
 	Window();
+	void Resize(glm::vec2 size);
 	void SwapBuffer();
 	void Use();
 };

@@ -7,6 +7,7 @@
 
 #include "../../../Modules/Transform/3D/Transform3D.h"
 #include "../../../Modules/Mesh/Mesh.h"
+#include "../../../Modules/Mesh/NewMesh.h"
 #include "../../../Modules/ECS/Entity.h"
 
 #include <vector>
@@ -31,7 +32,7 @@ public:
 
 	CULLMODE cullmode = BACK;
 	GLenum drawMode = GL_TRIANGLES;
-	OldMesh3D* MESH;
+	GMesh3D* MESH;
 	Shader* SHADER;
 	vector<Texture2D*> TEXTURES = vector<Texture2D*>(); //maybe change to dictionary
 	Render3D(Entity* _owner, Transform3D* transform);

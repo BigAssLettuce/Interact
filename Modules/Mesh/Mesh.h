@@ -85,7 +85,6 @@ public:
 	static void ParseMultiObj(std::string ObjContent, std::vector<ParsedMesh>* meshes,float Scale);
 	bool LoadFromOBJ(std::string file, float scale = 1);
 
-	void DrawAABB(COLORS color);
 	std::string Name = "No Name";
 	std::vector<ElementDataType>  TRIANGLES;
 	std::vector<OldVertex3D>		VERTICIES;

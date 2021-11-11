@@ -2,6 +2,7 @@
 
 VertexArray::VertexArray()
 {
+	glCreateVertexArrays(1, &ArrayID);
 }
 
 void VertexArray::Bind()
@@ -12,6 +13,16 @@ void VertexArray::Bind()
 void VertexArray::UnBind()
 {
 	glBindVertexArray(0);
+}
+
+void VertexArray::Use()
+{
+	//if (!EBO) {Console::Error("Vertex Array has no EBO Bound"); return;}
+	if (!VBO) { Console::Error("Vertex Array has no VBo Bound"); assert("myass"); }
+
+	Bind();
+	//EBO->Bind();
+	//VBO->Bind();
 }
 
 void VertexArray::BindVBO(VertexBuffer* _VBO)
@@ -39,12 +50,17 @@ void VertexArray::AssignVertexAttribute(int index, int elementCount, VertexAttri
 
 void VertexArray::EnableVertexAttribute(int index)
 {
+	Bind();
 	glEnableVertexAttribArray(index);
+	UnBind();
 }
 
 void VertexArray::DisableVertexAttribute(int index)
 {
+	Bind();
 	glDisableVertexAttribArray(index);
-
+	UnBind();
 }
+
+
 

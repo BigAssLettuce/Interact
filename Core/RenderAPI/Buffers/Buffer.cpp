@@ -38,5 +38,6 @@ void Buffer::ReInitialize(int _size, BufferUsage _usage)
 {
 	this->Bind();
 	glBufferData(BufferType, _size, NULL, _usage);
+	BufferSize = _size;
 	this->UnBind();
 }

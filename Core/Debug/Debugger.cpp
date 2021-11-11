@@ -782,9 +782,9 @@ void Debugger::ECSDebug()
 
 		}
 		ImGui::EndTable();
-		ImGui::BeginChild("Entity Debug", ImVec2(0, 0), true);
+		//ImGui::BeginChild("Entity Debug", ImVec2(0, 0), true);
 		if (Selection) Selection->DebugMenu();
-		ImGui::EndChild();
+		//ImGui::EndChild();
 	}
 	
 
