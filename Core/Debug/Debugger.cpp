@@ -617,6 +617,7 @@ static string BufferTypesParser(BufferTypes bufferType) {
 	case ELEMENT:
 		return "Element";
 	default:
+		Console::Log(to_string(bufferType));
 		return "Parse not added";
 	}
 	//bufferPtr->GetType();
