@@ -31,6 +31,7 @@ protected:
 	GLuint BufferID = -1;
 	
 	Buffer(int _MemorySize, BufferUsage _usage, BufferTypes type);
+	Buffer(){}
 public:
 	BufferTypes GetType() { return BufferType; }
 	unsigned int GetSize() { return BufferSize; }
