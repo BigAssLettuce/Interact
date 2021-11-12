@@ -17,6 +17,7 @@ class UniformBuffer :public Buffer{
 public:
 	
 	UniformBuffer(int _BufferSize,BufferUsage _usage);
+	UniformBuffer(){}
 
 	//void InsertData(int offset, int DataSize, const void* dataPointer);
 
