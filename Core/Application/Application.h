@@ -20,14 +20,15 @@ public:
 	static const char* GetExecutablePath() {
 
 		char buffer[MAX_PATH];
-
-
 		::GetModuleFileNameA(NULL,buffer, MAX_PATH);
-
-		//std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-
-		
 		return buffer;
+	}
+	static const char* GetExecutableDir() {
+		const char* buffer = GetExecutablePath();
+
+		std::string sbuffer = std::string(buffer);
+		
+		return sbuffer.substr(0,sbuffer.find_last_of('\\')).c_str();
 	}
 	
 	static void init(WindowSettings ws);
