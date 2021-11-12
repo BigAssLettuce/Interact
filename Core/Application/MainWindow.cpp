@@ -9,6 +9,12 @@ GLFWwindow* MainWindow::GlWindowPointer;
 
 
 
+void MainWindow::NewFrame(bool ClearColor)
+{
+	glClear(GL_DEPTH_BUFFER_BIT);
+	if (ClearColor) glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void MainWindow::init(WindowSettings ws)
 {
 	if (GlWindowPointer) {

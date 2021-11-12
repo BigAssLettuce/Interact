@@ -29,7 +29,7 @@ private:
 public:
 	
 	static GLFWwindow* GlWindowPointer;
-	
+	static void NewFrame(bool ClearColor = false);
 	static void init(WindowSettings ws); //DESTROYS EXISTING WINDOW
 	static bool ShouldClose();
 	static void SetShouldClose(bool close);

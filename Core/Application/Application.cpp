@@ -96,15 +96,12 @@ void Application::PreRender()
 
 }
 
-
-void Application::FlushFrameBuffer()
+void Application::PollEvents()
 {
-
-
-	MainWindow::FlushFramebuffer();
-
-
+	glfwPollEvents();
 }
+
+
 
 void Application::Terminate() {
 
