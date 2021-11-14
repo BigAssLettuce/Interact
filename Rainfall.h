@@ -2,8 +2,8 @@
 
 
 
-#ifndef INTERACT
-#define INTERACT
+#ifndef RAINFALL
+#define RAINFALL
 
 
 
