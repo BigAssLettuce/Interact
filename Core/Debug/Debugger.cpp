@@ -791,3 +791,7 @@ void Debugger::ECSDebug()
 
 	
 }
+
+void Debugger::WindowDebug()
+{
+}

@@ -17,6 +17,12 @@ static class Gizmos
 	Gizmos();
 
 #pragma region LineStuff
+	struct DrawLineCmd {
+		glm::vec3 Start;
+		glm::vec3 End;
+		glm::vec4 Color;
+	};
+	vector<DrawLineCmd> DrawLineCmds = vector<DrawLineCmd>();
 	VertexBuffer* LineArrayBuffer;
 	GLuint LineArrayBufferLayout;
 
@@ -66,7 +72,7 @@ static class Gizmos
 public:
 	static bool GizmosEnabled;
 	static Gizmos* GetInstance();
-	void AddLine(glm::vec3 begin, glm::vec3 end, COLORS color = COLORS::WHITE);
+	void DrawLine(glm::vec3 begin, glm::vec3 end, COLORS color = COLORS::WHITE);
 
 	void AddWireCube(glm::vec3 Pos, glm::vec3 Size);
 	

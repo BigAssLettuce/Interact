@@ -25,7 +25,8 @@ void ECS::RenderEntities() {
 			i++;
 
 		}
-		if (Gizmos::GizmosEnabled) Gizmos::GetInstance()->Draw();
+		if (Gizmos::GizmosEnabled) 
+			Gizmos::GetInstance()->Draw();
 	}
 	
 }

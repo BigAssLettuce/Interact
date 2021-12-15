@@ -1,7 +1,7 @@
 #include "Window.h"
-#include "../../Application/MainWindow.h"
-#include "../../Debug/Console.h"
 
+#include "../Debug/Console.h"
+#include "../Application/Application.h"
 void WindowdebugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length,
 	const GLchar* message, const void* userParam)
 {
@@ -31,6 +31,8 @@ void WindowdebugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, 
 
 void Window::Init()
 {
+
+	if (!Application::GetIsOpenGLInit()) return;
 #ifdef OPENGL_DEBUGMODE
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
@@ -47,7 +49,7 @@ void Window::Init()
 	if (WindowTransparent)glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
 
 	GLFWwindow* MainContext = NULL;
-	if (WindowContextShared)MainContext = MainWindow::GlWindowPointer;
+	if (WindowContextShared)MainContext = Application::MainWindow.GLWindowPointer;
 
 
 	GLWindowPointer = glfwCreateWindow(WindowSize.x, WindowSize.y, WindowTitle, NULL, MainContext);
@@ -55,9 +57,9 @@ void Window::Init()
 #ifdef OPENGL_DEBUGMODE
 	glEnable(GL_DEBUG_OUTPUT);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-	glDebugMessageCallback(WindowdebugMessage, NULL);
+	//glDebugMessageCallback(WindowdebugMessage, NULL);
 
-	glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+	//glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
 #endif
 
 }
@@ -69,7 +71,9 @@ Window::Window()
 
 void Window::Resize(glm::vec2 size)
 {
+	glViewport(0, 0, size.x, size.y);
 	glfwSetWindowSize(GLWindowPointer, size.x, size.y);
+	WindowSize = size;
 }
 
 void Window::SwapBuffer()
@@ -80,6 +84,11 @@ void Window::SwapBuffer()
 void Window::Use()
 {
 	glfwMakeContextCurrent(GLWindowPointer);
+}
+
+void Window::ClearDepth()
+{
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
 

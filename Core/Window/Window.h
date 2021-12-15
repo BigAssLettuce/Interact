@@ -1,6 +1,6 @@
 #pragma once
-#include "../../glm.h"
-#include "../RenderAPI.h"
+#include "../glm.h"
+#include "../RenderAPI/RenderAPI.h"
 
 
 
@@ -25,5 +25,8 @@ public:
 	void SwapBuffer();
 	void Use();
 	bool ShouldClose() { return glfwWindowShouldClose(GLWindowPointer); }
+	void SetShouldClose(bool State) { glfwSetWindowShouldClose(GLWindowPointer, State); }
+	void ClearDepth();
+	void Focus() { glfwFocusWindow(GLWindowPointer); }
 };
 

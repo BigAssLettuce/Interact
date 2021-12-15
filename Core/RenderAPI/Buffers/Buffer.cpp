@@ -1,4 +1,4 @@
-#include "Buffer.h"
+ #include "Buffer.h"
 vector<Buffer*> Buffer::BUFFERS = vector<Buffer*>();
 //BufferTypes Buffer::BufferType;
 Buffer::Buffer(int _MemorySize, BufferUsage _usage,BufferTypes type) : BufferSize(_MemorySize)

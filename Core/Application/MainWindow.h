@@ -21,7 +21,7 @@ struct WindowSettings {
 
 
 
-static class MainWindow
+static class oldWindow
 {
 private:
 	static WindowSettings windowsettings;

@@ -19,7 +19,8 @@
 #include <sstream>
 #include "Console.h"
 #include <iomanip>
-#include "../Application/MainWindow.h"
+
+#include "../Application/Application.h"
 
 #define DEBUGGER_DEBUG
 static void DebugThreadWindowResizeCallback(GLFWwindow* window, int width, int height)
@@ -79,6 +80,7 @@ static class Debugger
 	static void LightsDebug();
 	static void RendersDebug();
 	static void ECSDebug();
+	static void WindowDebug();
 public:
 	static Debugger* getInstance();
 	static void ShutDown();
@@ -107,9 +109,9 @@ public:
 					#ifdef DEBUGGER_DEBUG
 				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 					#endif
-				int WinSizeX = 400;
-				int WinSizeY =  600;
-				DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Interact Debugger", NULL, NULL);
+				int WinSizeX = 600;
+				int WinSizeY =  800;
+				DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Rainfall Debugger", NULL, NULL);
 
 				if (!DebugWindowPointer) assert("Debug Window Failed to open");
 				int MonitorCount;
@@ -172,12 +174,13 @@ public:
 			static bool ExtensionsOpen = false;
 			static bool RendersOpen = true;
 			static bool ECSOpen = true;
+			static bool WindowsOpen = true;
 
 			if (ImGui::BeginMainMenuBar()) {
 				if (ImGui::BeginMenu("Actions")) {
 					ImGui::Separator();
 
-					if (ImGui::MenuItem("Terminate")) MainWindow::SetShouldClose(true);
+					if (ImGui::MenuItem("Terminate")) Application::MainWindow.SetShouldClose(true);
 
 					ImGui::EndMenu();
 				}
@@ -196,6 +199,7 @@ public:
 					ImGui::MenuItem("Meshes", NULL, &MeshesOpen);
 					ImGui::MenuItem("Renders", NULL, &RendersOpen);
 					ImGui::MenuItem("ECS", NULL, &ECSOpen);
+					ImGui::MenuItem("Windows", NULL, &WindowsOpen);
 					ImGui::EndMenu();
 				}
 
@@ -282,19 +286,28 @@ public:
 			#ifdef MODULE_LIGHT
 			if (ImGui::BeginTabItem("Lights", &LightsOpen)) {
 				LightsDebug();
+				ShowGPUProfiler = false;
 				ImGui::EndTabItem();
 			}
 			#endif
 			if (ImGui::BeginTabItem("Extensions", &ExtensionsOpen)) {
 				ExtensionsDebug();
+				ShowGPUProfiler = false;
 				ImGui::EndTabItem();
 			}
 			if (ImGui::BeginTabItem("Renders", &RendersOpen)) {
 				RendersDebug();
+				ShowGPUProfiler = false;
 				ImGui::EndTabItem();
 			}
 			if (ImGui::BeginTabItem("ECS", &ECSOpen)) {
 				ECSDebug();
+				ShowGPUProfiler = false;
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Windows", &WindowsOpen)) {
+				WindowDebug();
+				ShowGPUProfiler = false;
 				ImGui::EndTabItem();
 			}
 			ImGui::EndTabBar();
@@ -322,7 +335,7 @@ public:
 				draw_list->AddRectFilled(ImGui::GetCursorScreenPos(), ImGui::GetContentRegionAvail(), ImColor(1, 0, 0, 1),0,10);
 				//draw_list->AddBezierQuadratic()
 				
-				glfwMakeContextCurrent(MainWindow::GlWindowPointer);
+				Application::MainWindow.Use();
 				static int mult = 1024;
 				
 				ImGui::Text("Total Available: "); ImGui::SameLine();

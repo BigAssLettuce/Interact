@@ -35,11 +35,11 @@ Camera::Camera()
 
 	
 }
-#include "../../Core/Application/MainWindow.h"
+#include "../../Core/Application/Application.h"
 void Camera::GenPersProjMat(float FOV, float Nearclip, float Farclip)
 {
 	glm::ivec2 windowsize;
-	glfwGetFramebufferSize(MainWindow::GlWindowPointer, &windowsize.x, &windowsize.y);
+	glfwGetFramebufferSize(Application::MainWindow.GLWindowPointer, &windowsize.x, &windowsize.y);
 	ProjMat = glm::perspective(glm::radians(FOV), (GLfloat)windowsize.x / (GLfloat)windowsize.y, Nearclip, Farclip);
 	Console::Log(to_string(windowsize));
 	zNear = Nearclip;

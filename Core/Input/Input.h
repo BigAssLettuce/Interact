@@ -1,5 +1,5 @@
 #pragma once
-#include "../Application/MainWindow.h"
+#include "../Application/Application.h"
 #include "../RenderAPI/RenderAPI.h"
 #include "../glm.h"
 enum class KeyboardInputs {
@@ -50,14 +50,14 @@ public:
 	Input();
 
 	glm::ivec2 GetMousePos();
-	void SetMousePos(glm::vec2 pos) { glfwSetCursorPos(MainWindow::GlWindowPointer, pos.x, pos.y); }
+	void SetMousePos(glm::vec2 pos) { glfwSetCursorPos(Application::MainWindow.GLWindowPointer, pos.x, pos.y); }
 
 	void SetStickyKeys(bool state) {
 
-		glfwSetInputMode(MainWindow::GlWindowPointer,GLFW_STICKY_KEYS, state);
+		glfwSetInputMode(Application::MainWindow.GLWindowPointer,GLFW_STICKY_KEYS, state);
 
 	}
-	KeyState GetKeyState(KeyboardInputs Key) { return (KeyState)glfwGetKey(MainWindow::GlWindowPointer, (int)Key); }
+	KeyState GetKeyState(KeyboardInputs Key) { return (KeyState)glfwGetKey(Application::MainWindow.GLWindowPointer, (int)Key); }
 
 };
 

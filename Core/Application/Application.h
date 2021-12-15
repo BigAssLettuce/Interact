@@ -1,6 +1,6 @@
 #pragma once
 #include "MainWindow.h"
-#include "../RenderAPI/Window/Window.h"
+#include "../Window/Window.h"
 #if defined(_WIN32)
 #include <stdlib.h>
 #include <windows.h>
@@ -35,7 +35,7 @@ public:
 	static void ChangeWindowSettings(WindowSettings ws);
 	static bool ShouldClose();
 
-	
+	static Window MainWindow;
 	static void PreRender();
 
 	static void PollEvents();

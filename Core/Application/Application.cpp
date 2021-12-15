@@ -43,7 +43,7 @@ void debugMessage(GLenum source, GLenum type, GLuint id, GLenum severity, GLsize
 
 
 
-
+Window Application::MainWindow;
 void Application::init(WindowSettings ws)
 {
 
@@ -55,7 +55,9 @@ void Application::init(WindowSettings ws)
 
 
 
-	MainWindow::init(ws);
+	//oldWindow::init(ws);
+	MainWindow = Window();
+	MainWindow.Use();
 	Console::Log("OpenGL " + std::string((const char*)glGetString(GL_VERSION)));
 
 #ifdef OPENGL_DEBUGMODE
@@ -71,7 +73,7 @@ void Application::init(WindowSettings ws)
 #ifdef DEBUGGER
 	Debugger::getInstance();
 	//NewDebugger::GetInstance();
-	glfwMakeContextCurrent(MainWindow::GlWindowPointer);
+	MainWindow.Use();
 #endif
 
 #ifdef OPENGL_DEBUGMODE
@@ -89,7 +91,8 @@ void Application::init(WindowSettings ws)
 
 bool Application::ShouldClose()
 {
-	return MainWindow::ShouldClose();
+	return MainWindow.ShouldClose();
+	//return oldWindow::ShouldClose();
 }
 void Application::PreRender()
 {

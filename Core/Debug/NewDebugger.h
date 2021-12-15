@@ -47,7 +47,7 @@ public:
 		//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 		//glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
 		//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwMakeContextCurrent(MainWindow::GlWindowPointer);
+		glfwMakeContextCurrent(oldWindow::GlWindowPointer);
 
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
@@ -69,10 +69,10 @@ public:
 			const GLFWvidmode* secVideoMode = glfwGetVideoMode(secondmonitor);
 
 			//glfwSetWindowPos(DebugWindowPointer, secXpos + secVideoMode->width / 2 - WinSizeX / 2, secYpos + secVideoMode->height / 2 - WinSizeY / 2);
-			DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Interact Debugger", secondmonitor, MainWindow::GlWindowPointer);
+			DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Interact Debugger", secondmonitor, oldWindow::GlWindowPointer);
 			
 		}
-		else DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Interact Debugger", NULL, MainWindow::GlWindowPointer);
+		else DebugWindowPointer = glfwCreateWindow(WinSizeX, WinSizeY, "Interact Debugger", NULL, oldWindow::GlWindowPointer);
 		
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

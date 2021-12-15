@@ -1,21 +1,21 @@
 #include "MainWindow.h"
 #include "../RenderAPI/RenderAPI.h"
 #include "../Debug/Console.h"
-WindowSettings MainWindow::windowsettings = WindowSettings();
-GLFWwindow* MainWindow::GlWindowPointer;
+WindowSettings oldWindow::windowsettings = WindowSettings();
+GLFWwindow* oldWindow::GlWindowPointer;
 
 
 
 
 
 
-void MainWindow::NewFrame(bool ClearColor)
+void oldWindow::NewFrame(bool ClearColor)
 {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	if (ClearColor) glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void MainWindow::init(WindowSettings ws)
+void oldWindow::init(WindowSettings ws)
 {
 	if (GlWindowPointer) {
 		//Debug::Log("Destroying existing window");
@@ -70,19 +70,19 @@ void MainWindow::init(WindowSettings ws)
 
 }
 
-bool MainWindow::ShouldClose()
+bool oldWindow::ShouldClose()
 {
 	return glfwWindowShouldClose(GlWindowPointer);
 }
 
-void MainWindow::SetShouldClose(bool close)
+void oldWindow::SetShouldClose(bool close)
 {
 	glfwSetWindowShouldClose(GlWindowPointer, close);
 }
 
-void MainWindow::FlushFramebuffer()
+void oldWindow::FlushFramebuffer()
 {
 	glfwSwapBuffers(GlWindowPointer);
 }
 
-WindowSettings MainWindow::getWindowSettings() { return windowsettings; }
+WindowSettings oldWindow::getWindowSettings() { return windowsettings; }
