@@ -3,6 +3,13 @@
 #include <string>
 #include <map>
 #define BindingPointElement unsigned int
+
+enum UBOBindingType {
+	STD140,
+	SHARED,
+	PACKED,
+	STD430
+};
 static class UBO_Binding_Manager
 {
 	UBO_Binding_Manager();

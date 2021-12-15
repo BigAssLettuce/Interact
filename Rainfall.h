@@ -17,6 +17,7 @@
 #ifdef MODULE_LIGHT
 #include "Modules/Light/LightManager.h"
 #endif
+
 #ifdef MODULE_CAMERA3D
 #include "Modules/Camera/Camera.h"
 #endif
