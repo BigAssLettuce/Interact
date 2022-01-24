@@ -69,11 +69,12 @@ Window::Window()
 	Init();
 }
 
-void Window::Resize(glm::vec2 size)
+void Window::Resize(int x, int y)
 {
-	glViewport(0, 0, size.x, size.y);
-	glfwSetWindowSize(GLWindowPointer, size.x, size.y);
-	WindowSize = size;
+	glViewport(0, 0, x, y);
+	glfwSetWindowSize(GLWindowPointer, x, y);
+	WindowSize.x = x;
+	WindowSize.y = y;
 }
 
 void Window::SwapBuffer()

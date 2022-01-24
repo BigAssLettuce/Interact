@@ -21,12 +21,13 @@ class Window
 public:
 	GLFWwindow* GLWindowPointer;
 	Window();
-	void Resize(glm::vec2 size);
+	void Resize(int x, int y);
 	void SwapBuffer();
 	void Use();
 	bool ShouldClose() { return glfwWindowShouldClose(GLWindowPointer); }
 	void SetShouldClose(bool State) { glfwSetWindowShouldClose(GLWindowPointer, State); }
 	void ClearDepth();
 	void Focus() { glfwFocusWindow(GLWindowPointer); }
+	glm::vec2 GetWindowSize() { return WindowSize; }
 };
 

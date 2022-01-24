@@ -25,13 +25,13 @@ class Shader
 	std::string ParseUniformBuffers(std::string source) {
 		std::string returnstring = source;
 		//int pos = 0;
-		std::map<std::string, unsigned int> bindingpoints = UBO_Binding_Manager::GetInstance()->GetBindingPoints();
-		for (std::pair<std::string, unsigned int> bindingpoint : bindingpoints) {
+		std::map<std::string, BindingPoint> bindingpoints = UBO_Binding_Manager::GetInstance()->GetBindingPoints();
+		for (std::pair<std::string, BindingPoint> bindingpoint : bindingpoints) {
 			size_t loc = returnstring.find("uniform " + bindingpoint.first);
 			if (loc != -1) {
 				//Debug::Log(to_string(static_cast<int>(loc)));
-				returnstring.insert(static_cast<int>(loc), "layout (std140,binding = " + to_string(bindingpoint.second) + ")");
-				Console::Log("Added uniform buffer " + bindingpoint.first + " at " + to_string(bindingpoint.second));
+				returnstring.insert(static_cast<int>(loc), "layout ("+UBO_Binding_Manager::ParseType(bindingpoint.second.type)+", binding = " + to_string(bindingpoint.second.point) + ")");
+				Console::Log("Added uniform buffer " + bindingpoint.first + " at " + to_string(bindingpoint.second.point));
 			}
 			//pos++;
 		}

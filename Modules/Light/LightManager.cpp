@@ -6,7 +6,7 @@ LightManager* LightManager::INSTANCE;
 LightManager::LightManager()
 {
 	UBO = new UniformBuffer(UBOSize, DYNAMIC_DRAW);
-	UBO->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(LIGHTDATAUNIFORMNAME));
+	UBO->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(LIGHTDATAUNIFORMNAME,UBOBindingType::STD140));
 	//UBO_Binding_Manager* ubmanager = UBO_Binding_Manager::GetInstance();
 	//ubmanager->RegisterBindingPoint(LightUniformName);
 

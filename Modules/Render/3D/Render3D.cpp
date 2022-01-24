@@ -18,7 +18,6 @@ Render3D::Render3D(Entity* _owner, Transform3D* transform)
 
 bool Render3D::SetupForRender()
 {
-	_transform->ComputeMatrix();
 	_transform->Use();
 
 	if (!MESH)return false;

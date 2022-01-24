@@ -3,7 +3,7 @@
 #include "../../../Core/RenderAPI/RenderAPI.h"
 
 #include "../../../Core/Shader/Shader.h"
-#include "../../../Core/Texture/Texture.h"
+#include "../../../Core/Texture/Texture2D.h"
 
 #include "../../../Modules/Transform/3D/Transform3D.h"
 #include "../../../Modules/Mesh/Mesh.h"

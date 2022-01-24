@@ -26,7 +26,7 @@ Camera::Camera()
 
 	if (!UBO) {
 		UBO = new UniformBuffer(UBOsize, DYNAMIC_DRAW);
-		UBO->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(CAMERA3D_UNIFORM_NAME));
+		UBO->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(CAMERA3D_UNIFORM_NAME,UBOBindingType::STD140));
 	}
 	CAMERAS.push_back(this);
 	GenPersProjMat(80, 0.1, 15);
@@ -56,6 +56,8 @@ void Camera::Use()
 	UBO->InsertData(sizeof(glm::mat4), sizeof(glm::mat4), &ProjMat[0][0]);
 	UBO->InsertData(sizeof(glm::mat4) * 2, sizeof(glm::mat4), &ProjViewMat[0][0]);
 	UBO->InsertData(sizeof(glm::mat4) * 3, sizeof(glm::vec3), &Position.x);
+	UBO->InsertData(sizeof(glm::mat4) * 3 + sizeof(glm::vec3), sizeof(float), &zNear);
+	UBO->InsertData(sizeof(glm::mat4) * 3 + sizeof(glm::vec4), sizeof(float), &zFar);
 
 
 

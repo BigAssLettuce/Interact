@@ -17,7 +17,7 @@ Transform3D::Transform3D()
 	if (!uniformBufffer) {
 
 		uniformBufffer = new UniformBuffer(UBOSize, DYNAMIC_DRAW);
-		uniformBufffer->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(TRANSFORM3D_UNIFORM_NAME));
+		uniformBufffer->BindBufferBindingPoint(UBO_Binding_Manager::GetInstance()->RegisterBindingPoint(TRANSFORM3D_UNIFORM_NAME, UBOBindingType::STD140));
 
 	}
 

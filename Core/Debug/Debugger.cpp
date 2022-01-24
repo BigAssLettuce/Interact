@@ -24,7 +24,7 @@ void Debugger::ShutDown()
 	debugThread.join();
 }
 #include "../Application/Application.h"
-#include"../Texture/Texture.h"
+#include"../Texture/Texture2D.h"
 void Debugger::TexturesDebug() {
 	static float Divisor = 0.5f;
 	ImGui::PushItemWidth(ImGui::GetWindowSize().x);

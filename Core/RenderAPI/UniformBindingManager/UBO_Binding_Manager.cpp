@@ -4,7 +4,7 @@ UBO_Binding_Manager* UBO_Binding_Manager::INSTANCE;
 UBO_Binding_Manager::UBO_Binding_Manager()
 {
 	//BindingPoints = std::vector<std::string>();
-	BindingPoints = std::map<std::string, BindingPointElement>();
+	BindingPoints = std::map<std::string, BindingPoint>();
 }
 //UBO_Binding_Manager* UBO_Binding_Manager::INSTANCE = nullptr;
 UBO_Binding_Manager* UBO_Binding_Manager::GetInstance()
@@ -13,23 +13,26 @@ UBO_Binding_Manager* UBO_Binding_Manager::GetInstance()
 	return INSTANCE;
 }
 
-BindingPointElement UBO_Binding_Manager::RegisterBindingPoint(std::string Name)
+BindingPointElement UBO_Binding_Manager::RegisterBindingPoint(std::string Name,UBOBindingType type)
 {
 	LastIndex++;
-	BindingPoints.insert(std::pair<std::string, BindingPointElement>(Name, LastIndex));
-	Console::Log("Binding Point " + Name + " registered at " + to_string(LastIndex), COLORS::GREEN);
+	BindingPoint bPoint;
+	bPoint.point = LastIndex;
+	bPoint.type = type;
+	BindingPoints.insert(std::pair<std::string, BindingPoint>(Name, bPoint));
+	Console::Log("Binding Point " + Name + " registered at " + to_string(LastIndex) +"With type: " + to_string(type), COLORS::GREEN);
 
 	return LastIndex;
 
 }
 
-BindingPointElement UBO_Binding_Manager::GetBindingPoint(std::string Name)
+BindingPoint UBO_Binding_Manager::GetBindingPoint(std::string Name)
 {
-	Console::Log("Binding Point " + Name + " is at " + to_string(BindingPoints.at(Name)), COLORS::GREEN);
+	Console::Log("Binding Point " + Name + " is at " + to_string(BindingPoints.at(Name).point), COLORS::GREEN);
 	return BindingPoints.at(Name);
 }
 
-std::map<std::string, BindingPointElement> UBO_Binding_Manager::GetBindingPoints()
+std::map<std::string, BindingPoint> UBO_Binding_Manager::GetBindingPoints()
 {
 	return BindingPoints;
 }

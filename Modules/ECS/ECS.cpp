@@ -14,7 +14,7 @@ void ECS::RenderEntities() {
 
 		for (Render3D* renderer : Render3D::RENDERERS)
 		{
-
+			renderer->_transform->ComputeMatrix();
 			bool RenderQ = renderer->SetupForRender();
 			if (RenderQ) {
 				Entity* owner = renderer->owner;
