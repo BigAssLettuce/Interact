@@ -19,10 +19,11 @@ private:
 		
 		return id;
 	}
-	GLuint TextureID = GenTexture();
+	
 	
 	static std::vector<Texture2D*> TEXTURES;
 public:
+	GLuint TextureID = GenTexture();
 	Texture2D();
 	enum WrapMethods {
 		WRAP_REPEAT = GL_REPEAT,

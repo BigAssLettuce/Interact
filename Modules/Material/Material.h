@@ -3,6 +3,7 @@
 #include "../../Dependencies/glm-master/glm/glm.hpp"
 #include <vector>
 #include "../../Core/Texture/Texture.h"
+#include "../../Core/Texture/Texture2D.h"
 class Material
 {
 	Shader* BaseShader;

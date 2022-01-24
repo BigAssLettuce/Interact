@@ -31,7 +31,7 @@ void ECS::RenderEntities() {
 	
 }
 double ECS::Time;
-#include <chrono>
+
 void ECS::Init()
 {
 	Time = glfwGetTime();

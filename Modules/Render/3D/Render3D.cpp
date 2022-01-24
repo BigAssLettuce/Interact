@@ -36,7 +36,7 @@ void Render3D::Render()
 		glCullFace(cullmode);
 	}
 
-	glDrawElements(drawMode,MESH->GetTriangleCount(), MESH_ELEMENTTYPE,nullptr);
+	glDrawElements(drawMode, MESH->GetTriangleCount(), MESH_ELEMENTTYPE, nullptr);	
 	//MESH->CleanUp();
 	//Mesh3DAABB bounds = MESH->BOUNDS;
 	//Gizmos::GetInstance()->AddWireCube(_transform->Position + bounds.Center, bounds.Size);
